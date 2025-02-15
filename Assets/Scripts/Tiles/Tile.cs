@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Tile : MonoBehaviour
+public abstract class Tile : MonoBehaviour
 {
     // // Start is called once before the first execution of Update after the MonoBehaviour is created
     // void Start()
@@ -14,15 +14,14 @@ public class Tile : MonoBehaviour
         
     // }
 
-    [SerializeField] private Color _baseColor, _offsetColor;
-    [SerializeField] SpriteRenderer _renderer;
+    [SerializeField] protected SpriteRenderer _renderer;
+    //protected: effectively private, but derrived tiles (from this class) can also access it
 
     [SerializeField] private GameObject _highlight;
-
-    public void init(bool isOffset) {
-        Color tileColor = isOffset ? _offsetColor : _baseColor;
-        tileColor.a = 1f; //force alpha (transparency level) to 1
-        _renderer.color = tileColor;
+    
+    //abstract class and virtual func combo!: allows this function to be defaulted to this in every instance, but if redefined will have logic specific to another tile
+    public virtual void init(int x, int y) {
+        
     }
 
     void OnMouseEnter() {
