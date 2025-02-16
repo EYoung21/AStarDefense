@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BaseWall : BaseUnit
+public class TestWall1 : BaseBlock
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

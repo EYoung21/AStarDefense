@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: TestBlock1
   m_EditorClassIdentifier: 
   Faction: 1
-  UnitPrefab: {fileID: 0}
+  UnitPrefab: {fileID: 3062317093460321335, guid: 416ac66da2e906843b036760c048bc97, type: 3}
