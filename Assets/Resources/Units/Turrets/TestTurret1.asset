@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c12c850ffa3a4dc43811ca9da1f1fcab, type: 3}
   m_Name: TestTurret1
   m_EditorClassIdentifier: 
+  Faction: 0
+  UnitPrefab: {fileID: 4945100502565454582, guid: 61bdf04fd13d06d4baf8c527d8c5c8eb, type: 3}
