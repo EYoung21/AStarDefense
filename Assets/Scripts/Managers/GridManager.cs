@@ -45,7 +45,10 @@ public class GridManager : MonoBehaviour
         }
 
         _cam.transform.position = new Vector3((float)_width/2 - 0.5f, (float)_height/2 - 0.5f, -10);
-
+        
+        // Set camera size to fit height (36 tiles)
+        Camera.main.orthographicSize = _height / 2f;  // This will make the height fit perfectly
+        
         GameManager.Instance.ChangeState(GameState.SpawnInitialTurret);
     }
     

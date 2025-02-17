@@ -364,7 +364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1c14f026b5a742539cc8d1646b1038d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 32
+  _width: 36
   _height: 18
   _floorTile: {fileID: -8292422499980352951, guid: 908b481500c43ee47979e9dc70314e6b, type: 3}
   _blockTile: {fileID: 8088331166339499847, guid: ec595896e41af3440ad873bf3cb03e08, type: 3}
