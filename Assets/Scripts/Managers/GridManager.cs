@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class GridManager : MonoBehaviour
 {
@@ -49,9 +50,24 @@ public class GridManager : MonoBehaviour
     }
     
     public Tile GetTileAtPosition(Vector2 pos) {
-        if (_tiles.TryGetValue(pos, out var tile)) {
+        if (_tiles.TryGetValue(pos, out var tile)) {    
             return tile;
         }
         return null;
+    }
+
+    public Tile GetInitialTurretSpawnTile() { //this function should return the center of the grid (the location we want our initial turret, or it's prefab, to spawn on when the game starts)
+        return _tiles.Where(t => t.Key.x == _width / 2).Where(t => t.Key.y == _height / 2).First().Value;
+    }
+
+    public Tile GetEnemySpawnTile() {
+        //would be outside a radius from the center of the grid
+        //would be a random tile within that radius
+        //would be a tile that is not already occupied by a turret
+        //would be a tile that is not already occupied by an enemy
+        //would be a tile that is not already occupied by a block
+
+        //can figure out later, would likely be called every time an enemy is spawned
+        throw new System.NotImplementedException();
     }
 }

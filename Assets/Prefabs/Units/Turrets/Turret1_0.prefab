@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7736554259855052262, guid: ee48639aed83fa546a57ffb526fd58f3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -100,3 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c7adb2c5fb12a4ba52f26d78a9db06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OccupiedTile: {fileID: 0}
+  Faction: 0
+  UnitName: OGTurret

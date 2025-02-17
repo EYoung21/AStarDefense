@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 8610565575992400378, guid: 10ec6013e05ac1948a69fe5e0f919e0c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -100,3 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e815c10ab2495f41b18f47de55d0b3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OccupiedTile: {fileID: 0}
+  Faction: 0
+  UnitName: Sand
