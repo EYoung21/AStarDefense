@@ -38,11 +38,6 @@ public class GameManager : MonoBehaviour
             case GameState.SpawnInitialTurret:
                 UnitManager.Instance.SpawnInitialTurret(); //these different game managers are singletons, so we can access them directly
                 break;
-            // case GameState.SpawnGameUI:
-            //     UIManager.Instance.DisplayGeneralGameUI(); //this may not need a gamestate or even a function call, game UI could just be displayed through a canvas
-            //     // TODO: Spawn game UI, hide other UI elements
-            //     // currency, play / pause, health, wave # displayed, settings, etc.
-            //     break;
             //TODO: Then we want to oscillate between the player prep turn and the enemy wave turn indefinetly until the player loses
             case GameState.PlayerPrepTurn: //block / turret placement
                 UIManager.Instance.DisplayPlayerPrepTurnUI();

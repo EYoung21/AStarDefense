@@ -17,7 +17,12 @@ public class UIManager : MonoBehaviour
     // }
 
     [SerializeField] private GameObject SelectedUnitObject;
+    
+    [SerializeField] private GameObject roundObject;
 
+    [SerializeField] private GameObject currencyObject;
+
+    [SerializeField] private GameObject healthObject;
 
     public static UIManager Instance;
 
@@ -47,15 +52,6 @@ public class UIManager : MonoBehaviour
         // GameManager.Instance.ChangeState(GameState.GenerateGrid);
     }
 
-    public void DisplayGeneralGameUI() {
-
-        throw new System.NotImplementedException();
-
-        // GameManager.Instance.ChangeState(GameState.PlayerPrepTurn);
-        // TODO: Spawn game UI, hide other UI elements
-        // currency, play / pause, health, wave # displayed, settings, etc.
-    }
-
     public void ToggleShowSelectedUnit(BaseUnit unit) {
         if (unit == null) {
             SelectedUnitObject.SetActive(false);
@@ -69,14 +65,33 @@ public class UIManager : MonoBehaviour
     //at some point in the following two functions, we need to call GameManager.Instance.ChangeState(GameState.GameOver);
     public void DisplayPlayerPrepTurnUI() {
         // Show player prep turn UI, hide other UI elements
-        // Block / turret placement options, cancel button
+        // Score, block / turret placement options, cancel button
 
         //only continue once played has clicked next round button
+        roundObject.SetActive(true);
+        updateRoundUI();
 
+        currencyObject.SetActive(true); 
+        updateCurrencyUI();
 
-        throw new System.NotImplementedException();
+        healthObject.SetActive(true);
+        updateHealthUI();
+
+        // throw new System.NotImplementedException();
 
         // GameManager.Instance.ChangeState(GameState.EnemyWaveTurn);
+    }
+
+    public void updateRoundUI() { //will update the UI with what the round it
+        roundObject.GetComponentInChildren<TextMeshProUGUI>().text = "Round: " + RoundManager.Instance.round.ToString();
+    }
+
+    public void updateCurrencyUI() { //will update the UI with what the round it
+        currencyObject.GetComponentInChildren<TextMeshProUGUI>().text = "Currency: " + CurrencyManager.Instance.currency.ToString();
+    }
+
+    public void updateHealthUI() { //will update the UI with what the round it
+        healthObject.GetComponentInChildren<TextMeshProUGUI>().text = "Health: " + HealthManager.Instance.health.ToString();
     }
 
     public void DisplayEnemyWaveTurnUI() {

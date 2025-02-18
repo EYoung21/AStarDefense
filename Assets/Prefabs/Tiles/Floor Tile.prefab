@@ -77,10 +77,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36df0c4da5c1843448f46e1d34c20c7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseColor: {r: 0.6509434, g: 0.3737473, b: 0, a: 0}
-  _offsetColor: {r: 0.745283, g: 0.40171486, b: 0, a: 0}
   _renderer: {fileID: 7958748627328695818}
   _highlight: {fileID: 6931580187191437420}
+  OccupiedUnit: {fileID: 0}
+  _baseColor: {r: 0.16981131, g: 0.15939835, b: 0.15939835, a: 0.16470589}
+  _offsetColor: {r: 0.3018868, g: 0.29191884, b: 0.29191884, a: 0.16470589}
 --- !u!1 &6931580187191437420 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 26316500500940429, guid: f1ea18becbc08fd428b604a70ce79409, type: 3}
