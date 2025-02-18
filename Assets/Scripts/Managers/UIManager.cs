@@ -78,6 +78,8 @@ public class UIManager : MonoBehaviour
         updateHealthUI();
 
         // throw new System.NotImplementedException();
+        Debug.Log("Spawn enemies");
+        UnitManager.Instance.SpawnEnemiesTest();
 
         // GameManager.Instance.ChangeState(GameState.EnemyWaveTurn);
     }

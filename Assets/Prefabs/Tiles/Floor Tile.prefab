@@ -80,8 +80,8 @@ MonoBehaviour:
   _renderer: {fileID: 7958748627328695818}
   _highlight: {fileID: 6931580187191437420}
   OccupiedUnit: {fileID: 0}
-  _baseColor: {r: 0.16981131, g: 0.15939835, b: 0.15939835, a: 0.16470589}
-  _offsetColor: {r: 0.3018868, g: 0.29191884, b: 0.29191884, a: 0.16470589}
+  _baseColor: {r: 0.21515797, g: 0, b: 0.6226415, a: 0.16470589}
+  _offsetColor: {r: 0.36882073, g: 0.16135636, b: 0.9245283, a: 0.16470589}
 --- !u!1 &6931580187191437420 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 26316500500940429, guid: f1ea18becbc08fd428b604a70ce79409, type: 3}

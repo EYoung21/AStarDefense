@@ -63,6 +63,10 @@ public class GridManager : MonoBehaviour
         return _tiles.Where(t => t.Key.x == _width / 2).Where(t => t.Key.y == _height / 2).First().Value;
     }
 
+    public Tile GetEnemySpawnTileTest() {
+        return _tiles.OrderBy(t => Random.value).First().Value;
+    }
+
     public Tile GetEnemySpawnTile() { // would be called every time an enemy is spawned.
         //would be outside a radius from the center of the grid
         //would be a random tile within that radius
