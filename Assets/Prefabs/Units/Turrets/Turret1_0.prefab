@@ -102,4 +102,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OccupiedTile: {fileID: 0}
   Faction: 0
-  UnitName: OGTurret
+  UnitName: OG Single-shot Turret

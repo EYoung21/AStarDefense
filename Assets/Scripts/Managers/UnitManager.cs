@@ -46,7 +46,7 @@ public class UnitManager : MonoBehaviour
     
     public void SpawnEnemies() {
         for (int i = 0; i < enemyCount; i++) { //maybe enemy count will increase as the game progresses (wave / round numbers increase)
-            var enemyPrefab = GetUnitByName<BaseEnemy>("Enemy1_0", Faction.Enemy);
+            var enemyPrefab = GetUnitByName<BaseEnemy>("BlueStar", Faction.Enemy);
             var spawnedEnemy = Instantiate(enemyPrefab);
             //might also want to use a spawner here, but may be easier to just randomize under a range of positions since the spawn region is circular
             var enemySpawnTile = GridManager.Instance.GetEnemySpawnTile();
@@ -59,7 +59,7 @@ public class UnitManager : MonoBehaviour
         enemyCount = 20;
         Debug.Log("Spawn enemies test");
         for (int i = 0; i < enemyCount; i++) { //maybe enemy count will increase as the game progresses (wave / round numbers increase)
-            var enemyPrefab = GetUnitByName<BaseEnemy>("Ship1", Faction.Enemy);
+            var enemyPrefab = GetUnitByName<BaseEnemy>("BlueStar", Faction.Enemy);
             var spawnedEnemy = Instantiate(enemyPrefab);
             //might also want to use a spawner here, but may be easier to just randomize under a range of positions since the spawn region is circular
             var enemySpawnTile = GridManager.Instance.GetEnemySpawnTileTest(); //

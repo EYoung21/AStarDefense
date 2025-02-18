@@ -102,4 +102,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OccupiedTile: {fileID: 0}
   Faction: 1
-  UnitName: Sand
+  UnitName: Sand Block
