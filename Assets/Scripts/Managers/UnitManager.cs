@@ -55,7 +55,7 @@ public class UnitManager : MonoBehaviour
         }
     }
 
-    private T GetUnitByName<T>(string unitName, Faction faction) where T : BaseUnit {
+    public T GetUnitByName<T>(string unitName, Faction faction) where T : BaseUnit {
         return (T)_units.Where(u => u.Faction == faction && u.UnitPrefab.name == unitName).First().UnitPrefab;
     }
 

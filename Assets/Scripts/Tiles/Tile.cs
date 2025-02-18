@@ -27,9 +27,7 @@ public abstract class Tile : MonoBehaviour
     }
 
     void OnMouseEnter() { //only want to set highlight for turrets, and places that aren't occupied by walls
-        if (OccupiedUnit != null && OccupiedUnit.Faction == Faction.Turret || OccupiedUnit == null) { //if the tile has a turret on it or nothing on it.
-            _highlight.SetActive(true);
-        }
+        _highlight.SetActive(true);
     }
 
     void OnMouseExit() {
@@ -52,11 +50,24 @@ public abstract class Tile : MonoBehaviour
             }
         } else { //OccupiedUnit is null
             
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 gridPos = new Vector2(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(mousePos.y));
+
+            var floorPrefab = UnitManager.Instance.GetUnitByName<BaseBlock>("Sand_0", Faction.Block); //later this will be based on the selected turret from the initial turret selection UI, for now spawns tile
+            var spawnedFloor = Instantiate(floorPrefab);
+            var floorSpawnTile = GridManager.Instance.GetTileAtPosition(gridPos);
+            if (floorSpawnTile != null) {
+                floorSpawnTile.SetUnit(spawnedFloor);
+            } else {
+                Debug.Log($"No tile found at position {gridPos}");
+            }
 
             //TODO: implement placement system
             //here, we probably want a selection system (if you're in place wall mode vs place turret mode, vs place nothing mode)
             //maybe q to rotate, e to change type, left click to place obviously
             //for now lets assume you default to no selection mode, so if there isn't a unit in the square you've selected, then set selection to null
+
+
 
             UnitManager.Instance.SetSelectedUnit(null);
 
@@ -76,15 +87,26 @@ public abstract class Tile : MonoBehaviour
 
 
     public void SetUnit(BaseUnit unit) {
-        //we will handle the unit's presence "leaving" the previous tile through this:
-
-        if (unit.OccupiedTile != null) { //we need this check because the first time we spawn a unit, it's occupied tile will be null (don't want a null refrence exception)
-            unit.OccupiedTile.OccupiedUnit = null; //sets the unit's current tile (the one before this one that the unit is moving to) to null
+        if (unit.OccupiedTile != null) {
+            unit.OccupiedTile.OccupiedUnit = null;
         }
-
-        unit.transform.position = transform.position; //set's the unit's position to the position of the current tile
-        OccupiedUnit = unit; //sets the refrence of the tile's current unit to the current unit
-        unit.OccupiedTile = this; //set's the unit's occupied tile to the current tile (this)
-
+        
+        unit.transform.position = transform.position;
+        
+        //get sprite renderers
+        SpriteRenderer tileSprite = GetComponent<SpriteRenderer>();
+        SpriteRenderer unitSprite = unit.GetComponent<SpriteRenderer>();
+        
+        if (tileSprite != null && unitSprite != null) {
+            //calculate scale factors
+            float scaleX = tileSprite.bounds.size.x / unitSprite.bounds.size.x;
+            float scaleY = tileSprite.bounds.size.y / unitSprite.bounds.size.y;
+            
+            //apply the scale
+            unit.transform.localScale = new Vector3(scaleX, scaleY, 1f);            
+        }
+        
+        OccupiedUnit = unit;
+        unit.OccupiedTile = this;
     }
 }
