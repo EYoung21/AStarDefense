@@ -44,6 +44,9 @@ public class Grid
 
     public int GetValue(int x, int y)
     {
-
+        if (x >= 0 && y >= 0 && x < width && y < height)
+        {
+            return(gridArray[x, y]);
+        }
     }
 }
