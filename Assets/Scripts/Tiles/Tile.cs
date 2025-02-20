@@ -57,7 +57,7 @@ public abstract class Tile : MonoBehaviour
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 gridPos = new Vector2(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(mousePos.y));
 
-            var floorPrefab = UnitManager.Instance.GetUnitByName<BaseBlock>("BlueStar", Faction.Block); //later this will be based on the selected turret from the initial turret selection UI, for now spawns tile
+            var floorPrefab = UnitManager.Instance.GetUnitByName<BaseBlock>("SandBlock", Faction.Block); //later this will be based on the selected turret from the initial turret selection UI, for now spawns tile
             var spawnedFloor = Instantiate(floorPrefab);
             var floorSpawnTile = GridManager.Instance.GetTileAtPosition(gridPos);
             if (floorSpawnTile != null) {
