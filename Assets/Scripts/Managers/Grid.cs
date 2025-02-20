@@ -6,7 +6,7 @@ public class Grid
     private int height;
     private float cellSize;
     private int[,] gridArray;
-    public Grid(int width, int height)
+    public Grid(int width, int height, float cellSize)
     {
         this.width = width;
         this.height = height;
@@ -18,5 +18,10 @@ public class Grid
     private Vector3 GetWorldPositon(int x,  int y)
     {
         return new Vector3(x, y) * cellSize;
+    }
+
+    public void SetValue(int x, int y, int value) 
+    {
+        gridArray[x, y] = value;
     }
 }
