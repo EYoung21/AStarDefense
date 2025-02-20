@@ -6,13 +6,15 @@ public class Grid
     private int height;
     private float cellSize;
     private int[,] gridArray;
-    public Grid(int width, int height, float cellSize)
+    private Vector3 originPosition;
+    public Grid(int width, int height, float cellSize, Vector3 originPosition)
     {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
 
         gridArray = new int[width, height];
+        this.originPosition = originPosition;
     }
 
     private Vector3 GetWorldPositon(int x,  int y)
