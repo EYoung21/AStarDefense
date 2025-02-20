@@ -40,10 +40,11 @@ public class GridManager : MonoBehaviour
             for (int y = 0; y < _height; y++) {
                 var spawnedTile = Instantiate(_floorTile, new Vector3(x, y), Quaternion.identity);
                 spawnedTile.name = $"Tile {x} {y}";
-
                 spawnedTile.init(x, y);
 
                 _tiles[new Vector2(x, y)] = spawnedTile;
+                _grid.SetValue(x, y, 0); // 0 means walkable
+
             }
         }
 
