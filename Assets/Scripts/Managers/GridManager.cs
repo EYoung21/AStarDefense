@@ -50,6 +50,8 @@ public class GridManager : MonoBehaviour
         Camera.main.orthographicSize = _height / 2f;  // This will make the height fit perfectly
         
         GameManager.Instance.ChangeState(GameState.SpawnInitialTurret);
+
+        Debug.Log(_tiles);
     }
     
     public Tile GetTileAtPosition(Vector2 pos) {
