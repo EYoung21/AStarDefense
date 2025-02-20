@@ -7,5 +7,7 @@ public class Grid
     {
         this.width = width;
         this.height = height;
+
+        gridArray = new int[width, height];
     }
 }
