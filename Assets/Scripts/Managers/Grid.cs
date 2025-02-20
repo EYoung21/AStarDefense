@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class Grid
 {
     private int width;
@@ -9,5 +11,10 @@ public class Grid
         this.height = height;
 
         gridArray = new int[width, height];
+    }
+
+    private Vector3 GetWorldPositon(int x,  int y)
+    {
+
     }
 }
