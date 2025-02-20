@@ -20,11 +20,13 @@ public class GridManager : MonoBehaviour
     public static GridManager Instance;
 
     [SerializeField] private int _width, _height;
+    [SerializeField] private float _cellSize = 1f;
     [SerializeField] private Tile _floorTile, _blockTile;
 
     [SerializeField] private Transform _cam;
 
     private Dictionary<Vector2, Tile> _tiles;
+    private Grid _grid;
 
     void Awake() {
         Instance = this;
