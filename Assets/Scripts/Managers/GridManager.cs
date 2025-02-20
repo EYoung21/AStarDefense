@@ -30,6 +30,7 @@ public class GridManager : MonoBehaviour
 
     void Awake() {
         Instance = this;
+        _grid = new Grid(_width, _height, _cellSize, Vector3.zero);
     }
 
 
