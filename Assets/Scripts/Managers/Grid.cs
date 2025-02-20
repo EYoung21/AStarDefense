@@ -38,5 +38,12 @@ public class Grid
     {
         int x;
         int y;
+        GetXY(worldPosition, out x, out y);
+        SetValue(x, y, value);
+    }
+
+    public int GetValue(int x, int y)
+    {
+
     }
 }
