@@ -20,12 +20,23 @@ public class Grid
         return new Vector3(x, y) * cellSize;
     }
 
+    private void GetXY(Vector3 worldPosition, out int x, out int y)
+    {
+        x = Mathf.FloorToInt(worldPosition.x / cellSize);
+        y = Mathf.FloorToInt(worldPosition.y / cellSize);
+    }
+
     public void SetValue(int x, int y, int value) 
     {
         if (x >= 0 && y >= 0 && x < width && y < height)
         {
             gridArray[x, y] = value;
-
         }
+    }
+
+    public void SetValue(Vector3 worldPosition, int value)
+    {
+        int x;
+        int y;
     }
 }
