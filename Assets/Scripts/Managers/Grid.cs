@@ -22,6 +22,10 @@ public class Grid
 
     public void SetValue(int x, int y, int value) 
     {
-        gridArray[x, y] = value;
+        if (x >= 0 && y >= 0 && x < width && y < height)
+        {
+            gridArray[x, y] = value;
+
+        }
     }
 }
