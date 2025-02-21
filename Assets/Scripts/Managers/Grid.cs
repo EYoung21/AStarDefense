@@ -11,7 +11,7 @@ public class Grid<TGridObject>
         public int x;
         public int y;
     }
-    private int width;
+    private int width;  
     private int height;
     private float cellSize;
     private TGridObject[,] gridArray;
@@ -45,23 +45,31 @@ public class Grid<TGridObject>
         y = Mathf.FloorToInt((worldPosition - originPosition).y / cellSize);
     }
 
-    public void SetValue(int x, int y, TGridObject value) 
+
+    public void SetGridObject(int x, int y, TGridObject value) 
     {
         if (x >= 0 && y >= 0 && x < width && y < height)
         {
             gridArray[x, y] = value;
+            if (OnGridObjectChanged != null) OnGridObjectChanged(this, new OnGridObjectChangedEventArgs { x = x, y = y });
+
         }
     }
 
-    public void SetValue(Vector3 worldPosition, TGridObject value)
+    public void TriggerGridObjectChanged(int x, int y)
+    {
+        if (OnGridObjectChanged != null) OnGridObjectChanged(this, new OnGridObjectChangedEventArgs {x = x, y = y});
+    }
+
+    public void SetGridObject(Vector3 worldPosition, TGridObject value)
     {
         int x;
         int y;
         GetXY(worldPosition, out x, out y);
-        SetValue(x, y, value);
+        SetGridObject(x, y, value);
     }
 
-    public TGridObject GetValue(int x, int y)
+    public TGridObject GetGridObject(int x, int y)
     {
         if (x >= 0 && y >= 0 && x < width && y < height)
         {
@@ -73,13 +81,13 @@ public class Grid<TGridObject>
         }
     }
 
-    public TGridObject GetValue(Vector3 worldPosition)
+    public TGridObject GetGridObject(Vector3 worldPosition)
     {
         int x;
         int y;
         GetXY(worldPosition, out x, out y);
 
-        return GetValue(x, y);
+        return GetGridObject(x, y);
     }
 
     public override string ToString()
