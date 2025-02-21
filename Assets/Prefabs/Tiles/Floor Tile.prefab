@@ -48,6 +48,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1017728264194789611, guid: f1ea18becbc08fd428b604a70ce79409, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017728264194789611, guid: f1ea18becbc08fd428b604a70ce79409, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1484697769
+      objectReference: {fileID: 0}
     - target: {fileID: 8459893795310837641, guid: f1ea18becbc08fd428b604a70ce79409, type: 3}
       propertyPath: m_Name
       value: Floor Tile
@@ -80,8 +88,8 @@ MonoBehaviour:
   _renderer: {fileID: 7958748627328695818}
   _highlight: {fileID: 6931580187191437420}
   OccupiedUnit: {fileID: 0}
-  _baseColor: {r: 0.21515797, g: 0, b: 0.6226415, a: 0.16470589}
-  _offsetColor: {r: 0.36882073, g: 0.16135636, b: 0.9245283, a: 0.16470589}
+  _baseColor: {r: 0.21515797, g: 0, b: 0.6226415, a: 0.08627451}
+  _offsetColor: {r: 0.36882073, g: 0.16135636, b: 0.9245283, a: 0.08627451}
 --- !u!1 &6931580187191437420 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 26316500500940429, guid: f1ea18becbc08fd428b604a70ce79409, type: 3}
