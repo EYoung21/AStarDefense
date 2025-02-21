@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Grid<TGridObject>
 {
@@ -7,14 +9,18 @@ public class Grid<TGridObject>
     private float cellSize;
     private TGridObject[,] gridArray;
     private Vector3 originPosition;
-    public Grid(int width, int height, float cellSize, Vector3 originPosition)
+    public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<TGridObject> createGridObject)
     {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
+        this.originPosition = originPosition;
 
         gridArray = new TGridObject[width, height];
-        this.originPosition = originPosition;
+        // Initialize Grid
+        for (int x = 0; x < gridArray.GetLength(0); x++) {
+            for (int y = 0; y < gridArray.GetLength(1); y++) {
+                gridArray[x, y]
     }
 
     private Vector3 GetWorldPositon(int x,  int y)
