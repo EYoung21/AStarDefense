@@ -55,6 +55,11 @@ public class UnitManager : MonoBehaviour
         }
     }
 
+    public List<BaseEnemy> GetAllCurrentEnemies() {
+        var enemies = FindObjectsOfType<BaseEnemy>();
+        return enemies.ToList();
+    }
+
     public void SpawnEnemiesTest() {//spawns test enemies to configure pathfinding and turret projectiles with
         enemyCount = 20;
         Debug.Log("Spawn enemies test");
