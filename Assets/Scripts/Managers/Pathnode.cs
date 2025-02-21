@@ -3,4 +3,10 @@ using UnityEngine;
 public class PathNode
 {
     private Grid<PathNode> grid;
+    private int x;
+    private int y;
+    public PathNode(Grid<PathNode> grid, int x, int y)
+    {
+
+    }
 }
