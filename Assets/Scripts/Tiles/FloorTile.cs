@@ -22,7 +22,7 @@ public class FloorTile : Tile
         var isOffset = (x+y) % 2 == 1;
 
         Color tileColor = isOffset ? _offsetColor : _baseColor;
-        tileColor.a = 1f; //force alpha (transparency level) to 1
+        // tileColor.a = 0.1f; //force alpha (transparency level) to 1
         _renderer.color = tileColor;
     }
 }

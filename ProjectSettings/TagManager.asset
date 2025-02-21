@@ -42,10 +42,16 @@ TagManager:
     uniqueID: 0
     locked: 0
   - name: Background
-    uniqueID: 1325668283
+    uniqueID: 121783147
     locked: 0
-  - name: Enemy
-    uniqueID: 1657288171
+  - name: Grid
+    uniqueID: 2810269527
+    locked: 0
+  - name: Units
+    uniqueID: 2467473521
+    locked: 0
+  - name: UI
+    uniqueID: 2989828223
     locked: 0
   m_RenderingLayers:
   - Default
