@@ -10,6 +10,7 @@ public class PathNode
     public int fCost;
     public int hCost;
 
+    public PathNode cameFromNode;
     public PathNode(Grid<PathNode> grid, int x, int y)
     {
         this.grid = grid;
