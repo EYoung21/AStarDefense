@@ -7,6 +7,8 @@ public class PathNode
     private int y;
     public PathNode(Grid<PathNode> grid, int x, int y)
     {
-
+        this.grid = grid;
+        this.x = x;
+        this.y = y;
     }
 }
