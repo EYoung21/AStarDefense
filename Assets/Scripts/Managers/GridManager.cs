@@ -26,7 +26,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] private Transform _cam;
 
     private Dictionary<Vector2, Tile> _tiles;
-    private Grid _grid;
+    public Grid _grid;
 
     void Awake() {
         Instance = this;

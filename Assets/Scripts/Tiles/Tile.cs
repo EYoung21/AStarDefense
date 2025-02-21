@@ -62,6 +62,7 @@ public abstract class Tile : MonoBehaviour
                 var floorSpawnTile = GridManager.Instance.GetTileAtPosition(gridPos);
                 if (floorSpawnTile != null) {
                     floorSpawnTile.SetUnit(spawnedFloor);
+                    GridManager.Instance._grid.SetValue(gridPos, 1);
                 } else {
                     Debug.Log($"No tile found at position {gridPos}");
                 }

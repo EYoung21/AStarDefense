@@ -64,4 +64,18 @@ public class Grid
 
         return GetValue(x, y);
     }
+
+    public override string ToString()
+    {
+        string result = "";
+        for (int y = height - 1; y >= 0; y--) // Print from top to bottom
+        {
+            for (int x = 0; x < width; x++)
+            {
+                result += gridArray[x, y].ToString("D2") + " "; // Format numbers for alignment
+            }
+            result += "\n";
+        }
+        return result;
+    }
 }
