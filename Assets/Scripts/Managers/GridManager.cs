@@ -26,11 +26,13 @@ public class GridManager : MonoBehaviour
     [SerializeField] private Transform _cam;
 
     private Dictionary<Vector2, Tile> _tiles;
-    public Grid _grid;
+    public Grid<bool> _grid;
 
     void Awake() {
         Instance = this;
-        _grid = new Grid(_width, _height, _cellSize, Vector3.zero);
+        
+        // Initialize the grid with a function that returns false (default walkable state)
+        _grid = new Grid<bool>(_width, _height, _cellSize, Vector3.zero, (grid, x, y) => false);
     }
 
 
@@ -43,7 +45,7 @@ public class GridManager : MonoBehaviour
                 spawnedTile.init(x, y);
 
                 _tiles[new Vector2(x, y)] = spawnedTile;
-                _grid.SetValue(x, y, 0); // 0 means walkable
+                _grid.SetGridObject(x, y, false); // 0 means walkable
 
             }
         }
