@@ -49,37 +49,27 @@ public abstract class Tile : MonoBehaviour
                 return; //because we only want to be able to click on turrets
             }
         } else { //OccupiedUnit is null
-            
-            if (CurrencyManager.Instance.currency <= 0) {
-                return; //maybe display an error message to player later, "not enough currency"
-            }
-
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 gridPos = new Vector2(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(mousePos.y));
-
-            var floorPrefab = UnitManager.Instance.GetUnitByName<BaseBlock>("SandBlock", Faction.Block); //later this will be based on the selected turret from the initial turret selection UI, for now spawns tile
-            var spawnedFloor = Instantiate(floorPrefab);
-            var floorSpawnTile = GridManager.Instance.GetTileAtPosition(gridPos);
-            if (floorSpawnTile != null) {
-                floorSpawnTile.SetUnit(spawnedFloor);
-            } else {
-                Debug.Log($"No tile found at position {gridPos}");
-            }
-
-            CurrencyManager.Instance.currency -= 1;
-            UIManager.Instance.updateCurrencyUI();
-
-            //TODO: implement placement system
-            //here, we probably want a selection system (if you're in place wall mode vs place turret mode, vs place nothing mode)
-            //maybe q to rotate, e to change type, left click to place obviously
-            //for now lets assume you default to no selection mode, so if there isn't a unit in the square you've selected, then set selection to null
-
-
-
+            //deselect current unit first
             UnitManager.Instance.SetSelectedUnit(null);
-
-            return; //return for now
             
+            //only attempt to place block if we have currency
+            if (CurrencyManager.Instance.currency > 0) {
+                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector2 gridPos = new Vector2(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(mousePos.y));
+
+                var floorPrefab = UnitManager.Instance.GetUnitByName<BaseBlock>("SandBlock", Faction.Block);
+                var spawnedFloor = Instantiate(floorPrefab);
+                var floorSpawnTile = GridManager.Instance.GetTileAtPosition(gridPos);
+                if (floorSpawnTile != null) {
+                    floorSpawnTile.SetUnit(spawnedFloor);
+                } else {
+                    Debug.Log($"No tile found at position {gridPos}");
+                }
+
+                CurrencyManager.Instance.currency -= 1;
+                UIManager.Instance.updateCurrencyUI();
+            }
+            return;
         }
 
         return; //?
