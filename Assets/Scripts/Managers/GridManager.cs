@@ -51,10 +51,10 @@ public class GridManager : MonoBehaviour
         
         GameManager.Instance.ChangeState(GameState.SpawnInitialTurret);
 
-        foreach (var tile in _tiles)
-        {
-            Debug.Log($"Key: {tile.Key}, Tile Name: {tile.Value.name}");
-        }
+        // foreach (var tile in _tiles)
+        // {
+        //     Debug.Log($"Key: {tile.Key}, Tile Name: {tile.Value.name}");
+        // }
     }
     
     public Tile GetTileAtPosition(Vector2 pos) {
