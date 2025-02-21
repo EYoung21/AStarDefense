@@ -72,10 +72,16 @@ public class Grid<TGridObject>
         {
             for (int x = 0; x < width; x++)
             {
-                result += gridArray[x, y].ToString("D2") + " "; // Format numbers for alignment
+                TGridObject value = gridArray[x, y];
+
+                // Handle null values gracefully
+                string cellValue = (value != null) ? value.ToString() : " . ";
+
+                result += cellValue + " ";
             }
             result += "\n";
         }
         return result;
     }
+
 }
