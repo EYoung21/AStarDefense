@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class Grid
+public class Grid<TGridObject>
 {
     private int width;
     private int height;
     private float cellSize;
-    private int[,] gridArray;
+    private TGridObject[,] gridArray;
     private Vector3 originPosition;
     public Grid(int width, int height, float cellSize, Vector3 originPosition)
     {
@@ -13,7 +13,7 @@ public class Grid
         this.height = height;
         this.cellSize = cellSize;
 
-        gridArray = new int[width, height];
+        gridArray = new TGridObject[width, height];
         this.originPosition = originPosition;
     }
 
@@ -28,7 +28,7 @@ public class Grid
         y = Mathf.FloorToInt((worldPosition - originPosition).y / cellSize);
     }
 
-    public void SetValue(int x, int y, int value) 
+    public void SetValue(int x, int y, TGridObject value) 
     {
         if (x >= 0 && y >= 0 && x < width && y < height)
         {
@@ -36,7 +36,7 @@ public class Grid
         }
     }
 
-    public void SetValue(Vector3 worldPosition, int value)
+    public void SetValue(Vector3 worldPosition, TGridObject value)
     {
         int x;
         int y;
@@ -44,7 +44,7 @@ public class Grid
         SetValue(x, y, value);
     }
 
-    public int GetValue(int x, int y)
+    public TGridObject GetValue(int x, int y)
     {
         if (x >= 0 && y >= 0 && x < width && y < height)
         {
@@ -52,11 +52,11 @@ public class Grid
         }
         else 
         {
-            return -1;
+            return default(TGridObject);
         }
     }
 
-    public int GetValue(Vector3 worldPosition)
+    public TGridObject GetValue(Vector3 worldPosition)
     {
         int x;
         int y;

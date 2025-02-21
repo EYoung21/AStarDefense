@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Pathnode
+public class PathNode
 {
-    
+    private Grid<PathNode> grid;
 }
