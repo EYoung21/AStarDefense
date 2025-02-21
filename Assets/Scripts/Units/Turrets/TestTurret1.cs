@@ -14,10 +14,9 @@ public class TestTurret1 : BaseTurret
         
     // }
 
-    void Start() {
+    protected override void Start() {
+        base.Start();
 
-
-        
         rateOfFire = 1;
     }
 

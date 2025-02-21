@@ -56,7 +56,7 @@ public class UnitManager : MonoBehaviour
     }
 
     public List<BaseEnemy> GetAllCurrentEnemies() {
-        var enemies = FindObjectsOfType<BaseEnemy>();
+        var enemies = FindObjectsByType<BaseEnemy>(FindObjectsSortMode.None);
         return enemies.ToList();
     }
 
