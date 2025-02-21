@@ -1,9 +1,16 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class Grid<TGridObject>
 {
+    public event EventHandler<OnGridObjectChangedEventArgs> OnGridObjectChanged;
+    public class OnGridObjectChangedEventArgs : EventArgs
+    {
+        public int x;
+        public int y;
+    }
     private int width;
     private int height;
     private float cellSize;
@@ -18,9 +25,13 @@ public class Grid<TGridObject>
 
         gridArray = new TGridObject[width, height];
         // Initialize Grid
-        for (int x = 0; x < gridArray.GetLength(0); x++) {
-            for (int y = 0; y < gridArray.GetLength(1); y++) {
-                gridArray[x, y]
+        for (int x = 0; x < gridArray.GetLength(0); x++)
+        {
+            for (int y = 0; y < gridArray.GetLength(1); y++)
+            {
+                gridArray[x, y] = createGridObject();
+            }
+        }
     }
 
     private Vector3 GetWorldPositon(int x,  int y)
