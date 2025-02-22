@@ -35,6 +35,9 @@ public abstract class Tile : MonoBehaviour
     }
 
     void OnMouseDown() {
+        Debug.Log("Mouse down");
+
+
         if (GameManager.Instance.GameState != GameState.PlayerPrepTurn) {
             return;
         }

@@ -64,7 +64,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Block Tile
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6098824202631315963, guid: f1ea18becbc08fd428b604a70ce79409, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -89,10 +90,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b118f5ec1b45a034fa8a6d70dcaeaf2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseColor: {r: 0, g: 0, b: 0, a: 0}
-  _offsetColor: {r: 0, g: 0, b: 0, a: 0}
   _renderer: {fileID: 6963477817534613553}
   _highlight: {fileID: 7989934323355950679}
+  OccupiedUnit: {fileID: 0}
 --- !u!212 &6963477817534613553 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 1017728264194789611, guid: f1ea18becbc08fd428b604a70ce79409, type: 3}

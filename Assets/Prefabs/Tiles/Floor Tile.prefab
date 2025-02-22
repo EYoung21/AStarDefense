@@ -60,7 +60,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor Tile
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6098824202631315963, guid: f1ea18becbc08fd428b604a70ce79409, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

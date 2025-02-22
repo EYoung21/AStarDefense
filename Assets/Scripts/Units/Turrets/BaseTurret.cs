@@ -27,12 +27,7 @@ public class BaseTurret : BaseUnit
     public Vector3 directionToEnemy;
 
     protected virtual void Start() {
-        var enemies = UnitManager.Instance.GetAllCurrentEnemies();
-        var closestEnemy = enemies.OrderBy(enemy => Vector3.Distance(transform.position, enemy.transform.position)).FirstOrDefault();
-
-        if (closestEnemy != null) {
-            directionToEnemy = (closestEnemy.transform.position - transform.position).normalized;
-        }
+        
     }
 
     protected void Update() {
@@ -42,24 +37,28 @@ public class BaseTurret : BaseUnit
         }
     }
 
-    protected void OnTriggerEnter2D(Collider2D other) { //protected (and public) allows children to also have this method. protected only allows encapsulation for children
-        // if the other object has the Asteroid script (we overlap with an asteroid), the destroy the ship and restard the game
-        if (other.GetComponent<BaseEnemy>().Faction == Faction.Enemy) {
-
-            //EXPLOSION / HURT ANIMATION??
-            
-            HealthManager.Instance.RemoveHealth(1);
-        }
-    }
-
     protected virtual void Fire() {
         // Store the instantiated projectile in a variable
+
+        var enemies = UnitManager.Instance.GetAllCurrentEnemies();
+        var closestEnemy = enemies.OrderBy(enemy => Vector3.Distance(transform.position, enemy.transform.position)).FirstOrDefault();
+
+        if (closestEnemy != null) {
+            directionToEnemy = (closestEnemy.transform.position - transform.position).normalized;
+        }
+
+        float ydir = directionToEnemy.y;
+        float xdir = directionToEnemy.x;
+
+        float correctAngle = Mathf.Atan2(ydir, xdir) * Mathf.Rad2Deg; //finds angle in rads and converts to degrees
+
+        correctAngle = correctAngle - 90;
+
+        transform.rotation = Quaternion.AngleAxis(correctAngle, Vector3.forward); //the axis we want is the world's global z-axis, this equals to Vector3.forward, or new Vector3(0,0,1)
+
+
         GameObject projectile = Instantiate(projectilePrefab, transform.position, UnityEngine.Quaternion.identity);
         // Set direction on the instantiated projectile, not the prefab
         projectile.GetComponent<BaseProjectile>().SetDirection(directionToEnemy);
     }
-
-
-
-
 }
