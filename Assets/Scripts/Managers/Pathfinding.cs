@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Pathfinding
 {
+    private const int MOVE_STRAIGHT_COST = 10;
+    private const int MOVE_DIAGONAL_COST = 14;
+
     private Grid<PathNode> grid;
     private List<PathNode> openList;
     private List<PathNode> closedList;
@@ -28,6 +31,16 @@ public class Pathfinding
                 pathNode.cameFromNode = null;
             }
         }
+
+        startNode.gCost = 0;
+        
+    }
+
+    private int CalculateDistanceCost(PathNode a, PathNode b)
+    {
+        int xDistance = Mathf.Abs(a.x - b.x);
+        int yDistance = Mathf.Abs(a.y - b.y);
+        int remaining = Mathf.Abs(xDistance - yDistance);
     }
     
 }
