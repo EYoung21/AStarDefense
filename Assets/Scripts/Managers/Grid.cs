@@ -39,9 +39,9 @@ public class Grid<TGridObject>
         return new Vector3(x, y) * cellSize + originPosition;
     }
 
-    private int GetWidth() { return width; }
+    public int GetWidth() { return width; }
 
-    private int GetHeight() { return height; }
+    public int GetHeight() { return height; }
 
     private void GetXY(Vector3 worldPosition, out int x, out int y)
     {

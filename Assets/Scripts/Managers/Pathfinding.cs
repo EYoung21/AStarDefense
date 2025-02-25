@@ -17,6 +17,8 @@ public class Pathfinding
         PathNode startNode = grid.GetGridObject(startX, startY);
         openList = new List<PathNode> { startNode };
         closedList = new List<PathNode>();
+
+        for (int x = 0; x < grid.GetWidth())
     }
     
 }
