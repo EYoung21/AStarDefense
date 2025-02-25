@@ -20,7 +20,7 @@ public class PathNode
 
     public void calculateFCost()
     {
-
+        fCost = gCost + hCost;
     }
 
     public override string ToString()
