@@ -18,6 +18,7 @@ public class Pathfinding
     private List<PathNode> FindPath(int startX, int startY, int endX, int endY)
     {
         PathNode startNode = grid.GetGridObject(startX, startY);
+        PathNode endNode = grid.GetGridObject(endX, endY);
         openList = new List<PathNode> { startNode };
         closedList = new List<PathNode>();
 
@@ -33,6 +34,7 @@ public class Pathfinding
         }
 
         startNode.gCost = 0;
+        startNode.hCost = CalculateDistanceCost(startNode, endNode);
         
     }
 
