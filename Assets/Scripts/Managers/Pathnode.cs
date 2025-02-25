@@ -3,8 +3,8 @@ using UnityEngine;
 public class PathNode
 {
     private Grid<PathNode> grid;
-    private int x;
-    private int y;
+    public int x;
+    public int y;
 
     public int gCost;
     public int fCost;
