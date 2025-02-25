@@ -18,7 +18,15 @@ public class Pathfinding
         openList = new List<PathNode> { startNode };
         closedList = new List<PathNode>();
 
-        for (int x = 0; x < grid.GetWidth())
+        for (int x = 0; x < grid.GetWidth(); x++)
+        {
+            for (int y = 0; y < grid.GetHeight(); y++)
+            {
+                PathNode pathNode = grid.GetGridObject(x, y);
+                pathNode.gCost = int.MaxValue;
+                
+            }
+        }
     }
     
 }
