@@ -39,6 +39,10 @@ public class Grid<TGridObject>
         return new Vector3(x, y) * cellSize + originPosition;
     }
 
+    private int GetWidth() { return width; }
+
+    private int GetHeight() { return height; }
+
     private void GetXY(Vector3 worldPosition, out int x, out int y)
     {
         x = Mathf.FloorToInt((worldPosition - originPosition).x / cellSize);
