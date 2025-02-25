@@ -24,7 +24,7 @@ public class Pathfinding
             {
                 PathNode pathNode = grid.GetGridObject(x, y);
                 pathNode.gCost = int.MaxValue;
-                
+                pathNode.calculateFCost();
             }
         }
     }
