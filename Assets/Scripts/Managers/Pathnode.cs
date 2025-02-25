@@ -18,6 +18,11 @@ public class PathNode
         this.y = y;
     }
 
+    public void calculateFCost()
+    {
+
+    }
+
     public override string ToString()
     {
         return x + "," + y;
