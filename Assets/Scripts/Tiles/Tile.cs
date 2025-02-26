@@ -27,6 +27,7 @@ public abstract class Tile : MonoBehaviour
     }
 
     void OnMouseEnter() { //only want to set highlight for turrets, and places that aren't occupied by walls
+        Debug.Log("Mouse enter");
         _highlight.SetActive(true);
     }
 

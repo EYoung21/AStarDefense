@@ -15,28 +15,28 @@ public class Pathfinding
         grid = new Grid<PathNode>(width, height, 1f, Vector3.zero, (Grid<PathNode> g, int x, int y) => new PathNode(g,x,y));
     }
 
-    private List<PathNode> FindPath(int startX, int startY, int endX, int endY)
-    {
-        PathNode startNode = grid.GetGridObject(startX, startY);
-        PathNode endNode = grid.GetGridObject(endX, endY);
-        openList = new List<PathNode> { startNode };
-        closedList = new List<PathNode>();
+    // private List<PathNode> FindPath(int startX, int startY, int endX, int endY)
+    // {
+    //     PathNode startNode = grid.GetGridObject(startX, startY);
+    //     PathNode endNode = grid.GetGridObject(endX, endY);
+    //     openList = new List<PathNode> { startNode };
+    //     closedList = new List<PathNode>();
 
-        for (int x = 0; x < grid.GetWidth(); x++)
-        {
-            for (int y = 0; y < grid.GetHeight(); y++)
-            {
-                PathNode pathNode = grid.GetGridObject(x, y);
-                pathNode.gCost = int.MaxValue;
-                pathNode.calculateFCost();
-                pathNode.cameFromNode = null;
-            }
-        }
+    //     for (int x = 0; x < grid.GetWidth(); x++)
+    //     {
+    //         for (int y = 0; y < grid.GetHeight(); y++)
+    //         {
+    //             PathNode pathNode = grid.GetGridObject(x, y);
+    //             pathNode.gCost = int.MaxValue;
+    //             pathNode.calculateFCost();
+    //             pathNode.cameFromNode = null;
+    //         }
+    //     }
 
-        startNode.gCost = 0;
-        startNode.hCost = CalculateDistanceCost(startNode, endNode);
+    //     startNode.gCost = 0;
+    //     startNode.hCost = CalculateDistanceCost(startNode, endNode);
         
-    }
+    // }
 
     private int CalculateDistanceCost(PathNode a, PathNode b)
     {
