@@ -37,10 +37,23 @@ public class Pathfinding
         startNode.hCost = CalculateDistanceCost(startNode, endNode);
         startNode.calculateFCost();
 
-        while (openList.Count > 0) {
+        while (openList.Count > 0)
+        {
             PathNode currentNode = GetLowestFCostNode(openList);
+            if (currentNode == endNode)
+            {
+                // End Reached
+            }
+        }
 
     }
+
+    private List<PathNode> CalculatePath(PathNode endNode)
+    {
+        return (null);
+    }
+
+
 
     private int CalculateDistanceCost(PathNode a, PathNode b)
     {
