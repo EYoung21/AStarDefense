@@ -74,6 +74,21 @@ public class Pathfinding
                 neighborList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetY() + 1));
             }
         }
+
+        if (currentNode.GetX() + 1 < grid.GetWidth())
+        {
+            neighborList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetY()));
+
+            if (currentNode.GetY() - 1 >= 0)
+            {
+                neighborList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetY() - 1));
+            }
+
+            if (currentNode.GetY() + 1 < grid.GetHeight())
+            {
+                neighborList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetY() + 1));
+            }
+        }
     }
 
     private PathNode GetNode(int x, int y)
