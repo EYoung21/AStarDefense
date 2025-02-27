@@ -28,12 +28,12 @@ public class PathNode
         return x + "," + y;
     }
 
-    public int getX()
+    public int GetX()
     {
         return x;
     }
 
-    public int getY()
+    public int GetY()
     {
         return y;
     }
