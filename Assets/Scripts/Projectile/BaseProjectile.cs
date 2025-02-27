@@ -9,7 +9,7 @@ public class BaseProjectile : MonoBehaviour
 
     [SerializeField] protected float damage; //protected allows children classes to access
 
-    [SerializeField] protected float lifetime;
+    [SerializeField] protected float lifetime = 4;
     //then can set lifetime to specific values in each projectile instance (wouldn't have to destrpy offscreen
     //could just time how long it takes to get to edge then destroy it. or maybe use this to implement range).
 
