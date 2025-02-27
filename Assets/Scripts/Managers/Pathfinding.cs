@@ -35,6 +35,10 @@ public class Pathfinding
 
         startNode.gCost = 0;
         startNode.hCost = CalculateDistanceCost(startNode, endNode);
+        startNode.calculateFCost();
+
+        while (openList.Count > 0) {
+            PathNode currentNode = GetLowestFCostNode(openList);
 
     }
 
@@ -45,6 +49,18 @@ public class Pathfinding
         int remaining = Mathf.Abs(xDistance - yDistance);
 
         return (MOVE_DIAGONAL_COST * Mathf.Min(xDistance, yDistance) + MOVE_STRAIGHT_COST * remaining);
+    }
+
+    private PathNode GetLowestFCostNode(List<PathNode> list) {
+        PathNode lowestFCostNode = list[0];
+        for (int i = 1; i < list.Count; i++)
+        {
+            if (list[i].fCost < lowestFCostNode.fCost)
+            {
+                lowestFCostNode = list[i];
+            }
+        }
+        return lowestFCostNode;
     }
     
 }
