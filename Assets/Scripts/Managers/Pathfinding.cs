@@ -53,6 +53,14 @@ public class Pathfinding
                 if (closedList.Contains(neighborNode)) continue;
 
                 int tentativeGCost = currentNode.gCost + CalculateDistanceCost(currentNode, neighborNode);
+
+                if (tentativeGCost < neighborNode.gCost)
+                {
+                    neighborNode.cameFromNode = currentNode;
+                    neighborNode.gCost = tentativeGCost;
+                    neighborNode.hCost = CalculateDistanceCost(neighborNode, endNode);
+                    neighborNode.calculateFCost();
+                }
             }
         }   
     }
