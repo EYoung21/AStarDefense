@@ -48,14 +48,18 @@ public class Pathfinding
             openList.Remove(currentNode);
             closedList.Add(currentNode);
         }
-
-        
-
     }
 
     private List<PathNode> CalculatePath(PathNode endNode)
     {
         return (null);
+    }
+
+    private  List<PathNode> GetNeighborList(PathNode pathNode)
+    {
+        List<PathNode > neighborList = new List<PathNode>();
+
+
     }
 
 
