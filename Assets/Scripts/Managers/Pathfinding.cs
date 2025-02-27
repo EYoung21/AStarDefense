@@ -42,9 +42,14 @@ public class Pathfinding
             PathNode currentNode = GetLowestFCostNode(openList);
             if (currentNode == endNode)
             {
-                // End Reached
+                return (CalculatePath(endNode));
             }
+
+            openList.Remove(currentNode);
+            closedList.Add(currentNode);
         }
+
+        
 
     }
 
