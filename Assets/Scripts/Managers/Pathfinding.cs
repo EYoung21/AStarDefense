@@ -73,7 +73,18 @@ public class Pathfinding
 
     private List<PathNode> CalculatePath(PathNode endNode)
     {
-        return (null);
+        List<PathNode> path = new List<PathNode>();
+        path.Add(endNode);
+
+        PathNode currentNode = endNode;
+
+        while (currentNode.cameFromNode != null)
+        {
+            path.Add(currentNode.cameFromNode);
+            currentNode = currentNode.cameFromNode;
+        }
+        path.Reverse();
+        return path;
     }
 
     private  List<PathNode> GetNeighborList(PathNode currentNode)
@@ -130,6 +141,7 @@ public class Pathfinding
         return(grid.GetGridObject(x, y));
     }
 
+    
 
 
     private int CalculateDistanceCost(PathNode a, PathNode b)
