@@ -47,7 +47,7 @@ public class Pathfinding
 
             openList.Remove(currentNode);
             closedList.Add(currentNode);
-        }
+        }   
     }
 
     private List<PathNode> CalculatePath(PathNode endNode)
@@ -62,7 +62,17 @@ public class Pathfinding
         if ((currentNode.GetX() - 1) >= 0)
         {
             // Left
-            neighborList.Add(GetNode)
+            neighborList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetY()));
+
+            if (currentNode.GetY() - 1 >= 0)
+            {
+                neighborList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetY() - 1));
+            }
+
+            if (currentNode.GetY() + 1 < grid.GetHeight())
+            {  
+                neighborList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetY() + 1));
+            }
         }
     }
 
