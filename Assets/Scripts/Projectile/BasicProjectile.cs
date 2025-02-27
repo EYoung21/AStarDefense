@@ -7,6 +7,7 @@ public class BasicProjectile : BaseProjectile
     {
         base.Start();
         lifetime = 3;
+        damage = 1;
     }
 
     // // Update is called once per frame
@@ -15,19 +16,10 @@ public class BasicProjectile : BaseProjectile
         
     // }
 
-    protected virtual void OnTriggerEnter2D(Collider2D other) { //protected (and public) allows children to also have this method. protected only allows encapsulation for children
-        // if the other object has the Asteroid script (we overlap with an asteroid), the destroy the ship and restard the game
-        Debug.Log("Is collison projectile -> obj");
-        
-        if (other.GetComponent<BaseUnit>().Faction == Faction.Enemy) {
-
-            Debug.Log("Is collision projectile -> enemy");
-            
-            //EXPLOSION / HURT ANIMATION??
-            
-            other.GetComponent<BaseEnemy>().TakeDamage(damage);
-            // TODO: destroy our game object after collision.
-            Destroy(gameObject);
-        }
+    protected override void OnProjectileHitEnemy(Collider2D other) {
+        other.GetComponent<BaseEnemy>().TakeDamage(damage);
     }
+
+    
+
 }
