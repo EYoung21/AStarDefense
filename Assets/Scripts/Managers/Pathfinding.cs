@@ -64,41 +64,44 @@ public class Pathfinding
             // Left
             neighborList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetY()));
 
+            // Left Down
             if (currentNode.GetY() - 1 >= 0)
             {
                 neighborList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetY() - 1));
             }
-
+            // Left Up
             if (currentNode.GetY() + 1 < grid.GetHeight())
             {  
                 neighborList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetY() + 1));
             }
         }
-
+        // Right
         if (currentNode.GetX() + 1 < grid.GetWidth())
         {
             neighborList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetY()));
-
+            // Right Down
             if (currentNode.GetY() - 1 >= 0)
             {
                 neighborList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetY() - 1));
             }
-
+            // Right Up
             if (currentNode.GetY() + 1 < grid.GetHeight())
             {
                 neighborList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetY() + 1));
             }
         }
-
+        // Down
         if (currentNode.GetY() - 1 >= 0)
         {
             neighborList.Add(GetNode(currentNode.GetX(), currentNode.GetY() - 1));
         }
-
+        // Up
         if (currentNode.GetY() + 1 < grid.GetHeight())
         {
             neighborList.Add(GetNode(currentNode.GetX(), currentNode.GetY() + 1));
         }
+
+        return(neighborList);
     }
 
     private PathNode GetNode(int x, int y)
