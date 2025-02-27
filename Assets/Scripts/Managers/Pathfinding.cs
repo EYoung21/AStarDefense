@@ -47,6 +47,11 @@ public class Pathfinding
 
             openList.Remove(currentNode);
             closedList.Add(currentNode);
+
+            foreach (PathNode neighborNode in GetNeighborList(currentNode))
+            {
+                if (closedList.Contains(neighborNode)) continue;
+            }
         }   
     }
 
