@@ -3,8 +3,8 @@ using UnityEngine;
 public class PathNode
 {
     private Grid<PathNode> grid;
-    public int x;
-    public int y;
+    private int x;
+    private int y;
 
     public int gCost;
     public int fCost;
@@ -26,5 +26,15 @@ public class PathNode
     public override string ToString()
     {
         return x + "," + y;
+    }
+
+    public int getX()
+    {
+        return x;
+    }
+
+    public int getY()
+    {
+        return y;
     }
 }
