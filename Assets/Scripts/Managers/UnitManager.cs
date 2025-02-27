@@ -15,6 +15,8 @@ public class UnitManager : MonoBehaviour
 
     public int localNumberOfEnemiesToSpawn;
 
+    public int enemyCount;
+
     void Awake() {
         Instance = this;
 
@@ -61,9 +63,14 @@ public class UnitManager : MonoBehaviour
 
     public void BeginEnemyWave() {
         StartCoroutine(StartRoundLoop());
+
+        if (localNumberOfEnemiesToSpawn <= 0 && enemyCount <= 0) { //return to player prep turn if no enemies left to spawn and no enemies left alive
+            GameManager.Instance.ChangeState(GameState.PlayerPrepTurn);
+        }
     }
     
     public void SpawnEnemy() {
+        enemyCount++;
         var enemyPrefab = GetUnitByName<BaseEnemy>("BlueStar", Faction.Enemy);
         var spawnedEnemy = Instantiate(enemyPrefab);
         //might also want to use a spawner here, but may be easier to just randomize under a range of positions since the spawn region is circular

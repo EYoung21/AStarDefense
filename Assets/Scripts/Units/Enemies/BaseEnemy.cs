@@ -21,6 +21,7 @@ public class BaseEnemy : BaseUnit
         health -= damage;
         if (health <= 0) {
             Destroy(gameObject);
+            UnitManager.Instance.enemyCount--;
         }
     }
 }
