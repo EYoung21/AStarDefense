@@ -40,8 +40,8 @@ public class Pathfinding
 
     private int CalculateDistanceCost(PathNode a, PathNode b)
     {
-        int xDistance = Mathf.Abs(a.x - b.x);
-        int yDistance = Mathf.Abs(a.y - b.y);
+        int xDistance = Mathf.Abs(a.GetX() - b.GetX());
+        int yDistance = Mathf.Abs(a.GetY() - b.GetX());
         int remaining = Mathf.Abs(xDistance - yDistance);
 
         return (MOVE_DIAGONAL_COST * Mathf.Min(xDistance, yDistance) + MOVE_STRAIGHT_COST * remaining);
