@@ -60,9 +60,15 @@ public class Pathfinding
                     neighborNode.gCost = tentativeGCost;
                     neighborNode.hCost = CalculateDistanceCost(neighborNode, endNode);
                     neighborNode.calculateFCost();
+
+                    if (!openList.Contains(neighborNode))
+                    {
+                        openList.Add(neighborNode);
+                    }
                 }
             }
-        }   
+        }
+        return null;
     }
 
     private List<PathNode> CalculatePath(PathNode endNode)
