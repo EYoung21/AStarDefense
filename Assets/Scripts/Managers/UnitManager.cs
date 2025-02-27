@@ -7,8 +7,6 @@ public class UnitManager : MonoBehaviour
 {
     public static UnitManager Instance;
     
-    [SerializeField] private int enemyCount;
-
     private List<ScriptableUnit> _units;
 
     public BaseUnit SelectedUnit;
@@ -86,9 +84,9 @@ public class UnitManager : MonoBehaviour
     }
 
     public void SpawnEnemiesTest() {//spawns test enemies to configure pathfinding and turret projectiles with
-        enemyCount = 20;
+        int testEnemySpawnCount = 20;
         Debug.Log("Spawn enemies test");
-        for (int i = 0; i < enemyCount; i++) { //maybe enemy count will increase as the game progresses (wave / round numbers increase)
+        for (int i = 0; i < testEnemySpawnCount; i++) { //maybe enemy count will increase as the game progresses (wave / round numbers increase)
             var enemyPrefab = GetUnitByName<BaseEnemy>("BlueStar", Faction.Enemy);
             var spawnedEnemy = Instantiate(enemyPrefab);
             //might also want to use a spawner here, but may be easier to just randomize under a range of positions since the spawn region is circular

@@ -22,11 +22,11 @@ public class HealthManager : MonoBehaviour
 
     public int health = 100;
 
-    public void RemoveHealth(int amount) {
+    public void RemoveHealth(float amount) {
         health -= amount;
     }
 
-    public void AddHealth(int amount) {
+    public void AddHealth(float amount) {
         health += amount;
     }
 }
