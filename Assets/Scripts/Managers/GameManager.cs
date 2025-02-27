@@ -11,12 +11,16 @@ public class GameManager : MonoBehaviour
 
     public GameState GameState;
 
+    public int globalNumberOfEnemiesToSpawn;
+
     void Awake() {
         Instance = this;
     }
 
     void Start() {
         ChangeState(GameState.GenerateGrid);
+
+        globalNumberOfEnemiesToSpawn = 10;
     }
 
     public void ChangeState(GameState newState) {
@@ -42,9 +46,12 @@ public class GameManager : MonoBehaviour
             case GameState.PlayerPrepTurn: //block / turret placement
                 UIManager.Instance.DisplayPlayerPrepTurnUI();
                 break;
-            // case GameState.EnemyWaveTurn: //enemy spawning, movement towards center, astar, turret projectiles, etc.
-            //     UIManager.Instance.DisplayEnemyWaveTurnUI();
-            //     break;
+            case GameState.EnemyWaveTurn: //enemy spawning, movement towards center, astar, turret projectiles, etc.
+                // UIManager.Instance.DisplayEnemyWaveTurnUI();
+
+                UnitManager.Instance.BeginEnemyWave();
+
+                break;
             // case GameState.GameOver:
             //     // Show game over UI, display final score, play again button, return to main menu button, exit game button,
             //     UIManager.Instance.DisplayGameOver();

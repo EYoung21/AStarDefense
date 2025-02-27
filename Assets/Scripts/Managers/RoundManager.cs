@@ -20,7 +20,7 @@ public class RoundManager : MonoBehaviour
         Instance = this;
     }  
 
-    public int round = 1; //we will increment round as rounds end
+    public int round = 0; //we will increment round as rounds end
 
     public void IncrementRound(int amount) {
         round += amount;

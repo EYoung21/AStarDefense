@@ -31,9 +31,11 @@ public class BaseTurret : BaseUnit
     }
 
     protected void Update() {
-        if ((lastTimeFired + 1 / rateOfFire) < Time.time) {
-            lastTimeFired = Time.time;
-            Fire();
+        if (GameManager.Instance.GameState == GameState.EnemyWaveTurn) {
+            if ((lastTimeFired + 1 / rateOfFire) < Time.time) {
+                lastTimeFired = Time.time;
+                Fire();
+            }
         }
     }
 

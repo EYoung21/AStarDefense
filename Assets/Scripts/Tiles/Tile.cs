@@ -27,7 +27,9 @@ public abstract class Tile : MonoBehaviour
     }
 
     void OnMouseEnter() { //only want to set highlight for turrets, and places that aren't occupied by walls
-        Debug.Log("Mouse enter");
+        if (GameManager.Instance.GameState != GameState.PlayerPrepTurn || IsEdgeTile()) { //only want to allow highlighting if is player turn and not on edge
+            return;
+        }
         _highlight.SetActive(true);
     }
 
@@ -39,7 +41,7 @@ public abstract class Tile : MonoBehaviour
         Debug.Log("Mouse down");
 
 
-        if (GameManager.Instance.GameState != GameState.PlayerPrepTurn) {
+        if (GameManager.Instance.GameState != GameState.PlayerPrepTurn || IsEdgeTile()) {
             return;
         }
 
@@ -111,5 +113,18 @@ public abstract class Tile : MonoBehaviour
         
         OccupiedUnit = unit;
         unit.OccupiedTile = this;
+    }
+
+    private bool IsEdgeTile() {
+        // Get mouse position in world coordinates
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 gridPos = new Vector2(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(mousePos.y));
+        
+        // Get the grid dimensions from GridManager
+        int width = GridManager.Instance._width;
+        int height = GridManager.Instance._height;
+        
+        // Check if the mouse position is on any edge of the grid
+        return gridPos.x == 0 || gridPos.x == width - 1 || gridPos.y == 0 || gridPos.y == height - 1;
     }
 }

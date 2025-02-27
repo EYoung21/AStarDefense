@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections;
 
 public class UnitManager : MonoBehaviour
 {
@@ -11,7 +12,9 @@ public class UnitManager : MonoBehaviour
     private List<ScriptableUnit> _units;
 
     public BaseUnit SelectedUnit;
-    
+
+    public int localNumberOfEnemiesToSpawn;
+
     void Awake() {
         Instance = this;
 
@@ -43,16 +46,31 @@ public class UnitManager : MonoBehaviour
         //     //spawn turret
         // }
     }
-    
-    public void SpawnEnemies() {
-        for (int i = 0; i < enemyCount; i++) { //maybe enemy count will increase as the game progresses (wave / round numbers increase)
-            var enemyPrefab = GetUnitByName<BaseEnemy>("BlueStar", Faction.Enemy);
-            var spawnedEnemy = Instantiate(enemyPrefab);
-            //might also want to use a spawner here, but may be easier to just randomize under a range of positions since the spawn region is circular
-            var enemySpawnTile = GridManager.Instance.GetEnemySpawnTile();
 
-            enemySpawnTile.SetUnit(spawnedEnemy);
+    public IEnumerator StartRoundLoop() {
+        localNumberOfEnemiesToSpawn = GameManager.Instance.globalNumberOfEnemiesToSpawn;
+        while (localNumberOfEnemiesToSpawn > 0) {
+            yield return new WaitForSeconds(1);
+            SpawnEnemy();
+            localNumberOfEnemiesToSpawn--;
         }
+        
+        // Optional: Signal that the wave is complete
+        Debug.Log("Wave complete!");
+    }
+
+    public void BeginEnemyWave() {
+        StartCoroutine(StartRoundLoop());
+    }
+    
+    public void SpawnEnemy() {
+        var enemyPrefab = GetUnitByName<BaseEnemy>("BlueStar", Faction.Enemy);
+        var spawnedEnemy = Instantiate(enemyPrefab);
+        //might also want to use a spawner here, but may be easier to just randomize under a range of positions since the spawn region is circular
+        var enemySpawnTile = GridManager.Instance.GetEnemySpawnTile();
+        // Debug.Log("spawn tile: enemySpawnTile");
+
+        enemySpawnTile.SetUnit(spawnedEnemy);
     }
 
     public List<BaseEnemy> GetAllCurrentEnemies() {

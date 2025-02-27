@@ -24,6 +24,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject healthObject;
 
+    [SerializeField] private GameObject nextRoundButton;
+
     public static UIManager Instance;
 
     void Awake() {
@@ -76,12 +78,13 @@ public class UIManager : MonoBehaviour
 
         healthObject.SetActive(true);
         updateHealthUI();
-
-        // throw new System.NotImplementedException();
-        Debug.Log("Spawn enemies");
-        UnitManager.Instance.SpawnEnemiesTest();
-
-        // GameManager.Instance.ChangeState(GameState.EnemyWaveTurn);
+        
+        //show the Next Round button
+        if (nextRoundButton != null) {
+            nextRoundButton.SetActive(true);
+        } else {
+            Debug.LogWarning("Next Round button reference is missing!");
+        }
     }
 
     public void updateRoundUI() { //will update the UI with what the round it
@@ -113,6 +116,16 @@ public class UIManager : MonoBehaviour
         throw new System.NotImplementedException();
     }
     
-    
+    //method to be called by the Next Round button
+    public void OnNextRoundButtonClicked() {
+        //hide the Next Round button
+        if (nextRoundButton != null) {
+            nextRoundButton.SetActive(false);
+        }
 
+        RoundManager.Instance.IncrementRound(1);
+        
+        //transition to enemy wave turn
+        GameManager.Instance.ChangeState(GameState.EnemyWaveTurn);
+    }
 }
