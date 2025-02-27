@@ -55,11 +55,20 @@ public class Pathfinding
         return (null);
     }
 
-    private  List<PathNode> GetNeighborList(PathNode pathNode)
+    private  List<PathNode> GetNeighborList(PathNode currentNode)
     {
         List<PathNode > neighborList = new List<PathNode>();
 
+        if ((currentNode.GetX() - 1) >= 0)
+        {
+            // Left
+            neighborList.Add(GetNode)
+        }
+    }
 
+    private PathNode GetNode(int x, int y)
+    {
+        return(grid.GetGridObject(x, y));
     }
 
 
