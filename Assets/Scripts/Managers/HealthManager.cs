@@ -20,7 +20,7 @@ public class HealthManager : MonoBehaviour
         Instance = this;
     }
 
-    public int health = 100;
+    public float health = 100;
 
     public void RemoveHealth(float amount) {
         health -= amount;
