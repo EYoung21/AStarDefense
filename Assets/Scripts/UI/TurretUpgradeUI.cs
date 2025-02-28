@@ -65,7 +65,6 @@ public class TurretUpgradeUI : MonoBehaviour
     [Header("UI Elements")]
     [SerializeField] private GameObject upgradePanel;
     [SerializeField] private TextMeshProUGUI turretNameText;
-    [SerializeField] private TextMeshProUGUI goldText;
 
     private BaseTurret selectedTurret;
     private TurretUpgrade turretUpgrade;
@@ -76,7 +75,6 @@ public class TurretUpgradeUI : MonoBehaviour
         Debug.Log("TurretUpgradeUI Start - Checking references:");
         Debug.Log($"upgradePanel reference: {(upgradePanel != null ? "Set" : "Missing")}");
         Debug.Log($"turretNameText reference: {(turretNameText != null ? "Set" : "Missing")}");
-        Debug.Log($"goldText reference: {(goldText != null ? "Set" : "Missing")}");
         
         // Check button references
         Debug.Log($"frostButton reference: {(frostButton?.button != null ? "Set" : "Missing")}");
@@ -166,9 +164,6 @@ public class TurretUpgradeUI : MonoBehaviour
         UpdateUpgradeButton(splashButton, TurretUpgrade.UpgradeType.Splash);
         UpdateUpgradeButton(rapidFireButton, TurretUpgrade.UpgradeType.RapidFire);
         UpdateUpgradeButton(sniperButton, TurretUpgrade.UpgradeType.Sniper);
-
-        // Update currency display
-        goldText.text = $"Currency: {CurrencyManager.Instance.currency}";
     }
 
     private void UpdateUpgradeButton(UpgradeButton button, TurretUpgrade.UpgradeType type)
