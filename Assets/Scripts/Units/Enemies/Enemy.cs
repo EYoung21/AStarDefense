@@ -35,7 +35,7 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         // Add currency when enemy dies
-        CurrencyManager.Instance.AddCurrency(1);
+        CurrencyManager.Instance.AddCurrency(2);
         Destroy(gameObject);
     }
 

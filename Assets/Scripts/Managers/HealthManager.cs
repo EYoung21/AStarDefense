@@ -16,9 +16,9 @@ public class HealthManager : MonoBehaviour
 
     public static HealthManager Instance;
 
-    public float maxHealth = 20;
+    public float maxHealth = 15;
 
-    public float health = 20;
+    public float health = 15;
 
     void Awake() {
         Instance = this;
@@ -26,8 +26,8 @@ public class HealthManager : MonoBehaviour
     
     void Start() {
         //override any Inspector values with our code values
-        maxHealth = 20;
-        health = 20;
+        maxHealth = 15;
+        health = 15;
         
         //update the UI to reflect the correct health value
         UIManager.Instance.updateHealthUI();

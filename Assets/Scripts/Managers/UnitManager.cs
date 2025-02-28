@@ -45,8 +45,13 @@ public class UnitManager : MonoBehaviour
 
     public IEnumerator StartRoundLoop() {
         localNumberOfEnemiesToSpawn = GameManager.Instance.globalNumberOfEnemiesToSpawn;
+        
+        // Calculate spawn delay based on round number - enemies spawn faster in later rounds
+        float spawnDelay = Mathf.Max(0.5f, 1.0f - (RoundManager.Instance.round * 0.05f));
+        Debug.Log($"Round {RoundManager.Instance.round}: Spawn delay set to {spawnDelay} seconds");
+        
         while (localNumberOfEnemiesToSpawn > 0) {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(spawnDelay);
             SpawnEnemy();
             localNumberOfEnemiesToSpawn--;
         }

@@ -21,6 +21,28 @@ public class BaseEnemy : BaseUnit
         {
             movement = gameObject.AddComponent<EnemyMovement>();
         }
+        
+        // Apply round-based scaling to health and damage
+        if (RoundManager.Instance != null)
+        {
+            float healthMultiplier = RoundManager.Instance.GetEnemyHealthMultiplier();
+            float damageMultiplier = RoundManager.Instance.GetEnemyDamageMultiplier();
+            
+            health *= healthMultiplier;
+            maxHealth *= healthMultiplier;
+            damageItDoes *= damageMultiplier;
+            
+            // Update health bar with new max health
+            if (healthBar != null)
+            {
+                healthBar.UpdateHealthBar(health, maxHealth);
+            }
+            
+            if (healthMultiplier > 1.0f || damageMultiplier > 1.0f)
+            {
+                Debug.Log($"Enemy scaled: Health x{healthMultiplier}, Damage x{damageMultiplier}");
+            }
+        }
     }
 
     // Update is called once per frame
@@ -35,7 +57,7 @@ public class BaseEnemy : BaseUnit
         if (health <= 0) {
             Destroy(gameObject);
             UnitManager.Instance.enemyCount--;
-            CurrencyManager.Instance.AddCurrency(1);
+            CurrencyManager.Instance.AddCurrency(2);
         }
     }
 

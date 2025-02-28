@@ -20,8 +20,8 @@ public class GameManager : MonoBehaviour
     void Start() {
         ChangeState(GameState.GenerateGrid);
 
-        //start with a small number of enemies in the first round
-        globalNumberOfEnemiesToSpawn = 3;
+        //start with a moderate number of enemies in the first round
+        globalNumberOfEnemiesToSpawn = 5;
     }
 
     public void ChangeState(GameState newState) {
@@ -45,9 +45,23 @@ public class GameManager : MonoBehaviour
                 break;
             //TODO: Then we want to oscillate between the player prep turn and the enemy wave turn indefinetly until the player loses
             case GameState.PlayerPrepTurn: //block / turret placement
+                // Increment round counter when returning to prep phase
+                if (RoundManager.Instance != null)
+                {
+                    RoundManager.Instance.IncrementRound(1);
+                    Debug.Log($"Round {RoundManager.Instance.round} started");
+                }
+                
                 //increment the number of enemies to spawn for the next round
                 if (RoundManager.Instance.round > 1) {
-                    globalNumberOfEnemiesToSpawn++;
+                    // Increase enemy count more aggressively in later rounds
+                    if (RoundManager.Instance.round <= 5) {
+                        globalNumberOfEnemiesToSpawn += 2;
+                    } else if (RoundManager.Instance.round <= 10) {
+                        globalNumberOfEnemiesToSpawn += 3;
+                    } else {
+                        globalNumberOfEnemiesToSpawn += 4;
+                    }
                     Debug.Log("Increased enemy count to: " + globalNumberOfEnemiesToSpawn);
                 }
                 

@@ -25,4 +25,22 @@ public class RoundManager : MonoBehaviour
     public void IncrementRound(int amount) {
         round += amount;
     }
+    
+    // Get enemy health multiplier based on round number
+    public float GetEnemyHealthMultiplier() {
+        // Start increasing health from round 3 onwards
+        if (round <= 2) return 1.0f;
+        
+        // Increase by 15% per round after round 2
+        return 1.0f + ((round - 2) * 0.15f);
+    }
+    
+    // Get enemy damage multiplier based on round number
+    public float GetEnemyDamageMultiplier() {
+        // Start increasing damage from round 4 onwards
+        if (round <= 3) return 1.0f;
+        
+        // Increase by 10% per round after round 3
+        return 1.0f + ((round - 3) * 0.1f);
+    }
 }
