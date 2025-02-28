@@ -33,8 +33,8 @@ public class UIManager : MonoBehaviour
     }
     
     public void DisplayMainMenu() {
-        // Show main menu UI, hide other UI elements
-        // Play button, settings button, exit game button, highscore displayed in upper right corner, map customization options (color? etc.), game saves?
+        //show main menu UI, hide other UI elements
+        //play button, settings button, exit game button, highscore displayed in upper right corner, map customization options (color? etc.), game saves?
 
         //only continue if played has started a game (clicked play, etc.)
 

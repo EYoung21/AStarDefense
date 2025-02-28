@@ -75,24 +75,22 @@ public class BaseTurret : BaseUnit
         health -= amount;
         healthBar.UpdateHealthBar(health, maxHealth);
 
-
         Vector2 centerPosition = new Vector2(
             GridManager.Instance._width / 2, 
             GridManager.Instance._height / 2
         );
         
-        //get the position of the other object
         Vector2 currPosition = new Vector2(
             Mathf.RoundToInt(transform.position.x),
             Mathf.RoundToInt(transform.position.y)
         );
+
+        if (centerPosition == currPosition) { //if we're the center turret
+            HealthManager.Instance.RemoveHealth(amount); //will handle game over if health <= 0
+        }
         
         if (health <= 0) {
-            if (centerPosition == currPosition) { //if we're the center turret
-                HealthManager.Instance.RemoveHealth(amount); //will handle game over
-            } else { //we're not the central turret
-                Destroy(gameObject); //destroy the (noncentral) turret if it runs out of health
-            }
+            Destroy(gameObject); //destroy the (noncentral) turret if it runs out of health
         }
         
     }

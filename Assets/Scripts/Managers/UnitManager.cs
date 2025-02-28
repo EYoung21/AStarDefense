@@ -39,12 +39,6 @@ public class UnitManager : MonoBehaviour
         // GameManager.Instance.ChangeState(GameState.SpawnGameUI);
 
         GameManager.Instance.ChangeState(GameState.PlayerPrepTurn);
-
-        //maybe make another function later that can spawn additional turrets based on previous game save or played input
-        // var turretCount = 1; //would be public
-        // for (int i = 0; i < turretCount; i++) {
-        //     //spawn turret
-        // }
     }
 
     public IEnumerator StartRoundLoop() {
@@ -55,7 +49,7 @@ public class UnitManager : MonoBehaviour
             localNumberOfEnemiesToSpawn--;
         }
         
-        // Optional: Signal that the wave is complete
+        //optional: Signal that the wave is complete
         Debug.Log("Wave complete!");
     }
 

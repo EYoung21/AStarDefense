@@ -405,6 +405,7 @@ GameObject:
   - component: {fileID: 934218618876315609}
   - component: {fileID: 6071761999433595482}
   - component: {fileID: 4945100502565454582}
+  - component: {fileID: 3118668138259360112}
   m_Layer: 0
   m_Name: Turret1_0
   m_TagString: Untagged
@@ -505,3 +506,59 @@ MonoBehaviour:
   directionToEnemy: {x: 0, y: 0, z: 0}
   maxHealth: 0
   health: 0
+--- !u!60 &3118668138259360112
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6416130864976324804}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.44, y: 0.57}
+    newSize: {x: 0.44, y: 0.57}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.089999996, y: 0.275}
+      - {x: 0.08, y: 0.285}
+      - {x: -0.17, y: 0.285}
+      - {x: -0.22, y: 0.085}
+      - {x: -0.22, y: -0.285}
+      - {x: 0.16, y: -0.285}
+      - {x: 0.22, y: -0.265}
+      - {x: 0.22, y: 0.044999998}
+      - {x: 0.16, y: 0.065}
+  m_UseDelaunayMesh: 0

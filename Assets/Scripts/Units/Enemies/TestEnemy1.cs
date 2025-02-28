@@ -5,11 +5,12 @@ public class TestEnemy1 : BaseEnemy
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
-        base.Start();  // Call the base class Start method
+        base.Start();  //call the base class Start method
         health = 5;
         maxHealth = 5;
         damageItDoes = 1;
         healthBar.UpdateHealthBar(health, maxHealth);
+        movement.moveSpeed = 2;
     }
 
     // // Update is called once per frame
@@ -19,7 +20,8 @@ public class TestEnemy1 : BaseEnemy
     // }
 
     protected override void OnEnemyHitTurret(Collider2D other) {
-        other.GetComponent<BaseTurret>().RemoveHealth(damageItDoes);
         Debug.Log("TestEnemy1 hit");
+        other.GetComponent<BaseTurret>().RemoveHealth(damageItDoes);
+        Destroy(gameObject);
     }
 }

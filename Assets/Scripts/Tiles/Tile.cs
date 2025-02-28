@@ -40,7 +40,6 @@ public abstract class Tile : MonoBehaviour
     void OnMouseDown() {
         Debug.Log("Mouse down");
 
-
         if (IsEdgeTile()) {
             return;
         }
@@ -59,23 +58,52 @@ public abstract class Tile : MonoBehaviour
             UnitManager.Instance.SetSelectedUnit(null);
             
             //only attempt to place block if we have currency and it's player prep turn
-            if (CurrencyManager.Instance.currency > 0 && GameManager.Instance.GameState == GameState.PlayerPrepTurn) {
+            if (CurrencyManager.Instance.currency > 0) {
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 Vector2 gridPos = new Vector2(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(mousePos.y));
-
-                var floorPrefab = UnitManager.Instance.GetUnitByName<BaseBlock>("SandBlock", Faction.Block);
-                var spawnedFloor = Instantiate(floorPrefab);
-                var floorSpawnTile = GridManager.Instance.GetTileAtPosition(gridPos);
-                if (floorSpawnTile != null) {
-                    floorSpawnTile.SetUnit(spawnedFloor);
-                    GridManager.Instance._grid.SetGridObject(gridPos, true);
-                    Debug.Log(GridManager.Instance._grid.ToString());
-                } else {
-                    Debug.Log($"No tile found at position {gridPos}");
+                
+                //check if there's an enemy at this position
+                Collider2D[] colliders = Physics2D.OverlapPointAll(gridPos);
+                bool enemyPresent = false;
+                
+                foreach (Collider2D collider in colliders) {
+                    //only check for BaseEnemy components, ignoring projectiles
+                    if (collider.GetComponent<BaseEnemy>() != null) {
+                        enemyPresent = true;
+                        break;
+                    }
                 }
+                
+                if (!enemyPresent) {
+                    var floorPrefab = UnitManager.Instance.GetUnitByName<BaseBlock>("SandBlock", Faction.Block);
+                    var spawnedFloor = Instantiate(floorPrefab);
+                    var floorSpawnTile = GridManager.Instance.GetTileAtPosition(gridPos);
+                    if (floorSpawnTile != null) {
+                        floorSpawnTile.SetUnit(spawnedFloor);
+                        
+                        // Mark this position as unwalkable in the pathfinding grid
+                        Pathfinding.Instance.SetIsWalkable(gridPos, false);
+                        
+                        // Force all enemies to recalculate their paths
+                        BaseEnemy[] allEnemies = FindObjectsByType<BaseEnemy>(FindObjectsSortMode.None);
+                        foreach (BaseEnemy enemy in allEnemies) {
+                            EnemyMovement movement = enemy.GetComponent<EnemyMovement>();
+                            if (movement != null) {
+                                movement.RecalculatePath();
+                            }
+                        }
+                        
+                        GridManager.Instance._grid.SetGridObject(gridPos, true);
+                        Debug.Log(GridManager.Instance._grid.ToString());
+                    } else {
+                        Debug.Log($"No tile found at position {gridPos}");
+                    }
 
-                CurrencyManager.Instance.currency -= 1;
-                UIManager.Instance.updateCurrencyUI();
+                    CurrencyManager.Instance.currency -= 1;
+                    UIManager.Instance.updateCurrencyUI();
+                } else {
+                    Debug.Log("Cannot place block on a square occupied by an enemy");
+                }
             }
             return;
         }

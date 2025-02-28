@@ -95,53 +95,35 @@ public class Pathfinding
         return path;
     }
 
-    private  List<PathNode> GetNeighborList(PathNode currentNode)
+    private List<PathNode> GetNeighborList(PathNode currentNode)
     {
-        List<PathNode > neighborList = new List<PathNode>();
+        List<PathNode> neighborList = new List<PathNode>();
 
+        //left
         if ((currentNode.GetX() - 1) >= 0)
         {
-            // Left
             neighborList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetY()));
-
-            // Left Down
-            if (currentNode.GetY() - 1 >= 0)
-            {
-                neighborList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetY() - 1));
-            }
-            // Left Up
-            if (currentNode.GetY() + 1 < grid.GetHeight())
-            {  
-                neighborList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetY() + 1));
-            }
         }
-        // Right
+        
+        //right
         if (currentNode.GetX() + 1 < grid.GetWidth())
         {
             neighborList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetY()));
-            // Right Down
-            if (currentNode.GetY() - 1 >= 0)
-            {
-                neighborList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetY() - 1));
-            }
-            // Right Up
-            if (currentNode.GetY() + 1 < grid.GetHeight())
-            {
-                neighborList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetY() + 1));
-            }
         }
-        // Down
+        
+        //down
         if (currentNode.GetY() - 1 >= 0)
         {
             neighborList.Add(GetNode(currentNode.GetX(), currentNode.GetY() - 1));
         }
-        // Up
+        
+        //up
         if (currentNode.GetY() + 1 < grid.GetHeight())
         {
             neighborList.Add(GetNode(currentNode.GetX(), currentNode.GetY() + 1));
         }
 
-        return(neighborList);
+        return neighborList;
     }
 
     private PathNode GetNode(int x, int y)
@@ -155,10 +137,10 @@ public class Pathfinding
     private int CalculateDistanceCost(PathNode a, PathNode b)
     {
         int xDistance = Mathf.Abs(a.GetX() - b.GetX());
-        int yDistance = Mathf.Abs(a.GetY() - b.GetX());
-        int remaining = Mathf.Abs(xDistance - yDistance);
-
-        return (MOVE_DIAGONAL_COST * Mathf.Min(xDistance, yDistance) + MOVE_STRAIGHT_COST * remaining);
+        int yDistance = Mathf.Abs(a.GetY() - b.GetY());
+        
+        //manhattan distance (no diagonals)
+        return MOVE_STRAIGHT_COST * (xDistance + yDistance);
     }
 
     private PathNode GetLowestFCostNode(List<PathNode> list) {
@@ -173,4 +155,44 @@ public class Pathfinding
         return lowestFCostNode;
     }
     
+    public List<Vector3> FindPath(Vector3 startPos, Vector3 endPos)
+    {
+        grid.GetXY(startPos, out int startX, out int startY);
+        grid.GetXY(endPos, out int endX, out int endY);
+        
+        List<PathNode> path = FindPath(startX, startY, endX, endY);
+        if (path == null) return null;
+        
+        List<Vector3> vectorPath = new List<Vector3>();
+        foreach (PathNode pathNode in path)
+        {
+            vectorPath.Add(new Vector3(pathNode.GetX(), pathNode.GetY()));
+        }
+        return vectorPath;
+    }
+
+    public List<Vector3> FindPathToCenter(Vector3 startPos)
+    {
+        //calculate center position
+        int centerX = Mathf.FloorToInt(grid.GetWidth() / 2);
+        int centerY = Mathf.FloorToInt(grid.GetHeight() / 2);
+        Vector3 centerPos = new Vector3(centerX, centerY);
+        
+        return FindPath(startPos, centerPos);
+    }
+
+    //method to set unwalkable nodes (for blocks)
+    public void SetIsWalkable(int x, int y, bool isWalkable)
+    {
+        if (x >= 0 && y >= 0 && x < grid.GetWidth() && y < grid.GetHeight())
+        {
+            grid.GetGridObject(x, y).SetIsWalkable(isWalkable);
+        }
+    }
+
+    public void SetIsWalkable(Vector3 worldPosition, bool isWalkable)
+    {
+        grid.GetXY(worldPosition, out int x, out int y);
+        SetIsWalkable(x, y, isWalkable);
+    }
 }

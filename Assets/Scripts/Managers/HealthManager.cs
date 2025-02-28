@@ -26,6 +26,8 @@ public class HealthManager : MonoBehaviour
     
     public void RemoveHealth(float amount) {
         health -= amount;
+        // Update the UI to reflect the new health value
+        UIManager.Instance.updateHealthUI();
         if (health <= 0) {
             GameManager.Instance.GameState = GameState.GameOver;
         }
@@ -36,5 +38,7 @@ public class HealthManager : MonoBehaviour
         if (health > maxHealth) {
             health = maxHealth;
         }
+        // Update the UI to reflect the new health value
+        UIManager.Instance.updateHealthUI();
     }
 }
