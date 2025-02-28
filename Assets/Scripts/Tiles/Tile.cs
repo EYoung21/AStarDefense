@@ -81,10 +81,10 @@ public abstract class Tile : MonoBehaviour
                     if (floorSpawnTile != null) {
                         floorSpawnTile.SetUnit(spawnedFloor);
                         
-                        // Mark this position as unwalkable in the pathfinding grid
+                        //mark this position as unwalkable in the pathfinding grid
                         Pathfinding.Instance.SetIsWalkable(gridPos, false);
                         
-                        // Force all enemies to recalculate their paths
+                        //force all enemies to recalculate their paths
                         BaseEnemy[] allEnemies = FindObjectsByType<BaseEnemy>(FindObjectsSortMode.None);
                         foreach (BaseEnemy enemy in allEnemies) {
                             EnemyMovement movement = enemy.GetComponent<EnemyMovement>();

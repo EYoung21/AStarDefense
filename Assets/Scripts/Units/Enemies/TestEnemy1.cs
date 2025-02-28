@@ -10,7 +10,7 @@ public class TestEnemy1 : BaseEnemy
         maxHealth = 5;
         damageItDoes = 1;
         healthBar.UpdateHealthBar(health, maxHealth);
-        movement.moveSpeed = 2;
+        movement.moveSpeed = 4;
     }
 
     // // Update is called once per frame
@@ -22,6 +22,11 @@ public class TestEnemy1 : BaseEnemy
     protected override void OnEnemyHitTurret(Collider2D other) {
         Debug.Log("TestEnemy1 hit");
         other.GetComponent<BaseTurret>().RemoveHealth(damageItDoes);
+        
+        // Add currency when enemy hits turret and dies
+        UnitManager.Instance.enemyCount--;
+        CurrencyManager.Instance.AddCurrency(1);
+        
         Destroy(gameObject);
     }
 }

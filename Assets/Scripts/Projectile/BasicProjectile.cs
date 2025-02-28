@@ -6,7 +6,7 @@ public class BasicProjectile : BaseProjectile
     protected override void Start()
     {
         base.Start();
-        damage = 1;
+        damage = 5;
         lifetime = 5;
     }
 

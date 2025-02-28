@@ -103,7 +103,7 @@ public class Grid<TGridObject>
             {
                 TGridObject value = gridArray[x, y];
 
-                // Handle null values gracefully
+                //handle null values gracefully
                 string cellValue = (value != null) ? value.ToString() : " . ";
 
                 result += cellValue + " ";

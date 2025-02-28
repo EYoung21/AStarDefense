@@ -24,9 +24,13 @@ public class CurrencyManager : MonoBehaviour
 
     public void AddCurrency(int amount) {
         currency += amount;
+        // Update the UI to reflect the new currency value
+        UIManager.Instance.updateCurrencyUI();
     }
 
     public void RemoveCurrency(int amount) {
         currency -= amount;
+        // Update the UI to reflect the new currency value
+        UIManager.Instance.updateCurrencyUI();
     }
 }

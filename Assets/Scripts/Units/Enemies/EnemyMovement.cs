@@ -90,32 +90,50 @@ public class EnemyMovement : MonoBehaviour
         }
     }
     
-    // Call this when blocks are placed to recalculate path
+    //call this when blocks are placed to recalculate path
     public void RecalculatePath()
     {
-        // Store the current position before recalculating
+        //store the current position before recalculating
         Vector3 currentPos = transform.position;
         
-        // Get the new path
+        //get the new path
         List<Vector3> newPath = Pathfinding.Instance.FindPathToCenter(transform.position);
         
         if (newPath != null && newPath.Count > 0)
         {
-            // Find the closest point on the new path to continue from
+            //find the closest point on the new path to continue from
             int closestPointIndex = 0;
             float closestDistance = float.MaxValue;
+            Vector3 targetDirection = Vector3.zero;
+            
+            // If we have a current path and target, calculate our current direction
+            if (pathVectorList != null && pathVectorList.Count > 0 && currentPathIndex < pathVectorList.Count)
+            {
+                targetDirection = (targetPosition - transform.position).normalized;
+            }
             
             for (int i = 0; i < newPath.Count; i++)
             {
                 float distance = Vector3.Distance(currentPos, newPath[i]);
-                if (distance < closestDistance)
+                
+                // Check if this point is in front of us (in our current direction of travel)
+                bool isInFrontOfUs = true;
+                if (targetDirection != Vector3.zero)
+                {
+                    Vector3 pointDirection = (newPath[i] - transform.position).normalized;
+                    float dotProduct = Vector3.Dot(targetDirection, pointDirection);
+                    isInFrontOfUs = dotProduct > 0; // Only consider points in front of us
+                }
+                
+                // Only update if this point is closer AND in front of us (or if we haven't found any valid points yet)
+                if (distance < closestDistance && (isInFrontOfUs || closestDistance == float.MaxValue))
                 {
                     closestDistance = distance;
                     closestPointIndex = i;
                 }
             }
             
-            // Set the path and continue from the closest point
+            //set the path and continue from the closest point
             pathVectorList = newPath;
             currentPathIndex = closestPointIndex;
             targetPosition = pathVectorList[currentPathIndex];
