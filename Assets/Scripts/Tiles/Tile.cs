@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public abstract class Tile : MonoBehaviour
 {
@@ -75,14 +76,26 @@ public abstract class Tile : MonoBehaviour
                 }
                 
                 if (!enemyPresent) {
+                    //temporarily mark this position as unwalkable to check if it would block all paths
+                    Pathfinding.Instance.SetIsWalkable(gridPos, false);
+                    
+                    //check if there's still at least one path from any edge to the center
+                    bool pathExists = CheckPathFromEdgesToCenter();
+                    
+                    if (!pathExists) {
+                        //if no path exists, revert the tile to walkable and prevent block placement
+                        Pathfinding.Instance.SetIsWalkable(gridPos, true);
+                        Debug.Log("Cannot place block here as it would block all paths to the center");
+                        return;
+                    }
+                    
                     var floorPrefab = UnitManager.Instance.GetUnitByName<BaseBlock>("SandBlock", Faction.Block);
                     var spawnedFloor = Instantiate(floorPrefab);
                     var floorSpawnTile = GridManager.Instance.GetTileAtPosition(gridPos);
                     if (floorSpawnTile != null) {
                         floorSpawnTile.SetUnit(spawnedFloor);
                         
-                        //mark this position as unwalkable in the pathfinding grid
-                        Pathfinding.Instance.SetIsWalkable(gridPos, false);
+                        //we already marked this position as unwalkable above
                         
                         //force all enemies to recalculate their paths
                         BaseEnemy[] allEnemies = FindObjectsByType<BaseEnemy>(FindObjectsSortMode.None);
@@ -96,7 +109,10 @@ public abstract class Tile : MonoBehaviour
                         GridManager.Instance._grid.SetGridObject(gridPos, true);
                         Debug.Log(GridManager.Instance._grid.ToString());
                     } else {
+                        //revert the pathfinding grid if we couldn't find the tile
+                        Pathfinding.Instance.SetIsWalkable(gridPos, true);
                         Debug.Log($"No tile found at position {gridPos}");
+                        return;
                     }
 
                     CurrencyManager.Instance.currency -= 1;
@@ -117,7 +133,56 @@ public abstract class Tile : MonoBehaviour
 
     }
 
-
+    //check if there's at least one path from any edge to the center
+    private bool CheckPathFromEdgesToCenter() {
+        //get the center position
+        int centerX = Mathf.FloorToInt(GridManager.Instance._width / 2);
+        int centerY = Mathf.FloorToInt(GridManager.Instance._height / 2);
+        Vector3 centerPos = new Vector3(centerX, centerY);
+        
+        //check all edge tiles
+        int width = GridManager.Instance._width;
+        int height = GridManager.Instance._height;
+        
+        //check top edge
+        for (int x = 0; x < width; x++) {
+            Vector3 edgePos = new Vector3(x, height - 1);
+            List<Vector3> path = Pathfinding.Instance.FindPath(edgePos, centerPos);
+            if (path != null && path.Count > 0) {
+                return true; //found a path
+            }
+        }
+        
+        //check bottom edge
+        for (int x = 0; x < width; x++) {
+            Vector3 edgePos = new Vector3(x, 0);
+            List<Vector3> path = Pathfinding.Instance.FindPath(edgePos, centerPos);
+            if (path != null && path.Count > 0) {
+                return true; //found a path
+            }
+        }
+        
+        //check left edge
+        for (int y = 0; y < height; y++) {
+            Vector3 edgePos = new Vector3(0, y);
+            List<Vector3> path = Pathfinding.Instance.FindPath(edgePos, centerPos);
+            if (path != null && path.Count > 0) {
+                return true; //found a path
+            }
+        }
+        
+        //check right edge
+        for (int y = 0; y < height; y++) {
+            Vector3 edgePos = new Vector3(width - 1, y);
+            List<Vector3> path = Pathfinding.Instance.FindPath(edgePos, centerPos);
+            if (path != null && path.Count > 0) {
+                return true; //found a path
+            }
+        }
+        
+        //no path found from any edge to the center
+        return false;
+    }
 
     public void SetUnit(BaseUnit unit) {
         if (unit.OccupiedTile != null) {
