@@ -62,9 +62,12 @@ public abstract class Tile : MonoBehaviour
                 );
                 
                 if (centerPosition == currPosition) {
-                    // Directly set the selected state on the turret
-                    ((BaseTurret)OccupiedUnit).SetSelected(true);
-                    Debug.Log("Central turret selected for manual control via tile");
+                    // Only allow selection for manual control during enemy wave turn
+                    if (GameManager.Instance.GameState == GameState.EnemyWaveTurn) {
+                        // Directly set the selected state on the turret
+                        ((BaseTurret)OccupiedUnit).SetSelected(true);
+                        Debug.Log("Central turret selected for manual control via tile");
+                    }
                 }
             } else if (OccupiedUnit.Faction == Faction.Block) {
                 UnitManager.Instance.SetSelectedUnit((BaseBlock)OccupiedUnit);
@@ -75,8 +78,38 @@ public abstract class Tile : MonoBehaviour
             //deselect current unit first
             UnitManager.Instance.SetSelectedUnit(null);
             
-            //only attempt to place block if we have currency and it's player prep turn
-            if (CurrencyManager.Instance.currency > 0) {
+            // Check if we're in enemy wave turn and the central turret is selected
+            bool canPlaceBlock = true;
+            if (GameManager.Instance.GameState == GameState.EnemyWaveTurn) {
+                // Find the central turret
+                Vector2 centerPosition = new Vector2(
+                    GridManager.Instance._width / 2, 
+                    GridManager.Instance._height / 2
+                );
+                
+                BaseTurret[] allTurrets = FindObjectsByType<BaseTurret>(FindObjectsSortMode.None);
+                foreach (BaseTurret turret in allTurrets) {
+                    Vector2 turretPos = new Vector2(
+                        Mathf.RoundToInt(turret.transform.position.x),
+                        Mathf.RoundToInt(turret.transform.position.y)
+                    );
+                    
+                    if (centerPosition == turretPos) {
+                        // Check if the central turret is selected
+                        bool isSelected = false;
+                        turret.GetSelectedState((state) => { isSelected = state; });
+                        
+                        if (isSelected) {
+                            canPlaceBlock = false;
+                            Debug.Log("Cannot place blocks while central turret is in manual control mode");
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            //only attempt to place block if we have currency, it's player prep turn or enemy wave turn with central turret not selected
+            if (canPlaceBlock && CurrencyManager.Instance.currency > 0) {
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 Vector2 gridPos = new Vector2(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(mousePos.y));
                 
