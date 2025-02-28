@@ -18,11 +18,11 @@ public class HealthManager : MonoBehaviour
 
     public float maxHealth = 100;
 
+    public float health = 100;
+
     void Awake() {
         Instance = this;
     }
-
-    public float health = 100;
     
     public void RemoveHealth(float amount) {
         health -= amount;

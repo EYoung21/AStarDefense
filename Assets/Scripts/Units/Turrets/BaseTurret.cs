@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 public class BaseTurret : BaseUnit
 {
@@ -16,6 +17,7 @@ public class BaseTurret : BaseUnit
     // }
 
 
+    [SerializeField] protected FloatingHealthBar healthBar;
     public GameObject projectilePrefab;
 
     public AudioClip shotSound;
@@ -26,8 +28,12 @@ public class BaseTurret : BaseUnit
 
     public Vector3 directionToEnemy;
 
+    public float maxHealth;
+
+    public float health;
+
     protected virtual void Start() {
-        
+        healthBar = GetComponentInChildren<FloatingHealthBar>();
     }
 
     protected void Update() {
@@ -62,5 +68,40 @@ public class BaseTurret : BaseUnit
         GameObject projectile = Instantiate(projectilePrefab, transform.position, UnityEngine.Quaternion.identity);
         // Set direction on the instantiated projectile, not the prefab
         projectile.GetComponent<BaseProjectile>().SetDirection(directionToEnemy);
+    }
+
+
+    public void RemoveHealth(float amount) {
+        health -= amount;
+        healthBar.UpdateHealthBar(health, maxHealth);
+
+
+        Vector2 centerPosition = new Vector2(
+            GridManager.Instance._width / 2, 
+            GridManager.Instance._height / 2
+        );
+        
+        //get the position of the other object
+        Vector2 currPosition = new Vector2(
+            Mathf.RoundToInt(transform.position.x),
+            Mathf.RoundToInt(transform.position.y)
+        );
+        
+        if (health <= 0) {
+            if (centerPosition == currPosition) { //if we're the center turret
+                HealthManager.Instance.RemoveHealth(amount); //will handle game over
+            } else { //we're not the central turret
+                Destroy(gameObject); //destroy the (noncentral) turret if it runs out of health
+            }
+        }
+        
+    }
+
+    public void AddHealth(float amount) {
+        health += amount;
+        healthBar.UpdateHealthBar(health, maxHealth);
+        if (health > maxHealth) {
+            health = maxHealth;
+        }
     }
 }

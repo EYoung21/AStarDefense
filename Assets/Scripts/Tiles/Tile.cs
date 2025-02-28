@@ -27,7 +27,7 @@ public abstract class Tile : MonoBehaviour
     }
 
     void OnMouseEnter() { //only want to set highlight for turrets, and places that aren't occupied by walls
-        if (GameManager.Instance.GameState != GameState.PlayerPrepTurn || IsEdgeTile()) { //only want to allow highlighting if is player turn and not on edge
+        if (IsEdgeTile()) { //only want to allow highlighting if is player turn and not on edge
             return;
         }
         _highlight.SetActive(true);
@@ -41,7 +41,7 @@ public abstract class Tile : MonoBehaviour
         Debug.Log("Mouse down");
 
 
-        if (GameManager.Instance.GameState != GameState.PlayerPrepTurn || IsEdgeTile()) {
+        if (IsEdgeTile()) {
             return;
         }
 
@@ -58,8 +58,8 @@ public abstract class Tile : MonoBehaviour
             //deselect current unit first
             UnitManager.Instance.SetSelectedUnit(null);
             
-            //only attempt to place block if we have currency
-            if (CurrencyManager.Instance.currency > 0) {
+            //only attempt to place block if we have currency and it's player prep turn
+            if (CurrencyManager.Instance.currency > 0 && GameManager.Instance.GameState == GameState.PlayerPrepTurn) {
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 Vector2 gridPos = new Vector2(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(mousePos.y));
 

@@ -9,6 +9,7 @@ public class TestEnemy1 : BaseEnemy
         health = 5;
         maxHealth = 5;
         damageItDoes = 1;
+        healthBar.UpdateHealthBar(health, maxHealth);
     }
 
     // // Update is called once per frame
@@ -17,8 +18,8 @@ public class TestEnemy1 : BaseEnemy
         
     // }
 
-    protected override void OnEnemyHitTurret() {
-        HealthManager.Instance.RemoveHealth(damageItDoes);
+    protected override void OnEnemyHitTurret(Collider2D other) {
+        other.GetComponent<BaseTurret>().RemoveHealth(damageItDoes);
         Debug.Log("TestEnemy1 hit");
     }
 }

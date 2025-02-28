@@ -8,10 +8,12 @@ public class BaseEnemy : BaseUnit
 
 
     [SerializeField] protected float damageItDoes;
+
+    [SerializeField] protected FloatingHealthBar healthBar;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void Start()
     {
-        
+        healthBar = GetComponentInChildren<FloatingHealthBar>();
     }
 
     // Update is called once per frame
@@ -22,15 +24,18 @@ public class BaseEnemy : BaseUnit
 
     public void TakeDamage(float damage) {
         health -= damage;
+        healthBar.UpdateHealthBar(health, maxHealth);
         if (health <= 0) {
             Destroy(gameObject);
             UnitManager.Instance.enemyCount--;
         }
     }
 
+
+
     protected void OnTriggerEnter2D(Collider2D other) { //protected (and public) allows children to also have this method. protected only allows encapsulation for children
         //if the other object has the Asteroid script (we overlap with an asteroid), the destroy the ship and restard the game
-        Debug.Log("On trigger entered. Enemy -> obj");
+        // Debug.Log("On trigger entered. Enemy -> obj");
         
         //get the center position (where the turret should be)
         Vector2 centerPosition = new Vector2(
@@ -49,11 +54,11 @@ public class BaseEnemy : BaseUnit
             //EXPLOSION / HURT ANIMATION??
             Debug.Log("Center turret hit. On trigger entered. Enemy ->hit-> center");
             
-            OnEnemyHitTurret();
+            OnEnemyHitTurret(other);
         }
     }
 
-    protected virtual void OnEnemyHitTurret() {
+    protected virtual void OnEnemyHitTurret(Collider2D other) {
         //individual to each enemy
     }
 }

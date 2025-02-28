@@ -830,6 +830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dee888327324c64582450234cd25819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
   health: 100
 --- !u!1 &874818059
 GameObject:
@@ -1701,9 +1702,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b853c8255301ace40902772e9e85a9c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyCount: 0
   SelectedUnit: {fileID: 0}
   localNumberOfEnemiesToSpawn: 0
+  enemyCount: 0
 --- !u!4 &1337244618
 Transform:
   m_ObjectHideFlags: 0
