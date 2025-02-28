@@ -33,4 +33,9 @@ public class CurrencyManager : MonoBehaviour
         // Update the UI to reflect the new currency value
         UIManager.Instance.updateCurrencyUI();
     }
+
+    public bool CanAfford(int amount)
+    {
+        return currency >= amount;
+    }
 }

@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 public class BaseTurret : BaseUnit
 {
@@ -19,7 +21,35 @@ public class BaseTurret : BaseUnit
 
 
     [SerializeField] protected FloatingHealthBar healthBar;
-    public GameObject projectilePrefab;
+    [Header("Base Stats")]
+    [SerializeField] protected float baseAttackDamage = 10f;
+    [SerializeField] protected float baseAttackSpeed = 1f;
+    [SerializeField] protected float baseRange = 3f;
+    [SerializeField] protected GameObject projectilePrefab;
+
+    [Header("Current Stats")]
+    protected float currentDamage;
+    protected float currentAttackSpeed;
+    protected float currentRange;
+    protected float lastAttackTime;
+
+    [Header("Status Effects")]
+    protected float slowEffect = 0f;
+    protected float poisonDamage = 0f;
+    protected float splashRadius = 0f;
+    protected float splashDamageMultiplier = 0f;
+    protected float lifeLeechAmount = 0f;
+
+    [Header("Visual Effects")]
+    [SerializeField] protected GameObject rangeIndicator;
+    [SerializeField] protected ParticleSystem upgradeParticles;
+    [SerializeField] protected Color frostColor = Color.cyan;
+    [SerializeField] protected Color poisonColor = Color.green;
+    [SerializeField] protected Color splashColor = Color.yellow;
+    
+    protected SpriteRenderer spriteRenderer;
+    protected List<Enemy> enemiesInRange = new List<Enemy>();
+    protected Enemy currentTarget;
 
     public AudioClip shotSound;
 
@@ -54,6 +84,150 @@ public class BaseTurret : BaseUnit
         );
 
         isCentralTurret = (centerPosition == currPosition);
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        InitializeStats();
+        StartCoroutine(ScanForTargets());
+    }
+
+    protected virtual void InitializeStats()
+    {
+        currentDamage = baseAttackDamage;
+        currentAttackSpeed = baseAttackSpeed;
+        currentRange = baseRange;
+        UpdateRangeIndicator();
+    }
+
+    public virtual void UpdateStats(float damageMultiplier, float rangeMultiplier, float attackSpeedMultiplier)
+    {
+        currentDamage = baseAttackDamage * damageMultiplier;
+        currentRange = baseRange * rangeMultiplier;
+        currentAttackSpeed = baseAttackSpeed * attackSpeedMultiplier;
+        
+        UpdateRangeIndicator();
+        PlayUpgradeEffect();
+    }
+
+    public virtual void UpdateEffects(float slowEffect, float poisonDamage, float splashRadius, float splashDamageMultiplier, float lifeLeechAmount)
+    {
+        this.slowEffect = slowEffect;
+        this.poisonDamage = poisonDamage;
+        this.splashRadius = splashRadius;
+        this.splashDamageMultiplier = splashDamageMultiplier;
+        this.lifeLeechAmount = lifeLeechAmount;
+        
+        UpdateProjectileEffects();
+    }
+
+    protected virtual void UpdateProjectileEffects()
+    {
+        // Update projectile color based on strongest effect
+        Color effectColor = Color.white;
+        if (slowEffect > 0) effectColor = frostColor;
+        if (poisonDamage > 0) effectColor = poisonColor;
+        if (splashRadius > 0) effectColor = splashColor;
+        
+        // You might want to store this color to apply to newly spawned projectiles
+    }
+
+    protected virtual void UpdateRangeIndicator()
+    {
+        if (rangeIndicator != null)
+        {
+            rangeIndicator.transform.localScale = Vector3.one * (currentRange * 2);
+        }
+    }
+
+    protected virtual void PlayUpgradeEffect()
+    {
+        if (upgradeParticles != null)
+        {
+            upgradeParticles.Play();
+        }
+    }
+
+    protected virtual IEnumerator ScanForTargets()
+    {
+        while (true)
+        {
+            // Update enemies in range
+            enemiesInRange.Clear();
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, currentRange);
+            
+            foreach (Collider2D collider in colliders)
+            {
+                Enemy enemy = collider.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    enemiesInRange.Add(enemy);
+                }
+            }
+
+            // Select target
+            SelectTarget();
+
+            // Attack if we have a target
+            if (currentTarget != null && Time.time >= lastAttackTime + (1f / currentAttackSpeed))
+            {
+                Attack();
+                lastAttackTime = Time.time;
+            }
+
+            yield return new WaitForSeconds(0.1f); // Scan every 0.1 seconds
+        }
+    }
+
+    protected virtual void SelectTarget()
+    {
+        // Simple target selection - choose closest enemy
+        float closestDistance = float.MaxValue;
+        currentTarget = null;
+
+        foreach (Enemy enemy in enemiesInRange)
+        {
+            if (enemy == null || !enemy.gameObject.activeSelf) continue;
+
+            float distance = Vector2.Distance(transform.position, enemy.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                currentTarget = enemy;
+            }
+        }
+    }
+
+    protected virtual void Attack()
+    {
+        if (currentTarget == null || projectilePrefab == null) return;
+
+        GameObject projectileObj = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        Projectile projectile = projectileObj.GetComponent<Projectile>();
+        
+        if (projectile != null)
+        {
+            // Set up projectile with all effects
+            projectile.Initialize(currentTarget, currentDamage, new ProjectileEffects
+            {
+                slowEffect = slowEffect,
+                poisonDamage = poisonDamage,
+                splashRadius = splashRadius,
+                splashDamageMultiplier = splashDamageMultiplier,
+                lifeLeechAmount = lifeLeechAmount
+            });
+        }
+
+        // Play attack sound if available
+        if (shotSound != null)
+        {
+            AudioSource.PlayClipAtPoint(shotSound, transform.position);
+        }
+    }
+
+    protected virtual void OnDrawGizmos()
+    {
+        // Draw range in editor
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, currentRange);
     }
 
     //forward mouse events to the occupied tile
@@ -244,5 +418,20 @@ public class BaseTurret : BaseUnit
         if (health > maxHealth) {
             health = maxHealth;
         }
+    }
+
+    // Add healing method for life leech
+    public virtual void Heal(float amount)
+    {
+        health = Mathf.Min(health + amount, maxHealth);
+        if (healthBar != null)
+        {
+            healthBar.UpdateHealthBar(health, maxHealth);
+        }
+    }
+
+    protected virtual void UpdateTurretStats()
+    {
+        // This method should be removed or renamed since it's now handled by TurretUpgrade
     }
 }
