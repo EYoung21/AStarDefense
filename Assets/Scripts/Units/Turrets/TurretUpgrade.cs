@@ -65,7 +65,99 @@ public class TurretUpgrade : MonoBehaviour
             }
         };
 
-        // Add other upgrade types initialization here...
+        // Initialize Poison upgrades
+        upgradeStats[UpgradeType.Poison] = new UpgradeLevel[] {
+            new UpgradeLevel {
+                upgradeName = "Basic Poison",
+                description = "Deals 2 poison damage per second",
+                cost = 100,
+                poisonDamage = 2f
+            },
+            new UpgradeLevel {
+                upgradeName = "Potent Poison",
+                description = "Deals 4 poison damage per second",
+                cost = 200,
+                poisonDamage = 4f
+            },
+            new UpgradeLevel {
+                upgradeName = "Deadly Venom",
+                description = "Deals 6 poison damage per second",
+                cost = 300,
+                poisonDamage = 6f
+            }
+        };
+
+        // Initialize Splash upgrades
+        upgradeStats[UpgradeType.Splash] = new UpgradeLevel[] {
+            new UpgradeLevel {
+                upgradeName = "Basic Splash",
+                description = "1 unit splash radius, 50% splash damage",
+                cost = 150,
+                splashRadius = 1f,
+                splashDamageMultiplier = 0.5f
+            },
+            new UpgradeLevel {
+                upgradeName = "Wide Splash",
+                description = "1.5 unit splash radius, 60% splash damage",
+                cost = 250,
+                splashRadius = 1.5f,
+                splashDamageMultiplier = 0.6f
+            },
+            new UpgradeLevel {
+                upgradeName = "Massive Splash",
+                description = "2 unit splash radius, 75% splash damage",
+                cost = 350,
+                splashRadius = 2f,
+                splashDamageMultiplier = 0.75f
+            }
+        };
+
+        // Initialize RapidFire upgrades
+        upgradeStats[UpgradeType.RapidFire] = new UpgradeLevel[] {
+            new UpgradeLevel {
+                upgradeName = "Quick Shot",
+                description = "20% faster attack speed",
+                cost = 100,
+                attackSpeedMultiplier = 1.2f
+            },
+            new UpgradeLevel {
+                upgradeName = "Rapid Shot",
+                description = "40% faster attack speed",
+                cost = 200,
+                attackSpeedMultiplier = 1.4f
+            },
+            new UpgradeLevel {
+                upgradeName = "Lightning Shot",
+                description = "60% faster attack speed",
+                cost = 300,
+                attackSpeedMultiplier = 1.6f
+            }
+        };
+
+        // Initialize Sniper upgrades
+        upgradeStats[UpgradeType.Sniper] = new UpgradeLevel[] {
+            new UpgradeLevel {
+                upgradeName = "Power Shot",
+                description = "25% more damage, 20% more range",
+                cost = 150,
+                damageMultiplier = 1.25f,
+                rangeMultiplier = 1.2f
+            },
+            new UpgradeLevel {
+                upgradeName = "Long Shot",
+                description = "50% more damage, 40% more range",
+                cost = 250,
+                damageMultiplier = 1.5f,
+                rangeMultiplier = 1.4f
+            },
+            new UpgradeLevel {
+                upgradeName = "Sniper Shot",
+                description = "100% more damage, 60% more range",
+                cost = 350,
+                damageMultiplier = 2f,
+                rangeMultiplier = 1.6f
+            }
+        };
     }
 
     public bool CanUpgrade(UpgradeType type)

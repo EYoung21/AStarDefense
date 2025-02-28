@@ -1,9 +1,51 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class TurretUpgradeUI : MonoBehaviour
 {
+    public static TurretUpgradeUI Instance { get; private set; }
+
+    private void Awake()
+    {
+        Debug.Log("TurretUpgradeUI Awake called");
+        if (Instance != null && Instance != this)
+        {
+            Debug.Log("Destroying duplicate TurretUpgradeUI instance");
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        Debug.Log($"TurretUpgradeUI instance set. GameObject active: {gameObject.activeInHierarchy}, Component enabled: {enabled}");
+        
+        // Make sure this GameObject stays active
+        gameObject.SetActive(true);
+        
+        // Only deactivate the panel itself
+        if (upgradePanel != null)
+        {
+            upgradePanel.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("upgradePanel reference is missing! Please assign it in the Inspector.");
+        }
+    }
+
+    private void OnEnable()
+    {
+        Debug.Log("TurretUpgradeUI OnEnable called");
+    }
+
+    private void OnDisable()
+    {
+        Debug.Log("TurretUpgradeUI OnDisable called");
+        // Don't clear Instance when disabled
+        // if (Instance == this)
+        //     Instance = null;
+    }
+
     [System.Serializable]
     public class UpgradeButton
     {
@@ -27,11 +69,42 @@ public class TurretUpgradeUI : MonoBehaviour
 
     private BaseTurret selectedTurret;
     private TurretUpgrade turretUpgrade;
+    private bool justShown = false;
 
     private void Start()
     {
+        Debug.Log("TurretUpgradeUI Start - Checking references:");
+        Debug.Log($"upgradePanel reference: {(upgradePanel != null ? "Set" : "Missing")}");
+        Debug.Log($"turretNameText reference: {(turretNameText != null ? "Set" : "Missing")}");
+        Debug.Log($"goldText reference: {(goldText != null ? "Set" : "Missing")}");
+        
+        // Check button references
+        Debug.Log($"frostButton reference: {(frostButton?.button != null ? "Set" : "Missing")}");
+        Debug.Log($"poisonButton reference: {(poisonButton?.button != null ? "Set" : "Missing")}");
+        Debug.Log($"splashButton reference: {(splashButton?.button != null ? "Set" : "Missing")}");
+        Debug.Log($"rapidFireButton reference: {(rapidFireButton?.button != null ? "Set" : "Missing")}");
+        Debug.Log($"sniperButton reference: {(sniperButton?.button != null ? "Set" : "Missing")}");
+
         InitializeButtons();
         HideUpgradePanel();
+    }
+
+    private void Update()
+    {
+        // Reset justShown flag if mouse button is released
+        if (Input.GetMouseButtonUp(0))
+        {
+            justShown = false;
+        }
+
+        // Hide panel when pressing space or clicking empty tile
+        // Don't hide if we just showed the panel this frame
+        if ((Input.GetKeyDown(KeyCode.Space) || 
+            (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())) && 
+            !justShown)
+        {
+            HideUpgradePanel();
+        }
     }
 
     private void InitializeButtons()
@@ -45,18 +118,35 @@ public class TurretUpgradeUI : MonoBehaviour
 
     public void ShowUpgradePanel(BaseTurret turret)
     {
+        Debug.Log($"Attempting to show upgrade panel for turret: {turret.name}");
         selectedTurret = turret;
         turretUpgrade = turret.GetComponent<TurretUpgrade>();
         
-        if (turretUpgrade == null) return;
+        if (turretUpgrade == null) {
+            Debug.LogError($"No TurretUpgrade component found on turret: {turret.name}");
+            return;
+        }
+
+        if (upgradePanel == null) {
+            Debug.LogError("upgradePanel reference is missing in TurretUpgradeUI!");
+            return;
+        }
 
         upgradePanel.SetActive(true);
+        justShown = true;  // Set the flag when showing the panel
+        Debug.Log($"Upgrade panel shown. Panel active state: {upgradePanel.activeSelf}");
         UpdateUI();
     }
 
     public void HideUpgradePanel()
     {
-        upgradePanel.SetActive(false);
+        Debug.Log("Hiding upgrade panel");
+        if (upgradePanel != null) {
+            upgradePanel.SetActive(false);
+            justShown = false;  // Reset the flag when hiding
+        } else {
+            Debug.LogError("upgradePanel reference is missing!");
+        }
         selectedTurret = null;
         turretUpgrade = null;
     }
@@ -98,5 +188,10 @@ public class TurretUpgradeUI : MonoBehaviour
             turretUpgrade.ApplyUpgrade(type);
             UpdateUI();
         }
+    }
+
+    public bool IsUpgradePanelActive()
+    {
+        return upgradePanel != null && upgradePanel.activeSelf;
     }
 } 

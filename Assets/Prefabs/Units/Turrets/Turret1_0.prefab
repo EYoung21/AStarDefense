@@ -406,6 +406,7 @@ GameObject:
   - component: {fileID: 6071761999433595482}
   - component: {fileID: 4945100502565454582}
   - component: {fileID: 3118668138259360112}
+  - component: {fileID: 6691551560787787149}
   m_Layer: 0
   m_Name: Turret1_0
   m_TagString: Untagged
@@ -500,7 +501,15 @@ MonoBehaviour:
   Faction: 0
   UnitName: OG Single-shot Turret
   healthBar: {fileID: 0}
+  baseAttackDamage: 10
+  baseAttackSpeed: 1
+  baseRange: 3
   projectilePrefab: {fileID: 2129480847880594891, guid: e3327026cae1747f180c2b9ca40dac5a, type: 3}
+  rangeIndicator: {fileID: 0}
+  upgradeParticles: {fileID: 0}
+  frostColor: {r: 0, g: 1, b: 1, a: 1}
+  poisonColor: {r: 0, g: 1, b: 0, a: 1}
+  splashColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   shotSound: {fileID: 0}
   rateOfFire: 0
   directionToEnemy: {x: 0, y: 0, z: 0}
@@ -562,3 +571,15 @@ PolygonCollider2D:
       - {x: 0.22, y: 0.044999998}
       - {x: 0.16, y: 0.065}
   m_UseDelaunayMesh: 0
+--- !u!114 &6691551560787787149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6416130864976324804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 846aa484dc22148779a3529565b7801a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
