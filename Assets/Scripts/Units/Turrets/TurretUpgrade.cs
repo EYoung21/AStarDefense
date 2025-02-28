@@ -46,7 +46,7 @@ public class TurretUpgrade : MonoBehaviour
         // Initialize Frost upgrades
         upgradeStats[UpgradeType.Frost] = new UpgradeLevel[] {
             new UpgradeLevel {
-                upgradeName = "Basic Freeze",
+                upgradeName = "Frost Turret",
                 description = "Slows enemies by 20%",
                 cost = 100,
                 slowEffect = 0.2f
@@ -68,7 +68,7 @@ public class TurretUpgrade : MonoBehaviour
         // Initialize Poison upgrades
         upgradeStats[UpgradeType.Poison] = new UpgradeLevel[] {
             new UpgradeLevel {
-                upgradeName = "Basic Poison",
+                upgradeName = "Poison Turret",
                 description = "Deals 2 poison damage per second",
                 cost = 100,
                 poisonDamage = 2f
@@ -90,7 +90,7 @@ public class TurretUpgrade : MonoBehaviour
         // Initialize Splash upgrades
         upgradeStats[UpgradeType.Splash] = new UpgradeLevel[] {
             new UpgradeLevel {
-                upgradeName = "Basic Splash",
+                upgradeName = "Splash Turret",
                 description = "1 unit splash radius, 50% splash damage",
                 cost = 150,
                 splashRadius = 1f,
@@ -115,13 +115,13 @@ public class TurretUpgrade : MonoBehaviour
         // Initialize RapidFire upgrades
         upgradeStats[UpgradeType.RapidFire] = new UpgradeLevel[] {
             new UpgradeLevel {
-                upgradeName = "Quick Shot",
+                upgradeName = "Rapid Fire",
                 description = "20% faster attack speed",
                 cost = 100,
                 attackSpeedMultiplier = 1.2f
             },
             new UpgradeLevel {
-                upgradeName = "Rapid Shot",
+                upgradeName = "Quick Shot",
                 description = "40% faster attack speed",
                 cost = 200,
                 attackSpeedMultiplier = 1.4f
@@ -137,7 +137,7 @@ public class TurretUpgrade : MonoBehaviour
         // Initialize Sniper upgrades
         upgradeStats[UpgradeType.Sniper] = new UpgradeLevel[] {
             new UpgradeLevel {
-                upgradeName = "Power Shot",
+                upgradeName = "Sniper Turret",
                 description = "25% more damage, 20% more range",
                 cost = 150,
                 damageMultiplier = 1.25f,
@@ -151,7 +151,7 @@ public class TurretUpgrade : MonoBehaviour
                 rangeMultiplier = 1.4f
             },
             new UpgradeLevel {
-                upgradeName = "Sniper Shot",
+                upgradeName = "Sniper Elite",
                 description = "100% more damage, 60% more range",
                 cost = 350,
                 damageMultiplier = 2f,
@@ -226,6 +226,15 @@ public class TurretUpgrade : MonoBehaviour
         if (upgradeLevels[type] >= 3)
             return "Fully Upgraded";
         return upgradeStats[type][upgradeLevels[type]].description;
+    }
+
+    public string GetUpgradeName(UpgradeType type)
+    {
+        if (!upgradeLevels.ContainsKey(type))
+            return upgradeStats[type][0].upgradeName;
+        if (upgradeLevels[type] >= 3)
+            return upgradeStats[type][2].upgradeName;
+        return upgradeStats[type][upgradeLevels[type]].upgradeName;
     }
 
     public int GetCurrentLevel(UpgradeType type)

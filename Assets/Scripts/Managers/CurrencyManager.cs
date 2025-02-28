@@ -20,7 +20,7 @@ public class CurrencyManager : MonoBehaviour
         Instance = this;
     }
 
-    public int currency = 5;
+    public int currency = 500;
 
     public void AddCurrency(int amount) {
         currency += amount;

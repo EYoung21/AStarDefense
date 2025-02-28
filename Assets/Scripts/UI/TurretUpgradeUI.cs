@@ -134,6 +134,12 @@ public class TurretUpgradeUI : MonoBehaviour
 
         upgradePanel.SetActive(true);
         justShown = true;  // Set the flag when showing the panel
+        
+        // Set the turret name
+        if (turretNameText != null) {
+            turretNameText.text = turret.UnitName;
+        }
+
         Debug.Log($"Upgrade panel shown. Panel active state: {upgradePanel.activeSelf}");
         UpdateUI();
     }
@@ -167,14 +173,51 @@ public class TurretUpgradeUI : MonoBehaviour
 
     private void UpdateUpgradeButton(UpgradeButton button, TurretUpgrade.UpgradeType type)
     {
+        if (button == null || button.button == null) return;
+
         int level = turretUpgrade.GetCurrentLevel(type);
         int cost = turretUpgrade.GetUpgradeCost(type);
         bool canAfford = CurrencyManager.Instance.currency >= cost;
         bool canUpgrade = turretUpgrade.CanUpgrade(type);
 
-        button.levelText.text = $"Level {level}/3";
-        button.costText.text = level >= 3 ? "MAX" : $"{cost}";
+        string upgradeName = turretUpgrade.GetUpgradeName(type);
+        string description = turretUpgrade.GetUpgradeDescription(type);
+        
+        // Update the level text with the proper upgrade name
+        if (button.levelText != null)
+        {
+            button.levelText.text = $"{upgradeName}\nLevel {level}/3\n{description}";
+        }
+        
+        // Update the cost text
+        if (button.costText != null)
+        {
+            button.costText.text = level >= 3 ? "MAX" : $"Cost: {cost}";
+        }
+        
+        // Make sure the button is interactable and covers the full area
         button.button.interactable = canAfford && canUpgrade;
+        
+        // Make sure the button's image component fills the entire area
+        if (button.button.image != null)
+        {
+            button.button.image.type = Image.Type.Sliced;
+            button.button.image.fillCenter = true;
+        }
+        
+        // Make sure the button has proper navigation
+        Navigation nav = new Navigation();
+        nav.mode = Navigation.Mode.Automatic;
+        button.button.navigation = nav;
+        
+        // Make sure the button has proper colors for different states
+        ColorBlock colors = button.button.colors;
+        colors.normalColor = Color.white;
+        colors.highlightedColor = new Color(0.9f, 0.9f, 0.9f);
+        colors.pressedColor = new Color(0.8f, 0.8f, 0.8f);
+        colors.disabledColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+        colors.fadeDuration = 0.1f;  // Make the transitions snappier
+        button.button.colors = colors;
     }
 
     private void PurchaseUpgrade(TurretUpgrade.UpgradeType type)

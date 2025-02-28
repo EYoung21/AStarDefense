@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public abstract class Tile : MonoBehaviour
 {
@@ -28,6 +29,12 @@ public abstract class Tile : MonoBehaviour
     }
 
     void OnMouseEnter() { //only want to set highlight for turrets, and places that aren't occupied by walls
+        // Don't highlight if over UI
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
         if (IsEdgeTile()) { //only want to allow highlighting if is player turn and not on edge
             return;
         }
