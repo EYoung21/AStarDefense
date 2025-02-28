@@ -4,13 +4,13 @@ using UnityEngine.UI;
 
 public class BaseTurret : BaseUnit
 {
-    // // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // // start is called once before the first execution of update after the monobehaviour is created
     // void Start()
     // {
         
     // }
 
-    // // Update is called once per frame
+    // // update is called once per frame
     // void Update()
     // {
         
@@ -36,6 +36,28 @@ public class BaseTurret : BaseUnit
         healthBar = GetComponentInChildren<FloatingHealthBar>();
     }
 
+    //forward mouse events to the occupied tile
+    void OnMouseEnter() {
+        if (OccupiedTile != null) {
+            //call the tile's onmouseenter method
+            OccupiedTile.SendMessage("OnMouseEnter", SendMessageOptions.DontRequireReceiver);
+        }
+    }
+
+    void OnMouseExit() {
+        if (OccupiedTile != null) {
+            //call the tile's onmouseexit method
+            OccupiedTile.SendMessage("OnMouseExit", SendMessageOptions.DontRequireReceiver);
+        }
+    }
+
+    void OnMouseDown() {
+        if (OccupiedTile != null) {
+            //call the tile's onmousedown method
+            OccupiedTile.SendMessage("OnMouseDown", SendMessageOptions.DontRequireReceiver);
+        }
+    }
+
     protected void Update() {
         if (GameManager.Instance.GameState == GameState.EnemyWaveTurn) {
             if ((lastTimeFired + 1 / rateOfFire) < Time.time) {
@@ -46,7 +68,7 @@ public class BaseTurret : BaseUnit
     }
 
     protected virtual void Fire() {
-        // Store the instantiated projectile in a variable
+        //store the instantiated projectile in a variable
 
         var enemies = UnitManager.Instance.GetAllCurrentEnemies();
         var closestEnemy = enemies.OrderBy(enemy => Vector3.Distance(transform.position, enemy.transform.position)).FirstOrDefault();
@@ -62,11 +84,11 @@ public class BaseTurret : BaseUnit
 
         correctAngle = correctAngle - 90;
 
-        transform.rotation = Quaternion.AngleAxis(correctAngle, Vector3.forward); //the axis we want is the world's global z-axis, this equals to Vector3.forward, or new Vector3(0,0,1)
+        transform.rotation = Quaternion.AngleAxis(correctAngle, Vector3.forward); //the axis we want is the world's global z-axis, this equals to vector3.forward, or new vector3(0,0,1)
 
 
         GameObject projectile = Instantiate(projectilePrefab, transform.position, UnityEngine.Quaternion.identity);
-        // Set direction on the instantiated projectile, not the prefab
+        //set direction on the instantiated projectile, not the prefab
         projectile.GetComponent<BaseProjectile>().SetDirection(directionToEnemy);
     }
 
