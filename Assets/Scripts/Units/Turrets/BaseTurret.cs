@@ -27,6 +27,12 @@ public class BaseTurret : BaseUnit
     public float rateOfFire;
 
     public Vector3 directionToEnemy;
+    
+    // Flag to track if this is the central turret
+    protected bool isCentralTurret = false;
+    
+    // Flag to track if this turret is currently selected for manual control
+    protected bool isSelected = false;
 
     public float maxHealth;
 
@@ -34,6 +40,19 @@ public class BaseTurret : BaseUnit
 
     protected virtual void Start() {
         healthBar = GetComponentInChildren<FloatingHealthBar>();
+        
+        // Check if this is the central turret
+        Vector2 centerPosition = new Vector2(
+            GridManager.Instance._width / 2, 
+            GridManager.Instance._height / 2
+        );
+        
+        Vector2 currPosition = new Vector2(
+            Mathf.RoundToInt(transform.position.x),
+            Mathf.RoundToInt(transform.position.y)
+        );
+
+        isCentralTurret = (centerPosition == currPosition);
     }
 
     //forward mouse events to the occupied tile
@@ -56,15 +75,70 @@ public class BaseTurret : BaseUnit
             //call the tile's onmousedown method
             OccupiedTile.SendMessage("OnMouseDown", SendMessageOptions.DontRequireReceiver);
         }
+        
+        // If this is the central turret, toggle selection state
+        if (isCentralTurret) {
+            isSelected = true;
+            Debug.Log("Central turret selected for manual control");
+        }
+    }
+    
+    // Method to handle selection state changes
+    public void SetSelected(bool selected) {
+        isSelected = selected;
+        if (selected) {
+            Debug.Log(gameObject.name + " selected");
+        } else {
+            Debug.Log(gameObject.name + " deselected");
+        }
     }
 
     protected void Update() {
-        if (GameManager.Instance.GameState == GameState.EnemyWaveTurn) {
+        // If this is the central turret and it's selected, handle manual control
+        if (isCentralTurret && isSelected) {
+            HandleManualControl();
+        }
+        // Otherwise, use automatic targeting during enemy wave
+        else if (GameManager.Instance.GameState == GameState.EnemyWaveTurn) {
             if ((lastTimeFired + 1 / rateOfFire) < Time.time) {
                 lastTimeFired = Time.time;
                 Fire();
             }
         }
+    }
+    
+    // Handle manual aiming and firing for the central turret
+    protected virtual void HandleManualControl() {
+        // Get mouse position in world coordinates
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0; // Ensure we're in the same z-plane
+        
+        // Calculate direction from turret to mouse
+        Vector3 directionToMouse = (mousePos - transform.position).normalized;
+        
+        // Calculate rotation angle
+        float ydir = directionToMouse.y;
+        float xdir = directionToMouse.x;
+        float angle = Mathf.Atan2(ydir, xdir) * Mathf.Rad2Deg - 90;
+        
+        // Apply rotation
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        
+        // Store direction for firing
+        directionToEnemy = directionToMouse;
+        
+        // Fire on left mouse button click with rate limit
+        if (Input.GetMouseButtonDown(0) && (lastTimeFired + 1 / rateOfFire) < Time.time) {
+            lastTimeFired = Time.time;
+            FireManually();
+        }
+    }
+    
+    // Fire method for manual control
+    protected virtual void FireManually() {
+        GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        projectile.GetComponent<BaseProjectile>().SetDirection(directionToEnemy);
+        Debug.Log("Manual fire!");
     }
 
     protected virtual void Fire() {

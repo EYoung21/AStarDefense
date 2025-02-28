@@ -14,6 +14,8 @@ public class UnitManager : MonoBehaviour
     public int localNumberOfEnemiesToSpawn;
 
     public int enemyCount;
+    
+    private bool isWaveInProgress = false;
 
     void Awake() {
         Instance = this;
@@ -50,14 +52,32 @@ public class UnitManager : MonoBehaviour
         }
         
         //optional: Signal that the wave is complete
-        Debug.Log("Wave complete!");
+        Debug.Log("Wave complete! All enemies spawned. Waiting for them to be defeated...");
     }
 
     public void BeginEnemyWave() {
+        isWaveInProgress = true;
+        enemyCount = 0; // Reset enemy count at the start of a wave
         StartCoroutine(StartRoundLoop());
-
-        if (localNumberOfEnemiesToSpawn <= 0 && enemyCount <= 0) { //return to player prep turn if no enemies left to spawn and no enemies left alive
-            GameManager.Instance.ChangeState(GameState.PlayerPrepTurn);
+        StartCoroutine(CheckForWaveCompletion());
+    }
+    
+    // Periodically check if all enemies are defeated
+    private IEnumerator CheckForWaveCompletion() {
+        // Wait a bit to let enemies spawn
+        yield return new WaitForSeconds(2f);
+        
+        while (isWaveInProgress) {
+            // Check if all enemies have been spawned and defeated
+            if (localNumberOfEnemiesToSpawn <= 0 && enemyCount <= 0) {
+                Debug.Log("All enemies defeated! Returning to player prep turn.");
+                isWaveInProgress = false;
+                GameManager.Instance.ChangeState(GameState.PlayerPrepTurn);
+                break;
+            }
+            
+            // Check every half second
+            yield return new WaitForSeconds(0.5f);
         }
     }
     
@@ -95,6 +115,17 @@ public class UnitManager : MonoBehaviour
     }
 
     public void SetSelectedUnit(BaseUnit unit) {
+        // If we're selecting a turret that's not the central turret, deselect any previously selected turrets
+        if (unit != null && unit.Faction == Faction.Turret) {
+            // Deselect all other turrets first
+            BaseTurret[] allTurrets = FindObjectsByType<BaseTurret>(FindObjectsSortMode.None);
+            foreach (BaseTurret turret in allTurrets) {
+                if (turret != unit) {
+                    turret.SendMessage("SetSelected", false, SendMessageOptions.DontRequireReceiver);
+                }
+            }
+        }
+        
         SelectedUnit = unit; //maybe on canvas we display an image of the currently selected turret or something
         UIManager.Instance.ToggleShowSelectedUnit(unit);
     }

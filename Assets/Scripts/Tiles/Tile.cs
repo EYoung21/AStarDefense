@@ -49,6 +49,23 @@ public abstract class Tile : MonoBehaviour
             //if it is a turret (not necessarily just the intiial turret as we may spawn more later) we're clicking on, we want to select it (maybe to upgrade it, destroy it,etc.)
             if (OccupiedUnit.Faction == Faction.Turret) {
                 UnitManager.Instance.SetSelectedUnit((BaseTurret)OccupiedUnit); //typecasting to BaseTurret
+                
+                // Check if this is the central turret
+                Vector2 centerPosition = new Vector2(
+                    GridManager.Instance._width / 2, 
+                    GridManager.Instance._height / 2
+                );
+                
+                Vector2 currPosition = new Vector2(
+                    Mathf.RoundToInt(OccupiedUnit.transform.position.x),
+                    Mathf.RoundToInt(OccupiedUnit.transform.position.y)
+                );
+                
+                if (centerPosition == currPosition) {
+                    // Directly set the selected state on the turret
+                    ((BaseTurret)OccupiedUnit).SetSelected(true);
+                    Debug.Log("Central turret selected for manual control via tile");
+                }
             } else if (OccupiedUnit.Faction == Faction.Block) {
                 UnitManager.Instance.SetSelectedUnit((BaseBlock)OccupiedUnit);
             } else { //maybe add one for enemy, to display name (stats?) of enemy, def a later thing tho
