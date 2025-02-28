@@ -18,8 +18,8 @@ public class TestTurret1 : BaseTurret
         base.Start();
 
         rateOfFire = 1;
-        maxHealth = 100;
-        health = 100;
+        maxHealth = 20;
+        health = 20;
         healthBar.UpdateHealthBar(health, maxHealth);
     }
 
