@@ -31,7 +31,35 @@ public abstract class Tile : MonoBehaviour
         if (IsEdgeTile()) { //only want to allow highlighting if is player turn and not on edge
             return;
         }
-        _highlight.SetActive(true);
+        
+        //check if the central turret is selected for manual control
+        bool centralTurretSelected = false;
+        if (GameManager.Instance.GameState == GameState.EnemyWaveTurn) {
+            //find the central turret
+            Vector2 centerPosition = new Vector2(
+                GridManager.Instance._width / 2, 
+                GridManager.Instance._height / 2
+            );
+            
+            BaseTurret[] allTurrets = FindObjectsByType<BaseTurret>(FindObjectsSortMode.None);
+            foreach (BaseTurret turret in allTurrets) {
+                Vector2 turretPos = new Vector2(
+                    Mathf.RoundToInt(turret.transform.position.x),
+                    Mathf.RoundToInt(turret.transform.position.y)
+                );
+                
+                if (centerPosition == turretPos) {
+                    //check if the central turret is selected
+                    turret.GetSelectedState((state) => { centralTurretSelected = state; });
+                    break;
+                }
+            }
+        }
+        
+        //only show highlight if central turret is not selected for manual control
+        if (!centralTurretSelected) {
+            _highlight.SetActive(true);
+        }
     }
 
     void OnMouseExit() {

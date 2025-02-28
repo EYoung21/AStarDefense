@@ -24,9 +24,18 @@ public class HealthManager : MonoBehaviour
         Instance = this;
     }
     
+    void Start() {
+        //override any Inspector values with our code values
+        maxHealth = 20;
+        health = 20;
+        
+        //update the UI to reflect the correct health value
+        UIManager.Instance.updateHealthUI();
+    }
+    
     public void RemoveHealth(float amount) {
         health -= amount;
-        // Update the UI to reflect the new health value
+        //update the UI to reflect the new health value
         UIManager.Instance.updateHealthUI();
         if (health <= 0) {
             GameManager.Instance.GameState = GameState.GameOver;
@@ -38,7 +47,7 @@ public class HealthManager : MonoBehaviour
         if (health > maxHealth) {
             health = maxHealth;
         }
-        // Update the UI to reflect the new health value
+        //update the UI to reflect the new health value
         UIManager.Instance.updateHealthUI();
     }
 }

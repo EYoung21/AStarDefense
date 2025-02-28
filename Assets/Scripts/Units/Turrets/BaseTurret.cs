@@ -77,8 +77,8 @@ public class BaseTurret : BaseUnit
             OccupiedTile.SendMessage("OnMouseDown", SendMessageOptions.DontRequireReceiver);
         }
         
-        // If this is the central turret, toggle selection state
-        // Only allow selection for manual shooting during enemy turn
+        //if this is the central turret, toggle selection state
+        //only allow selection for manual shooting during enemy turn
         if (isCentralTurret && GameManager.Instance.GameState == GameState.EnemyWaveTurn) {
             isSelected = true;
             Debug.Log("Central turret selected for manual control");
@@ -101,20 +101,31 @@ public class BaseTurret : BaseUnit
     }
 
     protected void Update() {
-        // Check for space key to deselect turret
+        //check for space key to deselect turret
         if (Input.GetKeyDown(KeyCode.Space) && isSelected) {
             isSelected = false;
             Debug.Log("Turret deselected with space key - reverting to automatic mode");
             UnitManager.Instance.SetSelectedUnit(null);
+            
+            //force update of tile highlights by simulating mouse movement
+            //this will make tiles respond to mouse hover again
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = 10; //set this to be the distance from the camera
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
+            if (hit.collider != null) {
+                hit.collider.SendMessage("OnMouseExit", SendMessageOptions.DontRequireReceiver);
+                hit.collider.SendMessage("OnMouseEnter", SendMessageOptions.DontRequireReceiver);
+            }
         }
         
-        // Central turret behavior
+        //central turret behavior
         if (isCentralTurret) {
-            // In player prep mode: always follow mouse but don't shoot
+            //in player prep mode: always follow mouse but don't shoot
             if (GameManager.Instance.GameState == GameState.PlayerPrepTurn) {
                 FollowMouse();
             }
-            // In enemy wave mode: manual control if selected, automatic if not
+            //in enemy wave mode: manual control if selected, automatic if not
             else if (GameManager.Instance.GameState == GameState.EnemyWaveTurn) {
                 if (isSelected) {
                     HandleManualControl();
@@ -123,7 +134,7 @@ public class BaseTurret : BaseUnit
                 }
             }
         }
-        // Non-central turrets: always automatic in enemy wave mode
+        //non-central turrets: always automatic in enemy wave mode
         else if (GameManager.Instance.GameState == GameState.EnemyWaveTurn) {
             AutomaticFiring();
         }
