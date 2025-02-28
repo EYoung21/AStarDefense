@@ -16,9 +16,9 @@ public class HealthManager : MonoBehaviour
 
     public static HealthManager Instance;
 
-    public float maxHealth = 100;
+    public float maxHealth = 20;
 
-    public float health = 100;
+    public float health = 20;
 
     void Awake() {
         Instance = this;
