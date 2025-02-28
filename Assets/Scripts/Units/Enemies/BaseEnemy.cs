@@ -4,6 +4,9 @@ public class BaseEnemy : BaseUnit
 {
 
     [SerializeField] protected float health;
+    [SerializeField] protected float maxHealth;
+
+
     [SerializeField] protected float damageItDoes;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void Start()

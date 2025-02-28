@@ -7,6 +7,7 @@ public class TestEnemy1 : BaseEnemy
     {
         base.Start();  // Call the base class Start method
         health = 5;
+        maxHealth = 5;
         damageItDoes = 1;
     }
 

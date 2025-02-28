@@ -7,6 +7,7 @@ public class BasicProjectile : BaseProjectile
     {
         base.Start();
         damage = 1;
+        lifetime = 4;
     }
 
     // // Update is called once per frame

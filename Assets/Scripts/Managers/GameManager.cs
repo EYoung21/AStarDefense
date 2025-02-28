@@ -52,10 +52,10 @@ public class GameManager : MonoBehaviour
                 UnitManager.Instance.BeginEnemyWave();
 
                 break;
-            // case GameState.GameOver:
-            //     // Show game over UI, display final score, play again button, return to main menu button, exit game button,
-            //     UIManager.Instance.DisplayGameOver();
-            //     break;
+            case GameState.GameOver:
+                // Show game over UI, display final score, play again button, return to main menu button, exit game button,
+                UIManager.Instance.DisplayGameOver();
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }

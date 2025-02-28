@@ -16,17 +16,25 @@ public class HealthManager : MonoBehaviour
 
     public static HealthManager Instance;
 
+    public float maxHealth = 100;
+
     void Awake() {
         Instance = this;
     }
 
     public float health = 100;
-
+    
     public void RemoveHealth(float amount) {
         health -= amount;
+        if (health <= 0) {
+            GameManager.Instance.GameState = GameState.GameOver;
+        }
     }
 
     public void AddHealth(float amount) {
         health += amount;
+        if (health > maxHealth) {
+            health = maxHealth;
+        }
     }
 }
