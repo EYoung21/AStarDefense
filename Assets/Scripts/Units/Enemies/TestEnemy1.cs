@@ -6,8 +6,8 @@ public class TestEnemy1 : BaseEnemy
     protected override void Start()
     {
         base.Start();  //call the base class Start method
-        health = 20;
-        maxHealth = 20;
+        health = 3;
+        maxHealth = 3;
         damageItDoes = 1;
         healthBar.UpdateHealthBar(health, maxHealth);
         movement.moveSpeed = 4;
