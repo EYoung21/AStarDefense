@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      FrostPNG_0: -8123339091904520797
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

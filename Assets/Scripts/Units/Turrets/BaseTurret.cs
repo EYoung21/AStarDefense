@@ -100,23 +100,95 @@ public class BaseTurret : BaseUnit
 
     public virtual void UpdateStats(float damageMultiplier, float rangeMultiplier, float attackSpeedMultiplier)
     {
+        Debug.Log($"BaseTurret.UpdateStats called with multipliers - Damage: {damageMultiplier}, Range: {rangeMultiplier}, Attack Speed: {attackSpeedMultiplier}");
+        
+        float oldDamage = currentDamage;
+        float oldRange = currentRange;
+        float oldAttackSpeed = currentAttackSpeed;
+        
+        // Make sure we're not using zero values
+        if (damageMultiplier <= 0) damageMultiplier = 1f;
+        if (rangeMultiplier <= 0) rangeMultiplier = 1f;
+        if (attackSpeedMultiplier <= 0) attackSpeedMultiplier = 1f;
+        
         currentDamage = baseAttackDamage * damageMultiplier;
         currentRange = baseRange * rangeMultiplier;
         currentAttackSpeed = baseAttackSpeed * attackSpeedMultiplier;
         
+        Debug.Log($"Stats updated - Damage: {oldDamage} -> {currentDamage}, Range: {oldRange} -> {currentRange}, Attack Speed: {oldAttackSpeed} -> {currentAttackSpeed}");
+        
+        // Make sure the range indicator is updated
         UpdateRangeIndicator();
+        
+        // Play a visual effect to show the upgrade
         PlayUpgradeEffect();
+        
+        // If this is a significant upgrade, change the turret's appearance
+        if (damageMultiplier > 1.5f || rangeMultiplier > 1.5f || attackSpeedMultiplier > 1.5f)
+        {
+            if (spriteRenderer != null)
+            {
+                // Add a slight tint to show the turret is upgraded
+                Color oldColor = spriteRenderer.color;
+                spriteRenderer.color = new Color(1.0f, 1.0f, 0.8f); // Slight yellow tint
+                Debug.Log($"Turret appearance changed - Color: {oldColor} -> {spriteRenderer.color}");
+            }
+            else
+            {
+                Debug.LogWarning("Cannot change turret appearance: spriteRenderer is null!");
+            }
+        }
     }
 
     public virtual void UpdateEffects(float slowEffect, float poisonDamage, float splashRadius, float splashDamageMultiplier, float lifeLeechAmount)
     {
+        Debug.Log($"BaseTurret.UpdateEffects called with effects - Slow: {slowEffect}, Poison: {poisonDamage}, Splash Radius: {splashRadius}, Splash Damage: {splashDamageMultiplier}, Life Leech: {lifeLeechAmount}");
+        
+        float oldSlowEffect = this.slowEffect;
+        float oldPoisonDamage = this.poisonDamage;
+        float oldSplashRadius = this.splashRadius;
+        float oldSplashDamageMultiplier = this.splashDamageMultiplier;
+        float oldLifeLeechAmount = this.lifeLeechAmount;
+        
         this.slowEffect = slowEffect;
         this.poisonDamage = poisonDamage;
         this.splashRadius = splashRadius;
         this.splashDamageMultiplier = splashDamageMultiplier;
         this.lifeLeechAmount = lifeLeechAmount;
         
+        Debug.Log($"Effects updated - Slow: {oldSlowEffect} -> {slowEffect}, Poison: {oldPoisonDamage} -> {poisonDamage}, Splash Radius: {oldSplashRadius} -> {splashRadius}");
+        
+        // Update the projectile effects
         UpdateProjectileEffects();
+        
+        // Apply visual changes based on effects
+        if (spriteRenderer != null)
+        {
+            Color oldColor = spriteRenderer.color;
+            
+            // Change the turret color based on its strongest effect
+            if (slowEffect > 0.3f)
+            {
+                spriteRenderer.color = new Color(0.7f, 0.9f, 1.0f); // Light blue for frost
+                Debug.Log($"Applied frost color to turret: {oldColor} -> {spriteRenderer.color}");
+            }
+            else if (poisonDamage > 3f)
+            {
+                spriteRenderer.color = new Color(0.7f, 1.0f, 0.7f); // Light green for poison
+                Debug.Log($"Applied poison color to turret: {oldColor} -> {spriteRenderer.color}");
+            }
+            else if (splashRadius > 1f)
+            {
+                spriteRenderer.color = new Color(1.0f, 1.0f, 0.7f); // Light yellow for splash
+                Debug.Log($"Applied splash color to turret: {oldColor} -> {spriteRenderer.color}");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Cannot change turret appearance: spriteRenderer is null!");
+        }
+        
+        Debug.Log("Turret effects updated successfully");
     }
 
     protected virtual void UpdateProjectileEffects()
@@ -140,9 +212,20 @@ public class BaseTurret : BaseUnit
 
     protected virtual void PlayUpgradeEffect()
     {
+        Debug.Log("Playing upgrade effect");
         if (upgradeParticles != null)
         {
             upgradeParticles.Play();
+            
+            // Play a sound effect if available
+            if (shotSound != null)
+            {
+                AudioSource.PlayClipAtPoint(shotSound, transform.position, 0.5f);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No upgrade particles assigned to turret");
         }
     }
 

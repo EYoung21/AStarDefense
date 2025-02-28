@@ -35,8 +35,68 @@ public class TurretUpgrade : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log($"TurretUpgrade.Awake called on {gameObject.name}");
         turret = GetComponent<BaseTurret>();
+        
+        if (turret != null)
+        {
+            Debug.Log($"Found BaseTurret component: {turret.name}");
+        }
+        else
+        {
+            Debug.LogError($"Failed to find BaseTurret component on {gameObject.name}! Upgrades will not work.");
+            // Try to find the BaseTurret component in parent or children
+            turret = GetComponentInParent<BaseTurret>();
+            if (turret != null)
+            {
+                Debug.Log($"Found BaseTurret component in parent: {turret.name}");
+            }
+            else
+            {
+                turret = GetComponentInChildren<BaseTurret>();
+                if (turret != null)
+                {
+                    Debug.Log($"Found BaseTurret component in children: {turret.name}");
+                }
+            }
+        }
+        
         InitializeUpgradeStats();
+    }
+
+    void OnEnable()
+    {
+        // Double-check that we have a valid turret reference
+        if (turret == null)
+        {
+            turret = GetComponent<BaseTurret>();
+            if (turret == null)
+            {
+                turret = GetComponentInParent<BaseTurret>();
+                if (turret == null)
+                {
+                    turret = GetComponentInChildren<BaseTurret>();
+                }
+            }
+            
+            if (turret != null)
+            {
+                Debug.Log($"Restored turret reference in OnEnable: {turret.name}");
+            }
+            else
+            {
+                Debug.LogError("Failed to restore turret reference in OnEnable!");
+            }
+        }
+    }
+
+    void Update()
+    {
+        // Press 'U' to print upgrade levels
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            PrintUpgradeLevels();
+        }
     }
 
     void InitializeUpgradeStats()
@@ -176,21 +236,72 @@ public class TurretUpgrade : MonoBehaviour
         return upgradeStats[type][upgradeLevels[type]].cost;
     }
 
-    public void ApplyUpgrade(UpgradeType type)
+    public bool ApplyUpgrade(UpgradeType type)
     {
+        Debug.Log($"TurretUpgrade.ApplyUpgrade called for {type}");
+        
+        // Double-check that we have a valid turret reference
+        if (turret == null)
+        {
+            turret = GetComponent<BaseTurret>();
+            if (turret == null)
+            {
+                turret = GetComponentInParent<BaseTurret>();
+                if (turret == null)
+                {
+                    turret = GetComponentInChildren<BaseTurret>();
+                }
+            }
+            
+            if (turret == null)
+            {
+                Debug.LogError("Turret reference is null in ApplyUpgrade! Cannot apply upgrade.");
+                return false;
+            }
+        }
+        
         if (!upgradeLevels.ContainsKey(type))
+        {
+            Debug.Log($"First upgrade for {type}, initializing to level 0");
             upgradeLevels[type] = 0;
+        }
 
         if (upgradeLevels[type] < 3)
         {
+            int oldLevel = upgradeLevels[type];
             upgradeLevels[type]++;
+            Debug.Log($"Upgraded {type} from level {oldLevel} to level {upgradeLevels[type]}");
+            
+            // Log the turret reference
+            if (turret != null)
+            {
+                Debug.Log($"Turret reference exists: {turret.name}");
+            }
+            else
+            {
+                Debug.LogError("Turret reference is null! Cannot apply stats.");
+                return false; // Return early if turret is null
+            }
+            
             UpdateTurretStats();
+            return true;
+        }
+        else
+        {
+            Debug.Log($"{type} is already at max level (3)");
+            return false;
         }
     }
 
     private void UpdateTurretStats()
     {
-        if (turret == null) return;
+        Debug.Log("UpdateTurretStats called");
+        
+        if (turret == null)
+        {
+            Debug.LogError("Cannot update turret stats: turret reference is null!");
+            return;
+        }
 
         float finalDamage = 1f;
         float finalRange = 1f;
@@ -201,8 +312,18 @@ public class TurretUpgrade : MonoBehaviour
         float totalSplashDamage = 0f;
         float totalLifeLeech = 0f;
 
+        Debug.Log($"Applying effects from {upgradeLevels.Count} upgrade types");
+        
         foreach (var upgrade in upgradeLevels)
         {
+            Debug.Log($"Processing upgrade: {upgrade.Key}, Level: {upgrade.Value}");
+            
+            if (upgrade.Value <= 0 || upgrade.Value > 3)
+            {
+                Debug.LogError($"Invalid upgrade level: {upgrade.Value} for {upgrade.Key}");
+                continue;
+            }
+            
             var level = upgradeStats[upgrade.Key][upgrade.Value - 1];
             finalDamage *= level.damageMultiplier;
             finalRange *= level.rangeMultiplier;
@@ -215,8 +336,13 @@ public class TurretUpgrade : MonoBehaviour
             totalLifeLeech += level.lifeLeechAmount;
         }
 
+        Debug.Log($"Final multipliers - Damage: {finalDamage}, Range: {finalRange}, Attack Speed: {finalAttackSpeed}");
+        Debug.Log($"Final effects - Slow: {totalSlowEffect}, Poison: {totalPoisonDamage}, Splash Radius: {totalSplashRadius}, Splash Damage: {totalSplashDamage}, Life Leech: {totalLifeLeech}");
+        
         turret.UpdateStats(finalDamage, finalRange, finalAttackSpeed);
         turret.UpdateEffects(totalSlowEffect, totalPoisonDamage, totalSplashRadius, totalSplashDamage, totalLifeLeech);
+        
+        Debug.Log("Turret stats updated successfully");
     }
 
     public string GetUpgradeDescription(UpgradeType type)
@@ -242,5 +368,38 @@ public class TurretUpgrade : MonoBehaviour
         if (!upgradeLevels.ContainsKey(type))
             return 0;
         return upgradeLevels[type];
+    }
+
+    public void PrintUpgradeLevels()
+    {
+        Debug.Log($"=== UPGRADE LEVELS FOR {(turret != null ? turret.name : "UNKNOWN TURRET")} ===");
+        
+        if (upgradeLevels.Count == 0)
+        {
+            Debug.Log("No upgrades applied yet.");
+            return;
+        }
+        
+        foreach (var upgrade in upgradeLevels)
+        {
+            Debug.Log($"Upgrade: {upgrade.Key}, Level: {upgrade.Value}");
+            
+            if (upgrade.Value > 0 && upgrade.Value <= 3)
+            {
+                var level = upgradeStats[upgrade.Key][upgrade.Value - 1];
+                Debug.Log($"  Effects: Damage x{level.damageMultiplier}, Range x{level.rangeMultiplier}, Attack Speed x{level.attackSpeedMultiplier}");
+                Debug.Log($"  Special: Slow {level.slowEffect}, Poison {level.poisonDamage}, Splash {level.splashRadius}");
+            }
+        }
+        
+        // Check if turret reference is valid
+        if (turret != null)
+        {
+            Debug.Log($"Turret reference is valid: {turret.name}");
+        }
+        else
+        {
+            Debug.LogError("Turret reference is null!");
+        }
     }
 } 
