@@ -18,7 +18,7 @@ public class ProjectileColorTest : MonoBehaviour
         if (testTurret == null)
         {
             // Try to find a turret if none is assigned
-            testTurret = FindObjectOfType<BaseTurret>();
+            testTurret = FindFirstObjectByType<BaseTurret>();
             if (testTurret == null)
             {
                 Debug.LogWarning("No turret found for testing");

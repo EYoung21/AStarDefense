@@ -7,7 +7,7 @@ public class TurretUpgradeTest : MonoBehaviour
         Debug.Log("TurretUpgradeTest Start - Checking all turrets in the scene");
         
         // Find all turrets in the scene
-        BaseTurret[] turrets = FindObjectsOfType<BaseTurret>();
+        BaseTurret[] turrets = FindObjectsByType<BaseTurret>(FindObjectsSortMode.None);
         Debug.Log($"Found {turrets.Length} turrets in the scene");
         
         foreach (BaseTurret turret in turrets)
@@ -51,7 +51,7 @@ public class TurretUpgradeTest : MonoBehaviour
             Debug.Log("Manual turret check triggered");
             
             // Find all turrets in the scene
-            BaseTurret[] turrets = FindObjectsOfType<BaseTurret>();
+            BaseTurret[] turrets = FindObjectsByType<BaseTurret>(FindObjectsSortMode.None);
             Debug.Log($"Found {turrets.Length} turrets in the scene");
             
             foreach (BaseTurret turret in turrets)

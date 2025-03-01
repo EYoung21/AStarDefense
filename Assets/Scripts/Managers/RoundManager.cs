@@ -91,10 +91,10 @@ public class RoundManager : MonoBehaviour
         return 1;
     }
     
-    private string GetDifficultyTierName() {
-        int index = difficultyTier - 1;
-        if (index >= 0 && index < difficultyTierNames.Length) {
-            return difficultyTierNames[index];
+    public string GetDifficultyTierName() {
+        int tier = CalculateDifficultyTier();
+        if (tier >= 0 && tier < difficultyTierNames.Length) {
+            return difficultyTierNames[tier];
         }
         return "Unknown";
     }

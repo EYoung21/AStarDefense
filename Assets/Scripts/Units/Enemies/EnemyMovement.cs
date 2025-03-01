@@ -9,6 +9,9 @@ public class EnemyMovement : MonoBehaviour
     private List<Vector3> pathVectorList;
     private int currentPathIndex;
     private Vector3 targetPosition;
+    private float currentSlowAmount = 0f;
+    private float slowDuration = 0f;
+    private float slowTimer = 0f;
     
     private BaseEnemy baseEnemy;
     
@@ -39,6 +42,19 @@ public class EnemyMovement : MonoBehaviour
     private void Update()
     {
         HandleMovement();
+        UpdateSlowEffect();
+    }
+    
+    private void UpdateSlowEffect()
+    {
+        if (slowTimer > 0)
+        {
+            slowTimer -= Time.deltaTime;
+            if (slowTimer <= 0)
+            {
+                currentSlowAmount = 0f;
+            }
+        }
     }
     
     public void SetTargetToCenter()
@@ -63,6 +79,8 @@ public class EnemyMovement : MonoBehaviour
     
     private void HandleMovement()
     {
+        float effectiveSpeed = moveSpeed * (1f - currentSlowAmount);
+        
         if (pathVectorList == null || currentPathIndex >= pathVectorList.Count)
         {
             //path complete or no path found
@@ -70,7 +88,7 @@ public class EnemyMovement : MonoBehaviour
         }
         
         Vector3 moveDir = (targetPosition - transform.position).normalized;
-        transform.position += moveDir * moveSpeed * Time.deltaTime;
+        transform.position += moveDir * effectiveSpeed * Time.deltaTime;
         
         float reachedTargetDistance = 0.1f;
         if (Vector3.Distance(transform.position, targetPosition) < reachedTargetDistance)
@@ -141,6 +159,22 @@ public class EnemyMovement : MonoBehaviour
         else
         {
             Debug.LogWarning("No new path found to center for enemy at " + transform.position);
+        }
+    }
+
+    public void ApplySlow(float slowAmount, float duration)
+    {
+        // Take the stronger slow effect
+        if (slowAmount > currentSlowAmount)
+        {
+            currentSlowAmount = Mathf.Clamp01(slowAmount);
+            slowDuration = duration;
+            slowTimer = duration;
+        }
+        // If same strength, just refresh duration
+        else if (slowAmount == currentSlowAmount)
+        {
+            slowTimer = duration;
         }
     }
 } 

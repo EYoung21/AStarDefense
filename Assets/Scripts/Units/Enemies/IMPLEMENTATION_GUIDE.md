@@ -1,102 +1,186 @@
 # Enemy System Implementation Guide
 
-This guide explains how to set up the new enemy types in your Unity project.
+## Step 1: Set Up ScriptableObjects for Enemy Types
 
-## Step 1: Create ScriptableObjects for Each Enemy Type
-
-1. In Unity, right-click in the Project window > Create > ScriptableObject > Scriptable Unit
-2. Create one for each enemy type:
-   - BlueStar (original enemy)
+1. Create a "Resources/Units" folder in your Assets directory
+2. In Unity, right-click in the Project window > Create > ScriptableObject > ScriptableUnit
+3. Create one for each enemy type:
+   - BlueStar (basic enemy)
    - SpeedEnemy
    - TankEnemy
    - SoldierEnemy
    - DroneEnemy
    - TitanEnemy
 
-3. For each ScriptableObject:
+4. For each ScriptableObject:
    - Set Faction to "Enemy"
    - Drag the appropriate prefab to the "Unit Prefab" field
+   - Save in the "Resources/Units" folder
 
 ## Step 2: Set Up Enemy Prefabs
 
-For each enemy type, create a prefab with the following components:
+For each enemy type, create a prefab with these required components:
 - The appropriate enemy script (SpeedEnemy, TankEnemy, etc.)
 - Collider2D component
 - Sprite Renderer
+- EnemyMovement component
+- BaseEnemy component
 - FloatingHealthBar (as a child object)
 
-## Step 3: Configure UnitManager in the Inspector
+Required settings:
+- Set appropriate move speed in EnemyMovement
+- Configure health and damage values in BaseEnemy
+- Set up appropriate collider size and type
+
+## Step 3: Configure UnitManager
 
 1. Find the UnitManager GameObject in your scene
-2. In the Inspector, configure the "Enemy Spawn Weights" array:
-   - Set Size to 5 (or the number of enemy types you have)
-   - For each element, set the "Enemy Name" to match the prefab name
-   - Configure the spawn weight curves as desired
+2. Configure the "Enemy Spawn Weights" array:
+   - Each entry needs:
+     - Enemy Name (must match prefab name exactly)
+     - Spawn Weight Curve (AnimationCurve determining spawn chance by round)
+   - Configure curves in the inspector:
+     - Early rounds: Higher weights for basic enemies
+     - Later rounds: Increase weights for stronger enemies
 
-3. Additional settings:
-   - Spawn Drones In Groups: Enable this to spawn drones in groups
-   - Drone Group Size: Set to 3 (or your preferred group size)
-   - First Titan Round: Set to 5 (or when you want Titans to start appearing)
+3. Additional spawn settings:
+   ```csharp
+   spawnDronesInGroups = true;
+   droneGroupSize = 3;
+   firstTitanRound = 5;
+   ```
 
-## Step 4: Configure RoundManager in the Inspector
+## Step 4: Configure RoundManager
 
 1. Find the RoundManager GameObject in your scene
-2. Configure the scaling settings:
-   - Health Scaling Per Round: 0.15 (15% increase per round)
-   - Damage Scaling Per Round: 0.10 (10% increase per round)
-   - Health Scaling Start Round: 3
-   - Damage Scaling Start Round: 4
+2. Configure scaling settings:
+   ```csharp
+   healthScalingPerRound = 0.15f;  // 15% increase per round
+   damageScalingPerRound = 0.10f;  // 10% increase per round
+   healthScalingStartRound = 3;
+   damageScalingStartRound = 4;
+   ```
 
-3. Configure difficulty tiers if desired:
-   - Difficulty Tier Rounds: [1, 5, 10, 15, 20]
-   - Difficulty Tier Names: ["Novice", "Challenging", "Difficult", "Extreme", "Nightmare"]
+3. Configure difficulty tiers:
+   ```csharp
+   difficultyTierRounds = { 1, 5, 10, 15, 20 };
+   difficultyTierNames = { "Novice", "Challenging", "Difficult", "Extreme", "Nightmare" };
+   ```
 
-## Step 5: Configure GameManager in the Inspector
+## Step 5: Set Up Wave System
 
-1. Find the GameManager GameObject in your scene
-2. Configure the round settings:
-   - Base Enemy Count: 5
-   - Early Round Enemy Increment: 2
-   - Mid Round Enemy Increment: 3
-   - Late Round Enemy Increment: 4
+1. In GameManager:
+   - Configure base enemy counts
+   - Set wave timing parameters
+   - Configure round increment settings
 
-## Step 6: Add the RoundInfoUI to Your Canvas
+2. Wave Control Methods:
+   ```csharp
+   // Start a new wave
+   GameManager.Instance.StartNewWave();
+   
+   // Check if wave is complete
+   UnitManager.Instance.isWaveInProgress
+   ```
 
-1. Add the RoundInfoUI script to a UI GameObject in your Canvas
-2. Assign the appropriate TextMeshProUGUI components for:
-   - Round Text
-   - Difficulty Text
-   - Enemy Scaling Text
-   - Next Wave Info Text
+## Step 6: UI Setup
+
+1. Add RoundInfoUI script to a UI GameObject in your Canvas
+2. Configure required references:
+   ```csharp
+   roundText: TextMeshProUGUI
+   difficultyText: TextMeshProUGUI
+   enemyScalingText: TextMeshProUGUI
+   nextWaveInfoText: TextMeshProUGUI
+   enemyInfoPanel: GameObject
+   enemyTypeIcons: Image[]
+   ```
+
+3. Configure UI settings:
+   ```csharp
+   toggleInfoKey = KeyCode.Tab
+   updateInterval = 1.0f
+   ```
 
 ## Step 7: Testing
 
-1. Start the game and observe the enemy spawning patterns
-2. Check the console for detailed logs about enemy spawning and round progression
-3. Use the Tab key to toggle the enemy info panel
-4. Use P to pause/unpause and 1/2/3 keys to adjust game speed
+1. Runtime Testing:
+   - Use Play mode to test enemy spawning
+   - Watch the console for detailed spawn logs
+   - Check enemy scaling with round progression
+
+2. UI Controls:
+   - Tab: Toggle enemy info panel
+   - Monitor round progression and difficulty scaling
+   - Check enemy health bars and effects
+
+3. Debug Features:
+   - Use UnitManager's test methods:
+     ```csharp
+     UnitManager.Instance.SpawnEnemiesTest();
+     ```
+   - Monitor enemy counts and wave status
+   - Check pathfinding with EnemyMovement
+
+## Step 8: Enemy Effects System
+
+1. Slow Effect:
+   ```csharp
+   // Apply slow effect to enemy
+   EnemyMovement movement = enemy.GetComponent<EnemyMovement>();
+   if (movement != null)
+   {
+       movement.ApplySlow(slowAmount, duration);
+   }
+   ```
+
+2. Visual Effects:
+   - Each enemy prefab should have effect GameObjects:
+     - frostEffect
+     - poisonEffect
+     - splashEffect
+   - Effects are toggled based on status
 
 ## Troubleshooting
 
-If enemies don't spawn correctly:
-1. Check the console for error messages
-2. Verify that all ScriptableObjects are properly configured
-3. Ensure that the enemy prefabs have the correct scripts attached
-4. Check that the enemy names in UnitManager match the prefab names exactly
+Common Issues:
+1. Enemies not spawning:
+   - Verify ScriptableUnits are in Resources/Units
+   - Check enemy names match exactly in UnitManager
+   - Ensure spawn weights are properly configured
 
-If enemy scaling doesn't work:
-1. Verify that RoundManager is properly initialized
-2. Check the round number is incrementing correctly
-3. Ensure that the scaling values are set appropriately
+2. Pathfinding issues:
+   - Check Pathfinding.Instance initialization
+   - Verify EnemyMovement component settings
+   - Debug path recalculation triggers
 
-## Additional Customization
+3. Scaling problems:
+   - Verify RoundManager initialization
+   - Check round number progression
+   - Monitor scaling multipliers in logs
 
-- Adjust enemy stats in their respective scripts
-- Modify spawn weights to change when different enemies appear
-- Adjust scaling values to make the game easier or harder
-- Create new enemy types by following the same pattern 
+## Performance Optimization
 
+1. Object Pooling:
+   - Implement for frequently spawned enemies
+   - Especially important for drone groups
 
+2. Path Optimization:
+   - Use path caching when possible
+   - Optimize recalculation triggers
 
+3. Effect Management:
+   - Disable unused effect GameObjects
+   - Pool particle effects
 
-Add Implementation of traps
+## Future Enhancements
+
+1. Trap System (Planned):
+   - Integration with grid system
+   - Effect stacking with enemy debuffs
+   - Trap upgrade system
+
+2. Additional Features:
+   - Enemy behavior variations
+   - Advanced pathfinding options
+   - Dynamic difficulty adjustment
