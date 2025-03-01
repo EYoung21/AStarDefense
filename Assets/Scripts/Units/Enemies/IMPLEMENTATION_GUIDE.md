@@ -15,7 +15,7 @@
 4. For each ScriptableObject:
    - Set Faction to "Enemy"
    - Drag the appropriate prefab to the "Unit Prefab" field
-   - Save in the "Resources/Units" folder
+   - Save in the "Resources/Units" folder                              //does it matter where in this folder?
 
 ## Step 2: Set Up Enemy Prefabs
 
@@ -24,7 +24,7 @@ For each enemy type, create a prefab with these required components:
 - Collider2D component
 - Sprite Renderer
 - EnemyMovement component
-- BaseEnemy component
+- BaseEnemy component                                                      needed?
 - FloatingHealthBar (as a child object)
 
 Required settings:
@@ -77,7 +77,7 @@ Required settings:
 2. Wave Control Methods:
    ```csharp
    // Start a new wave
-   GameManager.Instance.StartNewWave();
+   GameManager.Instance.StartNewWave();        //what is this?
    
    // Check if wave is complete
    UnitManager.Instance.isWaveInProgress
@@ -88,7 +88,7 @@ Required settings:
 1. Add RoundInfoUI script to a UI GameObject in your Canvas
 2. Configure required references:
    ```csharp
-   roundText: TextMeshProUGUI
+   roundText: TextMeshProUGUI   //is this necessary?
    difficultyText: TextMeshProUGUI
    enemyScalingText: TextMeshProUGUI
    nextWaveInfoText: TextMeshProUGUI
@@ -135,7 +135,7 @@ Required settings:
    ```
 
 2. Visual Effects:
-   - Each enemy prefab should have effect GameObjects:
+   - Each enemy prefab should have effect GameObjects:    //??
      - frostEffect
      - poisonEffect
      - splashEffect
