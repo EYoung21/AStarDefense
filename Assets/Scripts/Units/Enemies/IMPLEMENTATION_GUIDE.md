@@ -95,3 +95,8 @@ If enemy scaling doesn't work:
 - Modify spawn weights to change when different enemies appear
 - Adjust scaling values to make the game easier or harder
 - Create new enemy types by following the same pattern 
+
+
+
+
+Add Implementation of traps
