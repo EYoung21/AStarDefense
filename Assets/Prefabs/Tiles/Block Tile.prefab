@@ -60,6 +60,18 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.2830189
       objectReference: {fileID: 0}
+    - target: {fileID: 7915485003012781044, guid: f1ea18becbc08fd428b604a70ce79409, type: 3}
+      propertyPath: m_SortingLayer
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7915485003012781044, guid: f1ea18becbc08fd428b604a70ce79409, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7915485003012781044, guid: f1ea18becbc08fd428b604a70ce79409, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -706516015
+      objectReference: {fileID: 0}
     - target: {fileID: 8459893795310837641, guid: f1ea18becbc08fd428b604a70ce79409, type: 3}
       propertyPath: m_Name
       value: Block Tile

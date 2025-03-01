@@ -24,7 +24,7 @@ public class Grid<TGridObject>
         this.originPosition = originPosition;
 
         gridArray = new TGridObject[width, height];
-        // Initialize Grid
+        //initialize Grid
         for (int x = 0; x < gridArray.GetLength(0); x++)
         {
             for (int y = 0; y < gridArray.GetLength(1); y++)
@@ -39,7 +39,11 @@ public class Grid<TGridObject>
         return new Vector3(x, y) * cellSize + originPosition;
     }
 
-    private void GetXY(Vector3 worldPosition, out int x, out int y)
+    public int GetWidth() { return width; }
+
+    public int GetHeight() { return height; }
+
+    public void GetXY(Vector3 worldPosition, out int x, out int y)
     {
         x = Mathf.FloorToInt((worldPosition - originPosition).x / cellSize);
         y = Mathf.FloorToInt((worldPosition - originPosition).y / cellSize);
@@ -93,13 +97,13 @@ public class Grid<TGridObject>
     public override string ToString()
     {
         string result = "";
-        for (int y = height - 1; y >= 0; y--) // Print from top to bottom
+        for (int y = height - 1; y >= 0; y--) //print from top to bottom
         {
             for (int x = 0; x < width; x++)
             {
                 TGridObject value = gridArray[x, y];
 
-                // Handle null values gracefully
+                //handle null values gracefully
                 string cellValue = (value != null) ? value.ToString() : " . ";
 
                 result += cellValue + " ";

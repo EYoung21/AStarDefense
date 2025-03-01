@@ -18,6 +18,9 @@ public class TestTurret1 : BaseTurret
         base.Start();
 
         rateOfFire = 1;
+        maxHealth = 20;
+        health = 20;
+        healthBar.UpdateHealthBar(health, maxHealth);
     }
 
     //override for virtual method

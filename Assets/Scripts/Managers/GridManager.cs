@@ -19,7 +19,7 @@ public class GridManager : MonoBehaviour
 
     public static GridManager Instance;
 
-    [SerializeField] private int _width, _height;
+    public int _width, _height;
     [SerializeField] private float _cellSize = 1f;
     [SerializeField] private Tile _floorTile, _blockTile;
 
@@ -78,14 +78,30 @@ public class GridManager : MonoBehaviour
         return _tiles.OrderBy(t => Random.value).First().Value;
     }
 
-    public Tile GetEnemySpawnTile() { // would be called every time an enemy is spawned.
-        //would be outside a radius from the center of the grid
-        //would be a random tile within that radius
-        //would be a tile that is not already occupied by a turret
-        //would be a tile that is not already occupied by an enemy
-        //would be a tile that is not already occupied by a block
-
-        //can figure out later, would likely be called every time an enemy is spawned
-        throw new System.NotImplementedException();
+    public Tile GetEnemySpawnTile() {
+        //create a list to hold potential spawn tiles (all edge tiles)
+        List<Tile> edgeTiles = new List<Tile>();
+        
+        //add all edge tiles to the list
+        for (int x = 0; x < _width; x++) {
+            for (int y = 0; y < _height; y++) {
+                //check if this is an edge tile
+                if (x == 0 || x == _width - 1 || y == 0 || y == _height - 1) {
+                    Vector2 pos = new Vector2(x, y);
+                    if (_tiles.TryGetValue(pos, out Tile tile)) {
+                        edgeTiles.Add(tile);
+                    }
+                }
+            }
+        }
+        
+        //if there are no edge tiles (shouldn't happen with a proper grid), log an error and return null
+        if (edgeTiles.Count == 0) {
+            Debug.LogError("No edge tiles found in the grid!");
+            return null;
+        }
+        
+        //return a random tile from the edge tiles
+        return edgeTiles[Random.Range(0, edgeTiles.Count)];
     }
 }
