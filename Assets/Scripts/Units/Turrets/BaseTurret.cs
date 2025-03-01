@@ -46,6 +46,8 @@ public class BaseTurret : BaseUnit
     [SerializeField] protected Color frostColor = Color.cyan;
     [SerializeField] protected Color poisonColor = Color.green;
     [SerializeField] protected Color splashColor = Color.yellow;
+    [SerializeField] protected Color rapidFireColor = new Color(1.0f, 0.5f, 0.0f); // Orange
+    [SerializeField] protected Color sniperColor = new Color(0.8f, 0.0f, 0.8f); // Purple
     
     protected SpriteRenderer spriteRenderer;
     protected List<Enemy> enemiesInRange = new List<Enemy>();
@@ -68,6 +70,13 @@ public class BaseTurret : BaseUnit
     public float maxHealth;
 
     public float health;
+
+    protected Color currentProjectileColor = Color.white;
+    protected bool hasFrostEffect = false;
+    protected bool hasPoisonEffect = false;
+    protected bool hasSplashEffect = false;
+    protected bool hasRapidFireEffect = false;
+    protected bool hasSniperEffect = false;
 
     protected virtual void Start() {
         healthBar = GetComponentInChildren<FloatingHealthBar>();
@@ -195,11 +204,46 @@ public class BaseTurret : BaseUnit
     {
         // Update projectile color based on strongest effect
         Color effectColor = Color.white;
-        if (slowEffect > 0) effectColor = frostColor;
-        if (poisonDamage > 0) effectColor = poisonColor;
-        if (splashRadius > 0) effectColor = splashColor;
+        hasFrostEffect = false;
+        hasPoisonEffect = false;
+        hasSplashEffect = false;
+        hasRapidFireEffect = false;
+        hasSniperEffect = false;
         
-        // You might want to store this color to apply to newly spawned projectiles
+        // Check which effects are active
+        if (slowEffect > 0) {
+            hasFrostEffect = true;
+            effectColor = frostColor;
+        }
+        if (poisonDamage > 0) {
+            hasPoisonEffect = true;
+            effectColor = poisonColor;
+        }
+        if (splashRadius > 0) {
+            hasSplashEffect = true;
+            effectColor = splashColor;
+        }
+        
+        // Check for stat-based upgrades
+        if (currentAttackSpeed > baseAttackSpeed * 1.2f) {
+            hasRapidFireEffect = true;
+            // Only override color if no special effect is active
+            if (!hasFrostEffect && !hasPoisonEffect && !hasSplashEffect) {
+                effectColor = rapidFireColor;
+            }
+        }
+        if (currentDamage > baseAttackDamage * 1.2f && currentRange > baseRange * 1.1f) {
+            hasSniperEffect = true;
+            // Only override color if no special effect is active
+            if (!hasFrostEffect && !hasPoisonEffect && !hasSplashEffect && !hasRapidFireEffect) {
+                effectColor = sniperColor;
+            }
+        }
+        
+        // Store the color for use when firing projectiles
+        currentProjectileColor = effectColor;
+        
+        Debug.Log($"Updated projectile effects - Color: {currentProjectileColor}, Frost: {hasFrostEffect}, Poison: {hasPoisonEffect}, Splash: {hasSplashEffect}");
     }
 
     protected virtual void UpdateRangeIndicator()
@@ -441,7 +485,13 @@ public class BaseTurret : BaseUnit
     // Fire method for manual control
     protected virtual void FireManually() {
         GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-        projectile.GetComponent<BaseProjectile>().SetDirection(directionToEnemy);
+        BaseProjectile baseProjectile = projectile.GetComponent<BaseProjectile>();
+        baseProjectile.SetDirection(directionToEnemy);
+        
+        // Set the projectile color and effects
+        baseProjectile.SetProjectileColor(currentProjectileColor);
+        baseProjectile.SetProjectileEffects(hasFrostEffect, hasPoisonEffect, hasSplashEffect);
+        
         Debug.Log("Manual fire!");
     }
 
@@ -467,7 +517,12 @@ public class BaseTurret : BaseUnit
 
         GameObject projectile = Instantiate(projectilePrefab, transform.position, UnityEngine.Quaternion.identity);
         //set direction on the instantiated projectile, not the prefab
-        projectile.GetComponent<BaseProjectile>().SetDirection(directionToEnemy);
+        BaseProjectile baseProjectile = projectile.GetComponent<BaseProjectile>();
+        baseProjectile.SetDirection(directionToEnemy);
+        
+        // Set the projectile color and effects
+        baseProjectile.SetProjectileColor(currentProjectileColor);
+        baseProjectile.SetProjectileEffects(hasFrostEffect, hasPoisonEffect, hasSplashEffect);
     }
 
 
