@@ -12,6 +12,23 @@ public class GameManager : MonoBehaviour
     public GameState GameState;
 
     public int globalNumberOfEnemiesToSpawn;
+    
+    [Header("Round Settings")]
+    [Tooltip("Base number of enemies in round 1")]
+    public int baseEnemyCount = 5;
+    
+    [Tooltip("Additional enemies per round for rounds 2-5")]
+    public int earlyRoundEnemyIncrement = 2;
+    
+    [Tooltip("Additional enemies per round for rounds 6-10")]
+    public int midRoundEnemyIncrement = 3;
+    
+    [Tooltip("Additional enemies per round for rounds 11+")]
+    public int lateRoundEnemyIncrement = 4;
+    
+    [Header("Game State")]
+    public bool gameIsPaused = false;
+    public float gameSpeed = 1.0f;
 
     void Awake() {
         Instance = this;
@@ -21,7 +38,38 @@ public class GameManager : MonoBehaviour
         ChangeState(GameState.GenerateGrid);
 
         //start with a moderate number of enemies in the first round
-        globalNumberOfEnemiesToSpawn = 5;
+        globalNumberOfEnemiesToSpawn = baseEnemyCount;
+    }
+    
+    void Update() {
+        // Handle game speed controls
+        if (Input.GetKeyDown(KeyCode.P)) {
+            TogglePause();
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha1)) {
+            SetGameSpeed(1.0f);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) {
+            SetGameSpeed(1.5f);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) {
+            SetGameSpeed(2.0f);
+        }
+    }
+    
+    public void TogglePause() {
+        gameIsPaused = !gameIsPaused;
+        Time.timeScale = gameIsPaused ? 0 : gameSpeed;
+        Debug.Log(gameIsPaused ? "Game Paused" : "Game Resumed");
+    }
+    
+    public void SetGameSpeed(float speed) {
+        gameSpeed = speed;
+        if (!gameIsPaused) {
+            Time.timeScale = gameSpeed;
+        }
+        Debug.Log($"Game speed set to {gameSpeed}x");
     }
 
     public void ChangeState(GameState newState) {
@@ -55,14 +103,22 @@ public class GameManager : MonoBehaviour
                 //increment the number of enemies to spawn for the next round
                 if (RoundManager.Instance.round > 1) {
                     // Increase enemy count more aggressively in later rounds
-                    if (RoundManager.Instance.round <= 5) {
-                        globalNumberOfEnemiesToSpawn += 2;
-                    } else if (RoundManager.Instance.round <= 10) {
-                        globalNumberOfEnemiesToSpawn += 3;
+                    int currentRound = RoundManager.Instance.round;
+                    
+                    if (currentRound <= 5) {
+                        globalNumberOfEnemiesToSpawn += earlyRoundEnemyIncrement;
+                    } else if (currentRound <= 10) {
+                        globalNumberOfEnemiesToSpawn += midRoundEnemyIncrement;
                     } else {
-                        globalNumberOfEnemiesToSpawn += 4;
+                        globalNumberOfEnemiesToSpawn += lateRoundEnemyIncrement;
                     }
-                    Debug.Log("Increased enemy count to: " + globalNumberOfEnemiesToSpawn);
+                    
+                    // Add bonus enemies at milestone rounds
+                    if (currentRound % 5 == 0) {
+                        globalNumberOfEnemiesToSpawn += 2; // Extra enemies every 5 rounds
+                    }
+                    
+                    Debug.Log($"Round {currentRound}: Spawning {globalNumberOfEnemiesToSpawn} enemies");
                 }
                 
                 UIManager.Instance.DisplayPlayerPrepTurnUI();
@@ -76,10 +132,29 @@ public class GameManager : MonoBehaviour
             case GameState.GameOver:
                 // Show game over UI, display final score, play again button, return to main menu button, exit game button,
                 UIManager.Instance.DisplayGameOver();
+                
+                // Stop time when game is over
+                Time.timeScale = 0;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
+    }
+    
+    // Helper method to get the current round number
+    public int GetCurrentRound() {
+        return RoundManager.Instance != null ? RoundManager.Instance.round : 0;
+    }
+    
+    // Helper method to get the current difficulty tier
+    public int GetCurrentDifficultyTier() {
+        return RoundManager.Instance != null ? RoundManager.Instance.difficultyTier : 1;
+    }
+    
+    // Helper method to get a description of the current round
+    public string GetCurrentRoundDescription() {
+        if (RoundManager.Instance == null) return "Round information not available";
+        return RoundManager.Instance.GetRoundDifficultyDescription();
     }
 }
 
