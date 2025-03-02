@@ -21,9 +21,9 @@ public class TankEnemy : BaseEnemy
         Debug.Log("TankEnemy hit turret");
         other.GetComponent<BaseTurret>().RemoveHealth(damageItDoes);
         
-        // Add currency when enemy hits turret and dies
+        // Enemy dies after hitting turret
         UnitManager.Instance.enemyCount--;
-        CurrencyManager.Instance.AddCurrency(4);  // More currency for defeating a tank
+        // No currency reward for hitting turret
         
         Destroy(gameObject);
     }

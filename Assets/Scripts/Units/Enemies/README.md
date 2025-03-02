@@ -36,15 +36,7 @@ This document outlines the different enemy types in the game, their characterist
 - **Description**: Well-balanced enemy with moderate stats in all categories.
 - **Spawn Pattern**: Starts appearing from round 2, common throughout the game.
 
-### 5. DroneEnemy
-- **Health**: 2
-- **Damage**: 1
-- **Speed**: 5
-- **Currency Reward**: 1
-- **Description**: Weak enemies that spawn in groups of 3. While individually weak, they can overwhelm your defenses if ignored.
-- **Spawn Pattern**: Starts appearing from round 4, spawns in groups.
-
-### 6. TitanEnemy
+### 5. TitanEnemy
 - **Health**: 30
 - **Damage**: 8
 - **Speed**: 1.5
@@ -74,7 +66,6 @@ The game has 5 difficulty tiers that affect enemy spawning:
 
 - Early rounds feature mostly basic enemies (BlueStar/TestEnemy1).
 - As rounds progress, more specialized enemies appear.
-- Drones always spawn in groups of 3.
 - Titans appear at strategic moments to create challenging encounters.
 - Later rounds feature a higher proportion of Tank and Soldier enemies.
 
@@ -82,5 +73,4 @@ The game has 5 difficulty tiers that affect enemy spawning:
 
 - **Against SpeedEnemy**: Use frost turrets to slow them down.
 - **Against TankEnemy**: Focus fire with high-damage turrets.
-- **Against DroneEnemy**: Splash damage turrets are effective against groups.
 - **Against TitanEnemy**: Prepare in advance with multiple turrets and slow effects. 

@@ -9,7 +9,6 @@
    - SpeedEnemy
    - TankEnemy
    - SoldierEnemy
-   - DroneEnemy
    - TitanEnemy
 
 4. For each ScriptableObject:
@@ -45,8 +44,6 @@ Required settings:
 
 3. Additional spawn settings:
    ```csharp
-   spawnDronesInGroups = true;
-   droneGroupSize = 3;
    firstTitanRound = 5;
    ```
 
@@ -166,7 +163,6 @@ Common Issues:
 
 1. Object Pooling:
    - Implement for frequently spawned enemies
-   - Especially important for drone groups
 
 2. Path Optimization:
    - Use path caching when possible

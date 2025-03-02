@@ -120,9 +120,6 @@ public class RoundInfoUI : MonoBehaviour
             case "SoldierEnemy":
                 info = "Soldier Enemy\nHealth: 7\nDamage: 2\nSpeed: Medium";
                 break;
-            case "DroneEnemy":
-                info = "Drone Enemy\nHealth: 2\nDamage: 1\nSpeed: Fast\nSpawns in groups";
-                break;
             case "TitanEnemy":
                 info = "TITAN\nHealth: 30\nDamage: 8\nSpeed: Very Slow\nResists 20% damage";
                 break;

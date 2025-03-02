@@ -21,9 +21,9 @@ public class SpeedEnemy : BaseEnemy
         Debug.Log("SpeedEnemy hit turret");
         other.GetComponent<BaseTurret>().RemoveHealth(damageItDoes);
         
-        // Add currency when enemy hits turret and dies
+        // Enemy dies after hitting turret
         UnitManager.Instance.enemyCount--;
-        CurrencyManager.Instance.AddCurrency(2);
+        // No currency reward for hitting turret
         
         Destroy(gameObject);
     }
