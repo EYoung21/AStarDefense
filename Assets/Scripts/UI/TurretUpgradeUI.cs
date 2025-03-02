@@ -85,96 +85,11 @@ public class TurretUpgradeUI : MonoBehaviour
         Debug.Log($"rapidFireButton reference: {(rapidFireButton?.button != null ? "Set" : "Missing")}");
         Debug.Log($"sniperButton reference: {(sniperButton?.button != null ? "Set" : "Missing")}");
 
-        // Check button hierarchy
-        CheckButtonHierarchy();
-        
         InitializeButtons();
         HideUpgradePanel();
         
         // Add a key press handler for testing
         StartCoroutine(TestKeyPressHandler());
-    }
-
-    private void CheckButtonHierarchy()
-    {
-        Debug.Log("Checking button hierarchy and setup...");
-        
-        CheckButtonSetup(frostButton, "Frost");
-        CheckButtonSetup(poisonButton, "Poison");
-        CheckButtonSetup(splashButton, "Splash");
-        CheckButtonSetup(rapidFireButton, "Rapid Fire");
-        CheckButtonSetup(sniperButton, "Sniper");
-    }
-
-    private void CheckButtonSetup(UpgradeButton upgradeButton, string buttonName)
-    {
-        if (upgradeButton == null || upgradeButton.button == null)
-        {
-            Debug.LogError($"{buttonName} button is null!");
-            return;
-        }
-        
-        // Check if the button has a valid RectTransform
-        RectTransform rectTransform = upgradeButton.button.GetComponent<RectTransform>();
-        if (rectTransform == null)
-        {
-            Debug.LogError($"{buttonName} button has no RectTransform!");
-        }
-        else
-        {
-            Debug.Log($"{buttonName} button size: {rectTransform.rect.width}x{rectTransform.rect.height}");
-            
-            // Check if the button is too small
-            if (rectTransform.rect.width < 20 || rectTransform.rect.height < 20)
-            {
-                Debug.LogWarning($"{buttonName} button might be too small to click! Size: {rectTransform.rect.width}x{rectTransform.rect.height}");
-            }
-        }
-        
-        // Check if the button has a valid Image component
-        Image buttonImage = upgradeButton.button.GetComponent<Image>();
-        if (buttonImage == null)
-        {
-            Debug.LogError($"{buttonName} button has no Image component!");
-        }
-        else
-        {
-            Debug.Log($"{buttonName} button image raycastTarget: {buttonImage.raycastTarget}");
-            
-            // Force raycastTarget to true
-            buttonImage.raycastTarget = true;
-        }
-        
-        // Check if the button has any child blocking raycasts
-        int blockingChildren = 0;
-        foreach (Transform child in upgradeButton.button.transform)
-        {
-            Image childImage = child.GetComponent<Image>();
-            if (childImage != null && childImage.raycastTarget)
-            {
-                blockingChildren++;
-                Debug.LogWarning($"{buttonName} button has a child '{child.name}' that might be blocking raycasts!");
-                
-                // IMPORTANT: Disable raycast target on child images to prevent them from blocking button clicks
-                childImage.raycastTarget = false;
-                Debug.Log($"Disabled raycastTarget on {buttonName} button's child '{child.name}'");
-            }
-        }
-        
-        if (blockingChildren == 0)
-        {
-            Debug.Log($"{buttonName} button has no blocking children.");
-        }
-        
-        // Check if the button has onClick listeners
-        int listenerCount = upgradeButton.button.onClick.GetPersistentEventCount();
-        Debug.Log($"{buttonName} button has {listenerCount} persistent onClick listeners.");
-        
-        // Check if the button is interactable
-        Debug.Log($"{buttonName} button interactable: {upgradeButton.button.interactable}");
-        
-        // Force the button to be interactable
-        upgradeButton.button.interactable = true;
     }
 
     private System.Collections.IEnumerator TestKeyPressHandler()
@@ -291,7 +206,6 @@ public class TurretUpgradeUI : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(null);
                 PurchaseUpgrade(TurretUpgrade.UpgradeType.Frost);
             });
-            EnsureButtonClickable(frostButton.button, "Frost");
         }
         else
         {
@@ -308,7 +222,6 @@ public class TurretUpgradeUI : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(null);
                 PurchaseUpgrade(TurretUpgrade.UpgradeType.Poison);
             });
-            EnsureButtonClickable(poisonButton.button, "Poison");
         }
         else
         {
@@ -325,7 +238,6 @@ public class TurretUpgradeUI : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(null);
                 PurchaseUpgrade(TurretUpgrade.UpgradeType.Splash);
             });
-            EnsureButtonClickable(splashButton.button, "Splash");
         }
         else
         {
@@ -342,7 +254,6 @@ public class TurretUpgradeUI : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(null);
                 PurchaseUpgrade(TurretUpgrade.UpgradeType.RapidFire);
             });
-            EnsureButtonClickable(rapidFireButton.button, "Rapid Fire");
         }
         else
         {
@@ -359,7 +270,6 @@ public class TurretUpgradeUI : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(null);
                 PurchaseUpgrade(TurretUpgrade.UpgradeType.Sniper);
             });
-            EnsureButtonClickable(sniperButton.button, "Sniper");
         }
         else
         {
@@ -426,110 +336,10 @@ public class TurretUpgradeUI : MonoBehaviour
 
         Debug.Log($"Upgrade panel shown. Panel active state: {upgradePanel.activeSelf}");
         
-        // Fix button hierarchy issues before updating UI
-        FixButtonHierarchy();
-        
         UpdateUI();
-        
-        // Force the buttons to be interactable
-        if (frostButton.button != null) {
-            Debug.Log($"Frost button interactable: {frostButton.button.interactable}");
-            EnsureButtonClickable(frostButton.button, "Frost");
-        }
-        if (poisonButton.button != null) {
-            Debug.Log($"Poison button interactable: {poisonButton.button.interactable}");
-            EnsureButtonClickable(poisonButton.button, "Poison");
-        }
-        if (splashButton.button != null) {
-            Debug.Log($"Splash button interactable: {splashButton.button.interactable}");
-            EnsureButtonClickable(splashButton.button, "Splash");
-        }
-        if (rapidFireButton.button != null) {
-            Debug.Log($"Rapid Fire button interactable: {rapidFireButton.button.interactable}");
-            EnsureButtonClickable(rapidFireButton.button, "Rapid Fire");
-        }
-        if (sniperButton.button != null) {
-            Debug.Log($"Sniper button interactable: {sniperButton.button.interactable}");
-            EnsureButtonClickable(sniperButton.button, "Sniper");
-        }
         
         // Display a message to the user about keyboard shortcuts
         Debug.Log("IMPORTANT: You can use number keys 1-5 to directly purchase upgrades without clicking buttons");
-    }
-
-    // Helper method to ensure a button is properly configured for clicks
-    private void EnsureButtonClickable(Button button, string buttonName)
-    {
-        if (button == null) return;
-        
-        // Make sure the button is interactable
-        button.interactable = true;
-        
-        // Make sure the button's image is a raycast target
-        Image buttonImage = button.GetComponent<Image>();
-        if (buttonImage != null)
-        {
-            buttonImage.raycastTarget = true;
-            Debug.Log($"Ensured {buttonName} button image is a raycast target when showing panel");
-        }
-        
-        // Make sure the button has proper navigation
-        Navigation nav = new Navigation();
-        nav.mode = Navigation.Mode.Automatic;
-        button.navigation = nav;
-        
-        // Make sure the button has proper colors for different states
-        ColorBlock colors = button.colors;
-        colors.normalColor = Color.white;
-        colors.highlightedColor = new Color(0.9f, 0.9f, 0.9f);
-        colors.pressedColor = new Color(0.8f, 0.8f, 0.8f);
-        colors.disabledColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
-        colors.fadeDuration = 0.1f;  // Make the transitions snappier
-        button.colors = colors;
-        
-        // Disable raycast targets on all child images
-        foreach (Transform child in button.transform)
-        {
-            Image childImage = child.GetComponent<Image>();
-            if (childImage != null)
-            {
-                childImage.raycastTarget = false;
-                Debug.Log($"Disabled raycastTarget on {buttonName} button's child '{child.name}' when showing panel");
-            }
-        }
-        
-        // Log the button's rect transform to verify its size
-        RectTransform rectTransform = button.GetComponent<RectTransform>();
-        if (rectTransform != null)
-        {
-            Debug.Log($"{buttonName} button rect: pos={rectTransform.anchoredPosition}, size={rectTransform.rect.width}x{rectTransform.rect.height}, scale={rectTransform.localScale}");
-        }
-    }
-
-    public void HideUpgradePanel()
-    {
-        Debug.Log("HideUpgradePanel called");
-        
-        // Don't hide if justShown is true
-        if (justShown)
-        {
-            Debug.Log("Panel was just shown, not hiding it");
-            return;
-        }
-        
-        if (upgradePanel != null)
-        {
-            upgradePanel.SetActive(false);
-            Debug.Log("Upgrade panel hidden");
-            
-            // Clear references when actually hiding
-            selectedTurret = null;
-            turretUpgrade = null;
-        }
-        else
-        {
-            Debug.LogError("Cannot hide upgrade panel: upgradePanel reference is null!");
-        }
     }
 
     private void UpdateUI()
@@ -693,46 +503,6 @@ public class TurretUpgradeUI : MonoBehaviour
         return upgradePanel != null && upgradePanel.activeSelf;
     }
 
-    // Add a method to fix button hierarchy issues
-    private void FixButtonHierarchy()
-    {
-        Debug.Log("Fixing button hierarchy issues...");
-        
-        FixButtonChildrenRaycasts(frostButton, "Frost");
-        FixButtonChildrenRaycasts(poisonButton, "Poison");
-        FixButtonChildrenRaycasts(splashButton, "Splash");
-        FixButtonChildrenRaycasts(rapidFireButton, "Rapid Fire");
-        FixButtonChildrenRaycasts(sniperButton, "Sniper");
-    }
-
-    private void FixButtonChildrenRaycasts(UpgradeButton upgradeButton, string buttonName)
-    {
-        if (upgradeButton == null || upgradeButton.button == null)
-        {
-            Debug.LogError($"{buttonName} button is null!");
-            return;
-        }
-        
-        // Make sure the button's image is a raycast target
-        Image buttonImage = upgradeButton.button.GetComponent<Image>();
-        if (buttonImage != null)
-        {
-            buttonImage.raycastTarget = true;
-            Debug.Log($"Ensured {buttonName} button image is a raycast target");
-        }
-        
-        // Disable raycast targets on all child images
-        foreach (Transform child in upgradeButton.button.transform)
-        {
-            Image childImage = child.GetComponent<Image>();
-            if (childImage != null)
-            {
-                childImage.raycastTarget = false;
-                Debug.Log($"Disabled raycastTarget on {buttonName} button's child '{child.name}'");
-            }
-        }
-    }
-
     // Direct purchase method that bypasses button clicks
     private void DirectPurchaseUpgrade(TurretUpgrade.UpgradeType type)
     {
@@ -781,6 +551,32 @@ public class TurretUpgradeUI : MonoBehaviour
         else
         {
             Debug.Log("Not enough currency for direct upgrade");
+        }
+    }
+
+    public void HideUpgradePanel()
+    {
+        Debug.Log("HideUpgradePanel called");
+        
+        // Don't hide if justShown is true
+        if (justShown)
+        {
+            Debug.Log("Panel was just shown, not hiding it");
+            return;
+        }
+        
+        if (upgradePanel != null)
+        {
+            upgradePanel.SetActive(false);
+            Debug.Log("Upgrade panel hidden");
+            
+            // Clear references when actually hiding
+            selectedTurret = null;
+            turretUpgrade = null;
+        }
+        else
+        {
+            Debug.LogError("Cannot hide upgrade panel: upgradePanel reference is null!");
         }
     }
 } 
