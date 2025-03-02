@@ -396,9 +396,9 @@ MonoBehaviour:
   OccupiedTile: {fileID: 0}
   Faction: 2
   UnitName: 
-  health: 0
+  health: 5
   maxHealth: 0
-  damageItDoes: 0
+  damageItDoes: 2
   healthBar: {fileID: 0}
   movement: {fileID: 0}
 --- !u!1 &7321049042684376474
