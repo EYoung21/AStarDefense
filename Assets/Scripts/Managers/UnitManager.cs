@@ -27,8 +27,6 @@ public class UnitManager : MonoBehaviour
     
     [Header("Enemy Spawn Settings")]
     public EnemySpawnWeight[] enemySpawnWeights;
-    public bool spawnDronesInGroups = true;
-    public int droneGroupSize = 3;
     public int firstTitanRound = 5;
     
     // Track special enemy spawns
@@ -47,7 +45,7 @@ public class UnitManager : MonoBehaviour
     
     private void InitializeDefaultSpawnWeights()
     {
-        enemySpawnWeights = new EnemySpawnWeight[5];
+        enemySpawnWeights = new EnemySpawnWeight[4];
         
         // Default spawn weights for TestEnemy1 (original enemy)
         enemySpawnWeights[0] = new EnemySpawnWeight
@@ -96,18 +94,6 @@ public class UnitManager : MonoBehaviour
                 new Keyframe(10, 30)   // 30% by round 10+
             )
         };
-        
-        // Default spawn weights for DroneEnemy
-        enemySpawnWeights[4] = new EnemySpawnWeight
-        {
-            enemyName = "DroneEnemy",
-            spawnWeightByRound = new AnimationCurve(
-                new Keyframe(1, 0),    // 0% in round 1
-                new Keyframe(4, 10),   // 10% in round 4
-                new Keyframe(7, 20),   // 20% by round 7
-                new Keyframe(10, 10)   // 10% by round 10+
-            )
-        };
     }
 
     public void SpawnInitialTurret() {
@@ -147,23 +133,6 @@ public class UnitManager : MonoBehaviour
                 continue;
             }
             
-            // Special case: Spawn drones in groups
-            if (spawnDronesInGroups && ShouldSpawnEnemyType("DroneEnemy") && localNumberOfEnemiesToSpawn >= droneGroupSize) {
-                int dronesInGroup = Mathf.Min(droneGroupSize, localNumberOfEnemiesToSpawn);
-                
-                for (int i = 0; i < dronesInGroup; i++) {
-                    SpawnSpecificEnemy("DroneEnemy");
-                    localNumberOfEnemiesToSpawn--;
-                    
-                    // Small delay between drones in the same group
-                    yield return new WaitForSeconds(0.2f);
-                }
-                
-                // Wait the normal delay after the group
-                yield return new WaitForSeconds(spawnDelay);
-                continue;
-            }
-            
             // Normal enemy spawn
             SpawnEnemy();
             localNumberOfEnemiesToSpawn--;
@@ -190,6 +159,10 @@ public class UnitManager : MonoBehaviour
             if (localNumberOfEnemiesToSpawn <= 0 && enemyCount <= 0) {
                 Debug.Log("All enemies defeated! Returning to player prep turn.");
                 isWaveInProgress = false;
+                
+                // Increment the round counter after completing a wave
+                RoundManager.Instance.IncrementRound(1);
+                
                 GameManager.Instance.ChangeState(GameState.PlayerPrepTurn);
                 break;
             }
@@ -299,7 +272,13 @@ public class UnitManager : MonoBehaviour
     }
 
     public T GetUnitByName<T>(string unitName, Faction faction) where T : BaseUnit {
-        return (T)_units.Where(u => u.Faction == faction && u.UnitPrefab.name == unitName).First().UnitPrefab;
+        var unit = _units.Where(u => u.Faction == faction && u.UnitPrefab.name == unitName).FirstOrDefault();
+        if (unit == null) {
+            Debug.LogWarning($"Unit not found: {unitName} with faction {faction} Using fallback unit.");
+            // Return a fallback unit if available
+            return (T)_units.Where(u => u.Faction == faction).FirstOrDefault()?.UnitPrefab;
+        }
+        return (T)unit.UnitPrefab;
     }
 
     public void SetSelectedUnit(BaseUnit unit) {

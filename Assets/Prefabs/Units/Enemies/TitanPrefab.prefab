@@ -580,5 +580,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 1299314709238718512}
   mainCamera: {fileID: 0}
-  target: {fileID: 0}
+  target: {fileID: 8283966938642626426}
   offset: {x: 0, y: 0.1, z: 0}

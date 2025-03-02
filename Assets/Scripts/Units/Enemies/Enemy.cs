@@ -34,20 +34,20 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        // Add currency when enemy dies
+        //add currency when enemy dies
         CurrencyManager.Instance.AddCurrency(2);
         Destroy(gameObject);
     }
 
     public void ApplySlow(float slowAmount, float duration)
     {
-        // Apply the strongest slow effect
+        //apply the strongest slow effect
         if (slowAmount > currentSlowAmount)
         {
             currentSlowAmount = slowAmount;
             moveSpeed = baseSpeed * (1 - slowAmount);
             
-            // Visual feedback
+            //visual feedback
             if (freezeEffectPrefab != null)
             {
                 if (activeStatusEffect != null) Destroy(activeStatusEffect);
@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour
         {
             isPoisoned = true;
             
-            // Visual feedback
+            //visual feedback
             if (poisonEffectPrefab != null)
             {
                 if (activeStatusEffect != null) Destroy(activeStatusEffect);
@@ -86,7 +86,7 @@ public class Enemy : MonoBehaviour
     private IEnumerator PoisonEffect(float poisonDamage, float duration)
     {
         float elapsed = 0;
-        float tickRate = 0.5f; // Damage every 0.5 seconds
+        float tickRate = 0.5f; //damage every 0.5 seconds
         
         while (elapsed < duration)
         {

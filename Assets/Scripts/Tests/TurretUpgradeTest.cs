@@ -6,7 +6,7 @@ public class TurretUpgradeTest : MonoBehaviour
     {
         Debug.Log("TurretUpgradeTest Start - Checking all turrets in the scene");
         
-        // Find all turrets in the scene
+        //find all turrets in the scene
         BaseTurret[] turrets = FindObjectsByType<BaseTurret>(FindObjectsSortMode.None);
         Debug.Log($"Found {turrets.Length} turrets in the scene");
         
@@ -14,7 +14,7 @@ public class TurretUpgradeTest : MonoBehaviour
         {
             Debug.Log($"Checking turret: {turret.name}");
             
-            // Check if the turret has a TurretUpgrade component
+            //check if the turret has a TurretUpgrade component
             TurretUpgrade upgrade = turret.GetComponent<TurretUpgrade>();
             if (upgrade != null)
             {
@@ -24,7 +24,7 @@ public class TurretUpgradeTest : MonoBehaviour
             {
                 Debug.LogWarning($"Turret {turret.name} does not have TurretUpgrade component directly attached");
                 
-                // Check children
+                //check children
                 upgrade = turret.GetComponentInChildren<TurretUpgrade>();
                 if (upgrade != null)
                 {
@@ -34,7 +34,7 @@ public class TurretUpgradeTest : MonoBehaviour
                 {
                     Debug.LogError($"Turret {turret.name} does not have TurretUpgrade component at all!");
                     
-                    // Add the component
+                    //add the component
                     upgrade = turret.gameObject.AddComponent<TurretUpgrade>();
                     Debug.Log($"Added TurretUpgrade component to turret {turret.name}");
                 }
@@ -42,15 +42,15 @@ public class TurretUpgradeTest : MonoBehaviour
         }
     }
     
-    // Add a key press test for easier debugging
+    //add a key press test for easier debugging
     void Update()
     {
-        // Press 'T' to check turrets again
+        //press 'T' to check turrets again
         if (Input.GetKeyDown(KeyCode.T))
         {
             Debug.Log("Manual turret check triggered");
             
-            // Find all turrets in the scene
+            //find all turrets in the scene
             BaseTurret[] turrets = FindObjectsByType<BaseTurret>(FindObjectsSortMode.None);
             Debug.Log($"Found {turrets.Length} turrets in the scene");
             
@@ -58,7 +58,7 @@ public class TurretUpgradeTest : MonoBehaviour
             {
                 Debug.Log($"Checking turret: {turret.name}");
                 
-                // Check if the turret has a TurretUpgrade component
+                //check if the turret has a TurretUpgrade component
                 TurretUpgrade upgrade = turret.GetComponent<TurretUpgrade>();
                 if (upgrade != null)
                 {
@@ -68,7 +68,7 @@ public class TurretUpgradeTest : MonoBehaviour
                 {
                     Debug.LogWarning($"Turret {turret.name} does not have TurretUpgrade component directly attached");
                     
-                    // Check children
+                    //check children
                     upgrade = turret.GetComponentInChildren<TurretUpgrade>();
                     if (upgrade != null)
                     {

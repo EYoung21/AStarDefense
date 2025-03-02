@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class SpeedEnemy : BaseEnemy
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    //start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
-        base.Start();  // Call the base class Start method
-        health = 3;    // Low health
+        base.Start();  //call the base class Start method
+        health = 3;    //low health
         maxHealth = 3;
-        damageItDoes = 1;  // Low damage
+        damageItDoes = 1;  //low damage
         healthBar.UpdateHealthBar(health, maxHealth);
-        movement.moveSpeed = 7;  // High speed
+        movement.moveSpeed = 7;  //high speed
         
-        // Log enemy creation for debugging
+        //log enemy creation for debugging
         Debug.Log($"SpeedEnemy created with health: {health}, damage: {damageItDoes}, speed: {movement.moveSpeed}");
     }
 
@@ -21,9 +21,9 @@ public class SpeedEnemy : BaseEnemy
         Debug.Log("SpeedEnemy hit turret");
         other.GetComponent<BaseTurret>().RemoveHealth(damageItDoes);
         
-        // Add currency when enemy hits turret and dies
+        //enemy dies after hitting turret
         UnitManager.Instance.enemyCount--;
-        CurrencyManager.Instance.AddCurrency(2);
+        //no currency reward for hitting turret
         
         Destroy(gameObject);
     }

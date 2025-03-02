@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class TankEnemy : BaseEnemy
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    //start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
-        base.Start();  // Call the base class Start method
-        health = 15;   // High health
+        base.Start();  //call the base class Start method
+        health = 15;   //high health
         maxHealth = 15;
-        damageItDoes = 4;  // High damage
+        damageItDoes = 4;  //high damage
         healthBar.UpdateHealthBar(health, maxHealth);
-        movement.moveSpeed = 2;  // Low speed
+        movement.moveSpeed = 2;  //low speed
         
-        // Log enemy creation for debugging
+        //log enemy creation for debugging
         Debug.Log($"TankEnemy created with health: {health}, damage: {damageItDoes}, speed: {movement.moveSpeed}");
     }
 
@@ -21,9 +21,9 @@ public class TankEnemy : BaseEnemy
         Debug.Log("TankEnemy hit turret");
         other.GetComponent<BaseTurret>().RemoveHealth(damageItDoes);
         
-        // Add currency when enemy hits turret and dies
+        //enemy dies after hitting turret
         UnitManager.Instance.enemyCount--;
-        CurrencyManager.Instance.AddCurrency(4);  // More currency for defeating a tank
+        //no currency reward for hitting turret
         
         Destroy(gameObject);
     }

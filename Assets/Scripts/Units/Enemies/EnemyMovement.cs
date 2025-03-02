@@ -124,7 +124,7 @@ public class EnemyMovement : MonoBehaviour
             float closestDistance = float.MaxValue;
             Vector3 targetDirection = Vector3.zero;
             
-            // If we have a current path and target, calculate our current direction
+            //if we have a current path and target, calculate our current direction
             if (pathVectorList != null && pathVectorList.Count > 0 && currentPathIndex < pathVectorList.Count)
             {
                 targetDirection = (targetPosition - transform.position).normalized;
@@ -134,16 +134,16 @@ public class EnemyMovement : MonoBehaviour
             {
                 float distance = Vector3.Distance(currentPos, newPath[i]);
                 
-                // Check if this point is in front of us (in our current direction of travel)
+                //check if this point is in front of us (in our current direction of travel)
                 bool isInFrontOfUs = true;
                 if (targetDirection != Vector3.zero)
                 {
                     Vector3 pointDirection = (newPath[i] - transform.position).normalized;
                     float dotProduct = Vector3.Dot(targetDirection, pointDirection);
-                    isInFrontOfUs = dotProduct > 0; // Only consider points in front of us
+                    isInFrontOfUs = dotProduct > 0; //only consider points in front of us
                 }
                 
-                // Only update if this point is closer AND in front of us (or if we haven't found any valid points yet)
+                //only update if this point is closer AND in front of us (or if we haven't found any valid points yet)
                 if (distance < closestDistance && (isInFrontOfUs || closestDistance == float.MaxValue))
                 {
                     closestDistance = distance;
@@ -164,14 +164,14 @@ public class EnemyMovement : MonoBehaviour
 
     public void ApplySlow(float slowAmount, float duration)
     {
-        // Take the stronger slow effect
+        //take the stronger slow effect
         if (slowAmount > currentSlowAmount)
         {
             currentSlowAmount = Mathf.Clamp01(slowAmount);
             slowDuration = duration;
             slowTimer = duration;
         }
-        // If same strength, just refresh duration
+        //if same strength, just refresh duration
         else if (slowAmount == currentSlowAmount)
         {
             slowTimer = duration;
