@@ -37,6 +37,8 @@ public class Enemy : MonoBehaviour
         //add currency when enemy dies
         CurrencyManager.Instance.AddCurrency(2);
         Destroy(gameObject);
+
+        UnitManager.Instance.OnEnemyDefeated();
     }
 
     public void ApplySlow(float slowAmount, float duration)
