@@ -265,7 +265,16 @@ public class UnitManager : MonoBehaviour
         //calculate total weight for this round
         float totalWeight = 0f;
         foreach (var enemyWeight in enemySpawnWeights) {
-            totalWeight += enemyWeight.spawnWeightByRound.Evaluate(currentRound);
+            //only include enemies that we know exist
+            if (enemyWeight.enemyName == "BlueStar" || 
+                enemyWeight.enemyName == "SpeedEnemy" || 
+                enemyWeight.enemyName == "TankEnemy" || 
+                enemyWeight.enemyName == "SoldierEnemy" || 
+                enemyWeight.enemyName == "TitanEnemy" || 
+                enemyWeight.enemyName == "TestEnemy1") {
+                
+                totalWeight += enemyWeight.spawnWeightByRound.Evaluate(currentRound);
+            }
         }
         
         //select an enemy type based on weights
@@ -274,11 +283,29 @@ public class UnitManager : MonoBehaviour
         string selectedEnemyName = "BlueStar"; //default fallback
         
         foreach (var enemyWeight in enemySpawnWeights) {
-            cumulativeWeight += enemyWeight.spawnWeightByRound.Evaluate(currentRound);
-            if (randomValue <= cumulativeWeight) {
-                selectedEnemyName = enemyWeight.enemyName;
-                break;
+            //only consider enemies that we know exist
+            if (enemyWeight.enemyName == "BlueStar" || 
+                enemyWeight.enemyName == "SpeedEnemy" || 
+                enemyWeight.enemyName == "TankEnemy" || 
+                enemyWeight.enemyName == "SoldierEnemy" || 
+                enemyWeight.enemyName == "TitanEnemy" || 
+                enemyWeight.enemyName == "TestEnemy1") {
+                
+                cumulativeWeight += enemyWeight.spawnWeightByRound.Evaluate(currentRound);
+                if (randomValue <= cumulativeWeight) {
+                    selectedEnemyName = enemyWeight.enemyName;
+                    break;
+                }
             }
+        }
+        
+        //check if the selected enemy exists in our resources (extra safety check)
+        bool enemyExists = _units.Any(u => u.Faction == Faction.Enemy && u.UnitPrefab.name == selectedEnemyName);
+        
+        //if the enemy doesn't exist, use the default fallback
+        if (!enemyExists) {
+            Debug.LogWarning($"Enemy {selectedEnemyName} not found in resources. Using fallback enemy BlueStar.");
+            selectedEnemyName = "BlueStar";
         }
         
         SpawnSpecificEnemy(selectedEnemyName);
@@ -328,7 +355,16 @@ public class UnitManager : MonoBehaviour
         var unit = _units.Where(u => u.Faction == faction && u.UnitPrefab.name == unitName).FirstOrDefault();
         if (unit == null) {
             Debug.LogWarning($"Unit not found: {unitName} with faction {faction} Using fallback unit.");
-            //return a fallback unit if available
+            
+            //for enemies, use BlueStar as the default fallback
+            if (faction == Faction.Enemy) {
+                var fallbackUnit = _units.Where(u => u.Faction == faction && u.UnitPrefab.name == "BlueStar").FirstOrDefault();
+                if (fallbackUnit != null) {
+                    return (T)fallbackUnit.UnitPrefab;
+                }
+            }
+            
+            //if specific fallback not found, use any unit of the same faction
             return (T)_units.Where(u => u.Faction == faction).FirstOrDefault()?.UnitPrefab;
         }
         return (T)unit.UnitPrefab;

@@ -21,7 +21,18 @@ public class ScoreManager : MonoBehaviour
         {
             // Otherwise, set this instance
             Instance = this;
-            DontDestroyOnLoad(gameObject);  // This makes the ScoreManager persist across scenes
+            
+            // Check if this is a root GameObject before using DontDestroyOnLoad
+            if (transform.parent == null)
+            {
+                DontDestroyOnLoad(gameObject);  // This makes the ScoreManager persist across scenes
+            }
+            else
+            {
+                // If not a root GameObject, detach from parent and then use DontDestroyOnLoad
+                transform.SetParent(null);
+                DontDestroyOnLoad(gameObject);
+            }
         }
 
         // Initialize high score (could be loaded from PlayerPrefs if you want persistence)
