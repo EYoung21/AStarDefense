@@ -19,7 +19,7 @@ public class RoundManager : MonoBehaviour
     public static RoundManager Instance;
 
     [Header("Round Settings")]
-    public int round = 0;
+    public int round = 1;
     public int difficultyTier = 1; // Increases every 5 rounds
     
     [Header("UI References")]

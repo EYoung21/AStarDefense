@@ -68,10 +68,6 @@ public class TurretUpgradeUI : MonoBehaviour
     [SerializeField] private GameObject upgradePanel;
     [SerializeField] private TextMeshProUGUI turretNameText;
 
-    [Header("Keyboard Shortcut Hint")]
-    [SerializeField] private GameObject keyboardShortcutHint;
-    [SerializeField] private float hintDisplayTime = 5f;
-
     private BaseTurret selectedTurret;
     private TurretUpgrade turretUpgrade;
     private bool justShown = false;
@@ -457,33 +453,8 @@ public class TurretUpgradeUI : MonoBehaviour
             EnsureButtonClickable(sniperButton.button, "Sniper");
         }
         
-        // Show keyboard shortcut hint
-        ShowKeyboardShortcutHint();
-        
         // Display a message to the user about keyboard shortcuts
         Debug.Log("IMPORTANT: You can use number keys 1-5 to directly purchase upgrades without clicking buttons");
-    }
-
-    private void ShowKeyboardShortcutHint()
-    {
-        if (keyboardShortcutHint != null)
-        {
-            keyboardShortcutHint.SetActive(true);
-            StartCoroutine(HideKeyboardShortcutHintAfterDelay());
-        }
-        else
-        {
-            Debug.LogWarning("keyboardShortcutHint reference is missing. Create a UI text element with instructions for keyboard shortcuts.");
-        }
-    }
-    
-    private IEnumerator HideKeyboardShortcutHintAfterDelay()
-    {
-        yield return new WaitForSeconds(hintDisplayTime);
-        if (keyboardShortcutHint != null)
-        {
-            keyboardShortcutHint.SetActive(false);
-        }
     }
 
     // Helper method to ensure a button is properly configured for clicks

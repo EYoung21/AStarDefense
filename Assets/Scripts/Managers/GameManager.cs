@@ -93,10 +93,9 @@ public class GameManager : MonoBehaviour
                 break;
             //TODO: Then we want to oscillate between the player prep turn and the enemy wave turn indefinetly until the player loses
             case GameState.PlayerPrepTurn: //block / turret placement
-                // Increment round counter when returning to prep phase
+                // Log the current round
                 if (RoundManager.Instance != null)
                 {
-                    RoundManager.Instance.IncrementRound(1);
                     Debug.Log($"Round {RoundManager.Instance.round} started");
                 }
                 

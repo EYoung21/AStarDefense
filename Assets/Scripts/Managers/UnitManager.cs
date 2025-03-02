@@ -190,6 +190,10 @@ public class UnitManager : MonoBehaviour
             if (localNumberOfEnemiesToSpawn <= 0 && enemyCount <= 0) {
                 Debug.Log("All enemies defeated! Returning to player prep turn.");
                 isWaveInProgress = false;
+                
+                // Increment the round counter after completing a wave
+                RoundManager.Instance.IncrementRound(1);
+                
                 GameManager.Instance.ChangeState(GameState.PlayerPrepTurn);
                 break;
             }

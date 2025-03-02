@@ -88,15 +88,18 @@ Required settings:
 1. Add RoundInfoUI script to a UI GameObject in your Canvas
 2. Configure required references:
    ```csharp
-   roundText: TextMeshProUGUI   //is this necessary?
    difficultyText: TextMeshProUGUI
    enemyScalingText: TextMeshProUGUI
    nextWaveInfoText: TextMeshProUGUI
    enemyInfoPanel: GameObject
-   enemyTypeIcons: Image[]
    ```
 
-3. Configure UI settings:
+3. Enemy Icons Setup:
+   - Create icons for each enemy type as children of the enemyInfoPanel
+   - The panel will be toggled with the Tab key
+   - Organize icons in a layout group for proper spacing
+
+4. Configure UI settings:
    ```csharp
    toggleInfoKey = KeyCode.Tab
    updateInterval = 1.0f
