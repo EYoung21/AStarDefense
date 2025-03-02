@@ -21,7 +21,7 @@ public class CurrencyManager : MonoBehaviour
     void Start()
     {
         Debug.Log($"CurrencyManager Start - Current currency: {currency}");
-        // Ensure the UI is updated with the initial currency value
+        //ensure the UI is updated with the initial currency value
         if (UIManager.Instance != null)
         {
             UIManager.Instance.updateCurrencyUI();
@@ -32,7 +32,7 @@ public class CurrencyManager : MonoBehaviour
         }
     }
 
-    // Set initial currency to 500 for a more balanced start
+    //set initial currency to 500 for a more balanced start
     public int currency = 300;
 
     public void AddCurrency(int amount) 
@@ -41,7 +41,7 @@ public class CurrencyManager : MonoBehaviour
         currency += amount;
         Debug.Log($"Currency ADDED: {amount}, Old: {oldCurrency}, New: {currency}");
         
-        // Update the UI to reflect the new currency value
+        //update the UI to reflect the new currency value
         if (UIManager.Instance != null)
         {
             UIManager.Instance.updateCurrencyUI();
@@ -58,7 +58,7 @@ public class CurrencyManager : MonoBehaviour
         currency -= amount;
         Debug.Log($"Currency REMOVED: {amount}, Old: {oldCurrency}, New: {currency}");
         
-        // Update the UI to reflect the new currency value
+        //update the UI to reflect the new currency value
         if (UIManager.Instance != null)
         {
             UIManager.Instance.updateCurrencyUI();

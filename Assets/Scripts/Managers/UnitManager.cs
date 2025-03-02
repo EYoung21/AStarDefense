@@ -18,7 +18,7 @@ public class UnitManager : MonoBehaviour
     private bool isWaveInProgress = false;
 
     
-    // Enemy spawn weights by round
+    //enemy spawn weights by round
     [System.Serializable]
     public class EnemySpawnWeight
     {
@@ -27,17 +27,18 @@ public class UnitManager : MonoBehaviour
     }
     
     [Header("Enemy Spawn Settings")]
+    //enemy spawn weights by round
     public EnemySpawnWeight[] enemySpawnWeights;
     public int firstTitanRound = 5;
     
-    // Track special enemy spawns
+    //track special enemy spawns
     private bool hasTitanSpawned = false;
 
     void Awake() {
         Instance = this;
         _units = Resources.LoadAll<ScriptableUnit>("Units").ToList();
         
-        // Initialize default spawn weights if not set in inspector
+        //initialize default spawn weights if not set in inspector
         if (enemySpawnWeights == null || enemySpawnWeights.Length == 0)
         {
             InitializeDefaultSpawnWeights();
@@ -48,51 +49,51 @@ public class UnitManager : MonoBehaviour
     {
         enemySpawnWeights = new EnemySpawnWeight[4];
         
-        // Default spawn weights for TestEnemy1 (original enemy)
+        //default spawn weights for TestEnemy1 (original enemy)
         enemySpawnWeights[0] = new EnemySpawnWeight
         {
             enemyName = "BlueStar",
             spawnWeightByRound = new AnimationCurve(
-                new Keyframe(1, 100),  // 100% in round 1
-                new Keyframe(3, 50),   // 50% by round 3
-                new Keyframe(6, 20),   // 20% by round 6
-                new Keyframe(10, 10)   // 10% by round 10+
+                new Keyframe(1, 100),  //100% in round 1
+                new Keyframe(3, 50),   //50% by round 3
+                new Keyframe(6, 20),   //20% by round 6
+                new Keyframe(10, 10)   //10% by round 10+
             )
         };
         
-        // Default spawn weights for SpeedEnemy
+        //default spawn weights for SpeedEnemy
         enemySpawnWeights[1] = new EnemySpawnWeight
         {
             enemyName = "SpeedEnemy",
             spawnWeightByRound = new AnimationCurve(
-                new Keyframe(1, 0),    // 0% in round 1
-                new Keyframe(2, 20),   // 20% in round 2
-                new Keyframe(5, 30),   // 30% by round 5
-                new Keyframe(10, 20)   // 20% by round 10+
+                new Keyframe(1, 0),    //0% in round 1
+                new Keyframe(2, 20),   //20% in round 2
+                new Keyframe(5, 30),   //30% by round 5
+                new Keyframe(10, 20)   //20% by round 10+
             )
         };
         
-        // Default spawn weights for TankEnemy
+        //default spawn weights for TankEnemy
         enemySpawnWeights[2] = new EnemySpawnWeight
         {
             enemyName = "TankEnemy",
             spawnWeightByRound = new AnimationCurve(
-                new Keyframe(1, 0),    // 0% in round 1
-                new Keyframe(3, 10),   // 10% in round 3
-                new Keyframe(6, 20),   // 20% by round 6
-                new Keyframe(10, 30)   // 30% by round 10+
+                new Keyframe(1, 0),    //0% in round 1
+                new Keyframe(3, 10),   //10% in round 3
+                new Keyframe(6, 20),   //20% by round 6
+                new Keyframe(10, 30)   //30% by round 10+
             )
         };
         
-        // Default spawn weights for SoldierEnemy
+        //default spawn weights for SoldierEnemy
         enemySpawnWeights[3] = new EnemySpawnWeight
         {
             enemyName = "SoldierEnemy",
             spawnWeightByRound = new AnimationCurve(
-                new Keyframe(1, 0),    // 0% in round 1
-                new Keyframe(2, 30),   // 30% in round 2
-                new Keyframe(5, 40),   // 40% by round 5
-                new Keyframe(10, 30)   // 30% by round 10+
+                new Keyframe(1, 0),    //0% in round 1
+                new Keyframe(2, 30),   //30% in round 2
+                new Keyframe(5, 40),   //40% by round 5
+                new Keyframe(10, 30)   //30% by round 10+
             )
         };
     }
@@ -111,30 +112,30 @@ public class UnitManager : MonoBehaviour
     public IEnumerator StartRoundLoop() {
         localNumberOfEnemiesToSpawn = GameManager.Instance.globalNumberOfEnemiesToSpawn;
         
-        // Calculate spawn delay based on round number - enemies spawn faster in later rounds
+        //calculate spawn delay based on round number - enemies spawn faster in later rounds
         float spawnDelay = Mathf.Max(0.5f, 1.0f - (RoundManager.Instance.round * 0.05f));
         Debug.Log($"Round {RoundManager.Instance.round}: Spawn delay set to {spawnDelay} seconds");
         
-        // Reset Titan spawn flag at the start of each round
+        //reset Titan spawn flag at the start of each round
         hasTitanSpawned = false;
         
-        // Determine if a Titan should spawn this round
+        //determine if a Titan should spawn this round
         bool shouldSpawnTitan = RoundManager.Instance.round >= firstTitanRound && 
                                (RoundManager.Instance.round % 5 == 0 || Random.value < 0.2f);
         
         while (localNumberOfEnemiesToSpawn > 0) {
-            // Special case: Spawn a Titan if conditions are met
+            //special case: Spawn a Titan if conditions are met
             if (shouldSpawnTitan && !hasTitanSpawned && localNumberOfEnemiesToSpawn <= GameManager.Instance.globalNumberOfEnemiesToSpawn / 2) {
                 SpawnSpecificEnemy("TitanEnemy");
                 hasTitanSpawned = true;
                 localNumberOfEnemiesToSpawn--;
                 
-                // Give players a breather after the Titan
+                //give players a breather after the Titan
                 yield return new WaitForSeconds(spawnDelay * 3);
                 continue;
             }
             
-            // Normal enemy spawn
+            //normal enemy spawn
             SpawnEnemy();
             localNumberOfEnemiesToSpawn--;
             yield return new WaitForSeconds(spawnDelay);
@@ -145,55 +146,55 @@ public class UnitManager : MonoBehaviour
 
     public void BeginEnemyWave() {
         isWaveInProgress = true;
-        enemyCount = 0; // Reset enemy count at the start of a wave
+        enemyCount = 0; //reset enemy count at the start of a wave
         
-        // Ensure turret targeting is enabled at the start of a wave
+        //ensure turret targeting is enabled at the start of a wave
         SetTurretsTargetingActive(true);
         
         StartCoroutine(StartRoundLoop());
         StartCoroutine(CheckForWaveCompletion());
     }
 
-    // Periodically check if all enemies are defeated
+    //periodically check if all enemies are defeated
     private IEnumerator CheckForWaveCompletion()
     {
         while (isWaveInProgress)
         {
-            // Wait until all enemies are defeated
+            //wait until all enemies are defeated
             if (AllEnemiesDefeated())
             {
                 isWaveInProgress = false;
                 
-                // Immediately disable turret targeting to prevent random shooting
+                //immediately disable turret targeting to prevent random shooting
                 SetTurretsTargetingActive(false);
                 
-                // Award completion bonus if RoundManager exists
+                //award completion bonus if RoundManager exists
                 if (RoundManager.Instance != null)
                 {
                     int roundReward = RoundManager.Instance.GetRoundCompletionReward();
                     
-                    // Add round completion bonus
+                    //add round completion bonus
                     if (CurrencyManager.Instance != null)
                     {
                         Debug.Log($"<color=yellow>Round {RoundManager.Instance.round} completed! Bonus: {roundReward} currency</color>");
                         CurrencyManager.Instance.AddCurrency(roundReward);
                     }
                     
-                    // Increment round
+                    //increment round
                     RoundManager.Instance.IncrementRound(1);
                 }
                 
-                // Allow short pause between rounds
+                //allow short pause between rounds
                 yield return new WaitForSeconds(2.0f);
                 
-                // Change game state back to player prep turn
+                //change game state back to player prep turn
                 if (GameManager.Instance != null)
                 {
                     Debug.Log("All enemies defeated! Returning to player prep turn.");
                     GameManager.Instance.ChangeState(GameState.PlayerPrepTurn);
                 }
                 
-                // Reset Titan spawn flag
+                //reset Titan spawn flag
                 hasTitanSpawned = false;
             }
             
@@ -201,15 +202,15 @@ public class UnitManager : MonoBehaviour
         }
     }
 
-    // Method to enable or disable turret targeting
+    //method to enable or disable turret targeting
     private void SetTurretsTargetingActive(bool active)
     {
-        // Find all turrets in the scene
+        //find all turrets in the scene
         BaseTurret[] turrets = FindObjectsByType<BaseTurret>(FindObjectsSortMode.None);
         
         foreach (BaseTurret turret in turrets)
         {
-            // Call a method on BaseTurret to enable/disable targeting
+            //call a method on BaseTurret to enable/disable targeting
             turret.SetTargetingActive(active);
         }
         
@@ -218,22 +219,22 @@ public class UnitManager : MonoBehaviour
 
     private bool AllEnemiesDefeated()
     {
-        // Return true if no enemies are alive (you can implement this depending on how your enemies are managed)
+        //return true if no enemies are alive (you can implement this depending on how your enemies are managed)
         var enemies = GetAllCurrentEnemies();
-        return enemies.All(enemy => enemy == null || !enemy.IsAlive); // Assumes IsAlive is a property of BaseEnemy
+        return enemies.All(enemy => enemy == null || !enemy.IsAlive); //assumes IsAlive is a property of BaseEnemy
     }
 
 
-    // Determine if a specific enemy type should spawn based on current round
+    //determine if a specific enemy type should spawn based on current round
     private bool ShouldSpawnEnemyType(string enemyName) {
         int currentRound = RoundManager.Instance.round;
         
-        // Special case for Titan
+        //special case for Titan
         if (enemyName == "TitanEnemy") {
             return currentRound >= firstTitanRound && !hasTitanSpawned;
         }
         
-        // Get total weight of all possible enemies for this round
+        //get total weight of all possible enemies for this round
         float totalWeight = 0f;
         foreach (var enemyWeight in enemySpawnWeights) {
             totalWeight += enemyWeight.spawnWeightByRound.Evaluate(currentRound);
@@ -241,7 +242,7 @@ public class UnitManager : MonoBehaviour
         
         if (totalWeight <= 0) return false;
         
-        // Get weight for the specific enemy
+        //get weight for the specific enemy
         float specificEnemyWeight = 0f;
         foreach (var enemyWeight in enemySpawnWeights) {
             if (enemyWeight.enemyName == enemyName) {
@@ -250,27 +251,27 @@ public class UnitManager : MonoBehaviour
             }
         }
         
-        // Calculate probability
+        //calculate probability
         float probability = specificEnemyWeight / totalWeight;
         return Random.value < probability;
     }
     
-    // Spawn a random enemy based on weights for the current round
+    //spawn a random enemy based on weights for the current round
     public void SpawnEnemy() {
         enemyCount++;
         
         int currentRound = RoundManager.Instance.round;
         
-        // Calculate total weight for this round
+        //calculate total weight for this round
         float totalWeight = 0f;
         foreach (var enemyWeight in enemySpawnWeights) {
             totalWeight += enemyWeight.spawnWeightByRound.Evaluate(currentRound);
         }
         
-        // Select an enemy type based on weights
+        //select an enemy type based on weights
         float randomValue = Random.Range(0, totalWeight);
         float cumulativeWeight = 0f;
-        string selectedEnemyName = "BlueStar"; // Default fallback
+        string selectedEnemyName = "BlueStar"; //default fallback
         
         foreach (var enemyWeight in enemySpawnWeights) {
             cumulativeWeight += enemyWeight.spawnWeightByRound.Evaluate(currentRound);
@@ -283,7 +284,7 @@ public class UnitManager : MonoBehaviour
         SpawnSpecificEnemy(selectedEnemyName);
     }
     
-    // Spawn a specific enemy type
+    //spawn a specific enemy type
     public void SpawnSpecificEnemy(string enemyName) {
         try {
             var enemyPrefab = GetUnitByName<BaseEnemy>(enemyName, Faction.Enemy);
@@ -295,7 +296,7 @@ public class UnitManager : MonoBehaviour
         }
         catch (System.Exception e) {
             Debug.LogError($"Failed to spawn enemy {enemyName}: {e.Message}");
-            // Fallback to default enemy
+            //fallback to default enemy
             var enemyPrefab = GetUnitByName<BaseEnemy>("BlueStar", Faction.Enemy);
             var spawnedEnemy = Instantiate(enemyPrefab);
             var enemySpawnTile = GridManager.Instance.GetEnemySpawnTile();
@@ -327,16 +328,16 @@ public class UnitManager : MonoBehaviour
         var unit = _units.Where(u => u.Faction == faction && u.UnitPrefab.name == unitName).FirstOrDefault();
         if (unit == null) {
             Debug.LogWarning($"Unit not found: {unitName} with faction {faction} Using fallback unit.");
-            // Return a fallback unit if available
+            //return a fallback unit if available
             return (T)_units.Where(u => u.Faction == faction).FirstOrDefault()?.UnitPrefab;
         }
         return (T)unit.UnitPrefab;
     }
 
     public void SetSelectedUnit(BaseUnit unit) {
-        // If we're selecting a turret that's not the central turret, deselect any previously selected turrets
+        //if we're selecting a turret that's not the central turret, deselect any previously selected turrets
         if (unit != null && unit.Faction == Faction.Turret) {
-            // Deselect all other turrets first
+            //deselect all other turrets first
             BaseTurret[] allTurrets = FindObjectsByType<BaseTurret>(FindObjectsSortMode.None);
             foreach (BaseTurret turret in allTurrets) {
                 if (turret != unit) {
@@ -344,7 +345,7 @@ public class UnitManager : MonoBehaviour
                 }
             }
             
-            // Play turret selection sound
+            //play turret selection sound
             if (SFXManager.Instance != null) {
                 SFXManager.Instance.PlayTurretSelectionSound();
             }
@@ -356,6 +357,6 @@ public class UnitManager : MonoBehaviour
 
     public void OnEnemyDefeated()
     {
-        enemyCount--;  // Decrease the number of active enemies
+        enemyCount--;  //decrease the number of active enemies
     }
 }

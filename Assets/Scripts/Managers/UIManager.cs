@@ -110,9 +110,6 @@ public class UIManager : MonoBehaviour
         if (nextRoundButton != null) {
             nextRoundButton.SetActive(false);
         }
-
-        // We don't need to increment the round here as it's already set to 1 in RoundManager initialization
-        // and will be incremented when returning to PlayerPrepTurn after the enemy wave
         
         //transition to enemy wave turn
         GameManager.Instance.ChangeState(GameState.EnemyWaveTurn);

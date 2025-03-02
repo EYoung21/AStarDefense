@@ -289,7 +289,7 @@ public class TurretUpgrade : MonoBehaviour
             {
                 Debug.Log($"Turret reference exists: {turret.name}");
                 
-                // Play turret upgrade sound
+                //play turret upgrade sound
                 if (SFXManager.Instance != null)
                 {
                     SFXManager.Instance.PlayTurretUpgradeSound();

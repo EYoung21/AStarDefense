@@ -27,7 +27,7 @@ public class BaseTurret : BaseUnit
     protected float splashDamageMultiplier = 0f;
     protected float lifeLeechAmount = 0f;
 
-    // Flag to control if targeting is active
+    //flag to control if targeting is active
     protected bool isTargetingActive = true;
 
     [Header("Visual Effects")]
@@ -271,7 +271,7 @@ public class BaseTurret : BaseUnit
     {
         while (true)
         {
-            // Skip targeting when inactive
+            //skip targeting when inactive
             if (isTargetingActive)
             {
                 //update enemies in range
@@ -299,7 +299,7 @@ public class BaseTurret : BaseUnit
             }
             else
             {
-                // Targeting is disabled, make sure we don't have a target
+                //targeting is disabled, make sure we don't have a target
                 currentTarget = null;
                 enemiesInRange.Clear();
             }
@@ -577,12 +577,12 @@ public class BaseTurret : BaseUnit
         //this method should be removed or renamed since it's now handled by TurretUpgrade
     }
 
-    // Method to enable or disable targeting for this turret
+    //method to enable or disable targeting for this turret
     public void SetTargetingActive(bool active)
     {
         isTargetingActive = active;
         
-        // If turning off targeting, clear current target
+        //if turning off targeting, clear current target
         if (!active)
         {
             currentTarget = null;

@@ -30,10 +30,10 @@ public class TestManager : MonoBehaviour
     
     void Start()
     {
-        // Print important debug information
+        //print important debug information
         Debug.Log("TestManager Start - Printing debug information");
         
-        // Check CurrencyManager
+        //check CurrencyManager
         if (CurrencyManager.Instance != null)
         {
             Debug.Log($"CurrencyManager.Instance exists with currency: {CurrencyManager.Instance.currency}");
@@ -43,7 +43,7 @@ public class TestManager : MonoBehaviour
             Debug.LogError("CurrencyManager.Instance is null!");
         }
         
-        // Check UIManager
+        //check UIManager
         if (UIManager.Instance != null)
         {
             Debug.Log("UIManager.Instance exists");
@@ -53,7 +53,7 @@ public class TestManager : MonoBehaviour
             Debug.LogError("UIManager.Instance is null!");
         }
         
-        // Check TurretUpgradeUI
+        //check TurretUpgradeUI
         if (TurretUpgradeUI.Instance != null)
         {
             Debug.Log("TurretUpgradeUI.Instance exists");

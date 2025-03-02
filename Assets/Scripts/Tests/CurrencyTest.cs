@@ -44,10 +44,10 @@ public class CurrencyTest : MonoBehaviour
         }
     }
     
-    // Add a key press test for easier debugging
+    //add a key press test for easier debugging
     void Update()
     {
-        // Press 'A' to add currency
+        //press 'A' to add currency
         if (Input.GetKeyDown(KeyCode.A))
         {
             Debug.Log($"Test: Adding {testAmount} currency via key press");
@@ -58,7 +58,7 @@ public class CurrencyTest : MonoBehaviour
             }
         }
         
-        // Press 'S' to subtract currency
+        //press 'S' to subtract currency
         if (Input.GetKeyDown(KeyCode.S))
         {
             Debug.Log($"Test: Removing {testAmount} currency via key press");
@@ -69,7 +69,7 @@ public class CurrencyTest : MonoBehaviour
             }
         }
         
-        // Press 'P' to print current currency
+        //press 'P' to print current currency
         if (Input.GetKeyDown(KeyCode.P))
         {
             if (CurrencyManager.Instance != null)

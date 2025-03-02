@@ -204,7 +204,7 @@ public abstract class Tile : MonoBehaviour
                 GridManager.Instance._grid.SetGridObject(gridPos, true);
                 Debug.Log(GridManager.Instance._grid.ToString());
                 
-                // Play block placement sound
+                //play block placement sound
                 if (SFXManager.Instance != null) {
                     SFXManager.Instance.PlayBlockPlacementSound();
                 }

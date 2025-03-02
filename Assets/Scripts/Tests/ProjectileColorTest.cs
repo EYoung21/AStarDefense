@@ -17,7 +17,7 @@ public class ProjectileColorTest : MonoBehaviour
     {
         if (testTurret == null)
         {
-            // Try to find a turret if none is assigned
+            //try to find a turret if none is assigned
             testTurret = FindFirstObjectByType<BaseTurret>();
             if (testTurret == null)
             {
@@ -26,42 +26,42 @@ public class ProjectileColorTest : MonoBehaviour
             }
         }
         
-        // Test frost effect
+        //test frost effect
         if (Input.GetKeyDown(testFrostKey))
         {
             Debug.Log("Testing Frost Effect");
             testTurret.UpdateEffects(0.5f, 0f, 0f, 0f, 0f);
         }
         
-        // Test poison effect
+        //test poison effect
         if (Input.GetKeyDown(testPoisonKey))
         {
             Debug.Log("Testing Poison Effect");
             testTurret.UpdateEffects(0f, 4f, 0f, 0f, 0f);
         }
         
-        // Test splash effect
+        //test splash effect
         if (Input.GetKeyDown(testSplashKey))
         {
             Debug.Log("Testing Splash Effect");
             testTurret.UpdateEffects(0f, 0f, 1.5f, 0.5f, 0f);
         }
         
-        // Test rapid fire effect
+        //test rapid fire effect
         if (Input.GetKeyDown(testRapidFireKey))
         {
             Debug.Log("Testing Rapid Fire Effect");
             testTurret.UpdateStats(1.0f, 1.0f, 1.5f);
         }
         
-        // Test sniper effect
+        //test sniper effect
         if (Input.GetKeyDown(testSniperKey))
         {
             Debug.Log("Testing Sniper Effect");
             testTurret.UpdateStats(1.5f, 1.3f, 1.0f);
         }
         
-        // Reset all effects
+        //reset all effects
         if (Input.GetKeyDown(resetKey))
         {
             Debug.Log("Resetting All Effects");

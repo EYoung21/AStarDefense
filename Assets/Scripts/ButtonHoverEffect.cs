@@ -4,29 +4,29 @@ using UnityEngine.EventSystems;
 
 public class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public Vector3 hoverScale = new Vector3(1.2f, 1.2f, 1); // Size increase on hover
-    public Color hoverColor = Color.yellow; // Change this to your preferred color
+    public Vector3 hoverScale = new Vector3(1.2f, 1.2f, 1); //size increase on hover
+    public Color hoverColor = Color.yellow; //change this to your preferred color
     private Vector3 originalScale;
     private Color originalColor;
     private Image buttonImage;
 
     void Start()
     {
-        originalScale = transform.localScale; // Store original size
+        originalScale = transform.localScale; //store original size
         buttonImage = GetComponent<Image>();
-        originalColor = buttonImage.color; // Store original color
+        originalColor = buttonImage.color; //store original color
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        transform.localScale = hoverScale; // Increase size
-        buttonImage.color = hoverColor; // Change color
+        transform.localScale = hoverScale; //increase size
+        buttonImage.color = hoverColor; //change color
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        transform.localScale = originalScale; // Reset size
-        buttonImage.color = originalColor; // Reset color
+        transform.localScale = originalScale; //reset size
+        buttonImage.color = originalColor; //reset color
     }
 }
 

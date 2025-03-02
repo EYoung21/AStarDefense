@@ -35,13 +35,13 @@ public class SFXManager : MonoBehaviour
     [Range(0f, 2f)]
     public float turretUpgradeVolume = 1.0f;
 
-    // Audio source pool for playing multiple sounds simultaneously
+    //audio source pool for playing multiple sounds simultaneously
     private List<AudioSource> audioSourcePool = new List<AudioSource>();
-    private int maxAudioSources = 5; // Maximum number of simultaneous sounds
+    private int maxAudioSources = 5; //maximum number of simultaneous sounds
 
     private void Awake()
     {
-        // Singleton pattern
+        //singleton pattern
         if (Instance == null)
         {
             Instance = this;
@@ -52,13 +52,13 @@ public class SFXManager : MonoBehaviour
             return;
         }
 
-        // Initialize audio source pool
+        //initialize audio source pool
         InitializeAudioSourcePool();
     }
 
     private void InitializeAudioSourcePool()
     {
-        // Create initial pool of audio sources
+        //create initial pool of audio sources
         for (int i = 0; i < maxAudioSources; i++)
         {
             CreateNewAudioSource();
@@ -76,7 +76,7 @@ public class SFXManager : MonoBehaviour
 
     private AudioSource GetAvailableAudioSource()
     {
-        // Find an available audio source that's not playing
+        //find an available audio source that's not playing
         foreach (AudioSource source in audioSourcePool)
         {
             if (!source.isPlaying)
@@ -85,13 +85,9 @@ public class SFXManager : MonoBehaviour
             }
         }
 
-        // If all sources are playing, return the oldest one
+        //if all sources are playing, return the oldest one
         return audioSourcePool[0];
     }
-
-    /// <summary>
-    /// Play a random sound effect when a turret is selected
-    /// </summary>
     public void PlayTurretSelectionSound()
     {
         if (turretSelectionSounds == null || turretSelectionSounds.Length == 0)
@@ -100,14 +96,10 @@ public class SFXManager : MonoBehaviour
             return;
         }
 
-        // Select random sound
+        //select random sound
         AudioClip soundToPlay = turretSelectionSounds[Random.Range(0, turretSelectionSounds.Length)];
         PlaySoundEffect(soundToPlay, turretSelectionVolume);
     }
-
-    /// <summary>
-    /// Play a random sound effect when a block is placed
-    /// </summary>
     public void PlayBlockPlacementSound()
     {
         if (blockPlacementSounds == null || blockPlacementSounds.Length == 0)
@@ -116,14 +108,10 @@ public class SFXManager : MonoBehaviour
             return;
         }
 
-        // Select random sound
+        //select random sound
         AudioClip soundToPlay = blockPlacementSounds[Random.Range(0, blockPlacementSounds.Length)];
         PlaySoundEffect(soundToPlay, blockPlacementVolume);
     }
-
-    /// <summary>
-    /// Play a random sound effect when a turret is upgraded
-    /// </summary>
     public void PlayTurretUpgradeSound()
     {
         if (turretUpgradeSounds == null || turretUpgradeSounds.Length == 0)
@@ -132,14 +120,11 @@ public class SFXManager : MonoBehaviour
             return;
         }
 
-        // Select random sound
+        //select random sound
         AudioClip soundToPlay = turretUpgradeSounds[Random.Range(0, turretUpgradeSounds.Length)];
         PlaySoundEffect(soundToPlay, turretUpgradeVolume);
     }
 
-    /// <summary>
-    /// Play a specific sound effect with an optional volume multiplier
-    /// </summary>
     public void PlaySoundEffect(AudioClip clip, float volumeMultiplier = 1.0f)
     {
         if (clip == null) return;
@@ -149,10 +134,6 @@ public class SFXManager : MonoBehaviour
         audioSource.volume = sfxVolume * volumeMultiplier;
         audioSource.Play();
     }
-
-    /// <summary>
-    /// Set the overall volume for all sound effects
-    /// </summary>
     public void SetSFXVolume(float volume)
     {
         sfxVolume = Mathf.Clamp01(volume);

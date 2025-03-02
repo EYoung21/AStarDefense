@@ -43,32 +43,32 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        // Record the current scene
+        //record the current scene
         currentSceneName = SceneManager.GetActiveScene().name;
         
-        // Check if this is the primary AudioManager or a duplicate
+        //check if this is the primary AudioManager or a duplicate
         if (Instance != null && Instance != this)
         {
-            // If we want to change music for each scene, let the existing manager know
+            //if we want to change music for each scene, let the existing manager know
             if (changeMusicOnSceneChange)
             {
                 Instance.OnSceneChanged(currentSceneName);
             }
             
-            // Destroy this duplicate AudioManager
+            //destroy this duplicate AudioManager
             Destroy(gameObject);
             return;
         }
         
-        // This is the first AudioManager we've encountered
+        //this is the first AudioManager we've encountered
         Instance = this;
         
-        // Only mark DontDestroyOnLoad if we want persistence
+        //only mark DontDestroyOnLoad if we want persistence
         if (persistAcrossScenes)
         {
             DontDestroyOnLoad(gameObject);
             
-            // Register for scene change events
+            //register for scene change events
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
         
@@ -86,14 +86,14 @@ public class AudioManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        // Unregister from scene events when destroyed
+        //unregister from scene events when destroyed
         if (persistAcrossScenes && Instance == this)
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }
 
-    // Called when a new scene is loaded
+    //called when a new scene is loaded
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (changeMusicOnSceneChange && scene.name != currentSceneName)
@@ -102,12 +102,12 @@ public class AudioManager : MonoBehaviour
         }
     }
     
-    // Handle scene change logic
+    //handle scene change logic
     private void OnSceneChanged(string newSceneName)
     {
         currentSceneName = newSceneName;
         
-        // Play a new random track for the new scene
+        //play a new random track for the new scene
         if (backgroundMusicTracks.Length > 0)
         {
             PlayRandomBackgroundMusic();
@@ -131,10 +131,6 @@ public class AudioManager : MonoBehaviour
             PlayRandomBackgroundMusic();
         }
     }
-    
-    /// <summary>
-    /// Plays a random background music track from the available tracks
-    /// </summary>
     public void PlayRandomBackgroundMusic()
     {
         if (backgroundMusicTracks.Length == 0)
@@ -172,10 +168,6 @@ public class AudioManager : MonoBehaviour
             musicSource.Play();
         }
     }
-    
-    /// <summary>
-    /// Crossfades between two music tracks
-    /// </summary>
     private IEnumerator CrossfadeTracks(AudioClip newTrack)
     {
         //determine which source is currently playing and which will play the new track
@@ -209,9 +201,6 @@ public class AudioManager : MonoBehaviour
         isSecondSourcePlaying = !isSecondSourcePlaying;
     }
     
-    /// <summary>
-    /// Changes to a specific track by index
-    /// </summary>
     public void ChangeBackgroundMusic(int trackIndex)
     {
         if (trackIndex < 0 || trackIndex >= backgroundMusicTracks.Length)
@@ -235,9 +224,6 @@ public class AudioManager : MonoBehaviour
         }
     }
     
-    /// <summary>
-    /// Sets the music volume
-    /// </summary>
     public void SetMusicVolume(float volume)
     {
         musicVolume = Mathf.Clamp01(volume);
@@ -252,9 +238,6 @@ public class AudioManager : MonoBehaviour
         }
     }
     
-    /// <summary>
-    /// Pauses the currently playing music
-    /// </summary>
     public void PauseMusic()
     {
         if (isSecondSourcePlaying)
@@ -267,9 +250,6 @@ public class AudioManager : MonoBehaviour
         }
     }
     
-    /// <summary>
-    /// Resumes the paused music
-    /// </summary>
     public void ResumeMusic()
     {
         if (isSecondSourcePlaying)

@@ -77,13 +77,13 @@ public class GameManager : MonoBehaviour
         switch (newState) {
             // case GameState.MainMenu:
             //     UIManager.Instance.DisplayMainMenu();
-            //     // Show main menu UI, hide other UI elements
-            //     // Play button, settings button, exit game button, highscore displayed in upper right corner, map customization options (color? etc.), game saves?
+            //     //show main menu UI, hide other UI elements
+            //     //play button, settings button, exit game button, highscore displayed in upper right corner, map customization options (color? etc.), game saves?
             //     break;
             // case GameState.TurretSelection:
             //     UIManager.Instance.DisplayTurretSelection();
-            //     // Show turret selection UI, hide other UI elements
-            //     // Turret selection options, turret preview, turret stats, select turret button, cancel button
+            //     //show turret selection UI, hide other UI elements
+            //     //turret selection options, turret preview, turret stats, select turret button, cancel button
             //     break;
             case GameState.GenerateGrid: //
                 GridManager.Instance.GenerateGrid();
@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
                 break;
             //TODO: Then we want to oscillate between the player prep turn and the enemy wave turn indefinetly until the player loses
             case GameState.PlayerPrepTurn: //block / turret placement
-                // Log the current round
+                //log the current round
                 if (RoundManager.Instance != null)
                 {
                     Debug.Log($"Round {RoundManager.Instance.round} started");
@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
                 
                 //increment the number of enemies to spawn for the next round
                 if (RoundManager.Instance.round > 1) {
-                    // Increase enemy count more aggressively in later rounds
+                    //increase enemy count more aggressively in later rounds
                     int currentRound = RoundManager.Instance.round;
                     
                     if (currentRound <= 5) {
@@ -112,9 +112,9 @@ public class GameManager : MonoBehaviour
                         globalNumberOfEnemiesToSpawn += lateRoundEnemyIncrement;
                     }
                     
-                    // Add bonus enemies at milestone rounds
+                    //add bonus enemies at milestone rounds
                     if (currentRound % 5 == 0) {
-                        globalNumberOfEnemiesToSpawn += 2; // Extra enemies every 5 rounds
+                        globalNumberOfEnemiesToSpawn += 2; //extra enemies every 5 rounds
                     }
                     
                     Debug.Log($"Round {currentRound}: Spawning {globalNumberOfEnemiesToSpawn} enemies");
@@ -129,10 +129,10 @@ public class GameManager : MonoBehaviour
 
                 break;
             case GameState.GameOver:
-                // Show game over UI, display final score, play again button, return to main menu button, exit game button,
+                //show game over UI, display final score, play again button, return to main menu button, exit game button,
                 UIManager.Instance.DisplayGameOver();
                 
-                // Stop time when game is over
+                //stop time when game is over
                 Time.timeScale = 0;
                 break;
             default:
@@ -140,17 +140,17 @@ public class GameManager : MonoBehaviour
         }
     }
     
-    // Helper method to get the current round number
+    //helper method to get the current round number
     public int GetCurrentRound() {
         return RoundManager.Instance != null ? RoundManager.Instance.round : 0;
     }
     
-    // Helper method to get the current difficulty tier
+    //helper method to get the current difficulty tier
     public int GetCurrentDifficultyTier() {
         return RoundManager.Instance != null ? RoundManager.Instance.difficultyTier : 1;
     }
     
-    // Helper method to get a description of the current round
+    //helper method to get a description of the current round
     public string GetCurrentRoundDescription() {
         if (RoundManager.Instance == null) return "Round information not available";
         return RoundManager.Instance.GetRoundDifficultyDescription();

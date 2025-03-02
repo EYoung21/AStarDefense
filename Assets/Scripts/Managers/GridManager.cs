@@ -19,7 +19,7 @@ public class GridManager : MonoBehaviour
     void Awake() {
         Instance = this;
         
-        // Initialize the grid with a function that returns false (default walkable state)
+        //initialize the grid with a function that returns false (default walkable state)
         _grid = new Grid<bool>(_width, _height, _cellSize, Vector3.zero, (grid, x, y) => false);
     }
 
@@ -33,22 +33,17 @@ public class GridManager : MonoBehaviour
                 spawnedTile.init(x, y);
 
                 _tiles[new Vector2(x, y)] = spawnedTile;
-                _grid.SetGridObject(x, y, false); // 0 means walkable
+                _grid.SetGridObject(x, y, false); //0 means walkable
 
             }
         }
 
         _cam.transform.position = new Vector3((float)_width/2 - 0.5f, (float)_height/2 - 0.5f, -10);
         
-        // Set camera size to fit height (36 tiles)
-        Camera.main.orthographicSize = _height / 2f;  // This will make the height fit perfectly
+        //set camera size to fit height (36 tiles)
+        Camera.main.orthographicSize = _height / 2f;  //this will make the height fit perfectly
         
         GameManager.Instance.ChangeState(GameState.SpawnInitialTurret);
-
-        // foreach (var tile in _tiles)
-        // {
-        //     Debug.Log($"Key: {tile.Key}, Tile Name: {tile.Value.name}");
-        // }
     }
     
     public Tile GetTileAtPosition(Vector2 pos) {
