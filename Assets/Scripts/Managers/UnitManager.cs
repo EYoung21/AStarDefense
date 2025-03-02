@@ -274,7 +274,7 @@ public class UnitManager : MonoBehaviour
     public T GetUnitByName<T>(string unitName, Faction faction) where T : BaseUnit {
         var unit = _units.Where(u => u.Faction == faction && u.UnitPrefab.name == unitName).FirstOrDefault();
         if (unit == null) {
-            Debug.LogWarning($"Unit not found: {unitName} with faction {faction}. Using fallback unit.");
+            Debug.LogWarning($"Unit not found: {unitName} with faction {faction} Using fallback unit.");
             // Return a fallback unit if available
             return (T)_units.Where(u => u.Faction == faction).FirstOrDefault()?.UnitPrefab;
         }
