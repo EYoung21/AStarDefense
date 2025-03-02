@@ -149,30 +149,41 @@ public class UnitManager : MonoBehaviour
         StartCoroutine(StartRoundLoop());
         StartCoroutine(CheckForWaveCompletion());
     }
-    
+
     // Periodically check if all enemies are defeated
-    private IEnumerator CheckForWaveCompletion() {
+    private IEnumerator CheckForWaveCompletion()
+    {
         // Wait a bit to let enemies spawn
         yield return new WaitForSeconds(2f);
-        
-        while (isWaveInProgress) {
-            // Check if all enemies have been spawned and defeated
-            if (localNumberOfEnemiesToSpawn <= 0 && enemyCount <= 0) {
+
+        while (isWaveInProgress)
+        {
+            // Ensure both conditions are met: no enemies are left to spawn, and all enemies are defeated
+            if (localNumberOfEnemiesToSpawn <= 0 && enemyCount <= 0 && AllEnemiesDefeated())
+            {
                 Debug.Log("All enemies defeated! Returning to player prep turn.");
                 isWaveInProgress = false;
-                
+
                 // Increment the round counter after completing a wave
                 RoundManager.Instance.IncrementRound(1);
-                
+
                 GameManager.Instance.ChangeState(GameState.PlayerPrepTurn);
                 break;
             }
-            
+
             // Check every half second
             yield return new WaitForSeconds(0.5f);
         }
     }
-    
+
+    private bool AllEnemiesDefeated()
+    {
+        // Return true if no enemies are alive (you can implement this depending on how your enemies are managed)
+        var enemies = GetAllCurrentEnemies();
+        return enemies.All(enemy => enemy == null || !enemy.IsAlive); // Assumes IsAlive is a property of BaseEnemy
+    }
+
+
     // Determine if a specific enemy type should spawn based on current round
     private bool ShouldSpawnEnemyType(string enemyName) {
         int currentRound = RoundManager.Instance.round;

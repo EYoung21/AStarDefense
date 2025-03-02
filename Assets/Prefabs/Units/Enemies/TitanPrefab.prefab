@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 47304256224929246}
   - component: {fileID: -8313363674397187393}
   - component: {fileID: -6653965597704615985}
+  - component: {fileID: 7964517908915118001}
   m_Layer: 0
   m_Name: TitanPrefab
   m_TagString: Untagged
@@ -189,6 +190,21 @@ MonoBehaviour:
   damageItDoes: 2
   healthBar: {fileID: 8162693492873858113}
   movement: {fileID: 0}
+--- !u!114 &7964517908915118001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2258262054575399882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddf1cf793404a7345b604b679086db7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleSpeed: 2
+  scaleAmount: 0.1
+  healthBar: {fileID: 1836601182807811142}
 --- !u!1 &3983418386267622290
 GameObject:
   m_ObjectHideFlags: 0

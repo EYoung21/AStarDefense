@@ -398,6 +398,7 @@ GameObject:
   - component: {fileID: -3495327666964878058}
   - component: {fileID: 8246729577335972932}
   - component: {fileID: -2791206867404370076}
+  - component: {fileID: -223369671786946311}
   m_Layer: 0
   m_Name: TankPrefab
   m_TagString: Untagged
@@ -573,6 +574,21 @@ MonoBehaviour:
   damageItDoes: 2
   healthBar: {fileID: 3515217946466244866}
   movement: {fileID: 0}
+--- !u!114 &-223369671786946311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7359038127548482791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddf1cf793404a7345b604b679086db7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleSpeed: 2
+  scaleAmount: 0.1
+  healthBar: {fileID: 2965100799703763592}
 --- !u!1 &7702418702421731385
 GameObject:
   m_ObjectHideFlags: 0
