@@ -16,6 +16,7 @@ public class UnitManager : MonoBehaviour
     public int enemyCount;
     
     private bool isWaveInProgress = false;
+
     
     // Enemy spawn weights by round
     [System.Serializable]

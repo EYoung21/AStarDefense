@@ -103,8 +103,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileType: Basic projectile
-  speed: 10
-  damage: 10000
+  speed: 20
+  damage: 2
   lifetime: 0
   hasFrostEffect: 0
   hasPoisonEffect: 0
