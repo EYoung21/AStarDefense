@@ -297,4 +297,9 @@ public class UnitManager : MonoBehaviour
         SelectedUnit = unit; //maybe on canvas we display an image of the currently selected turret or something
         UIManager.Instance.ToggleShowSelectedUnit(unit);
     }
+
+    public void OnEnemyDefeated()
+    {
+        enemyCount--;  // Decrease the number of active enemies
+    }
 }
