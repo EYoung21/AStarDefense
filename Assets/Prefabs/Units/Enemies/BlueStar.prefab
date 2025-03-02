@@ -265,6 +265,7 @@ GameObject:
   - component: {fileID: -728539922743222024}
   - component: {fileID: -6764961580851401123}
   - component: {fileID: 9066242965397349380}
+  - component: {fileID: 7881679554921250503}
   m_Layer: 0
   m_Name: BlueStar
   m_TagString: Untagged
@@ -440,6 +441,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &7881679554921250503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5706665988952276426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddf1cf793404a7345b604b679086db7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleSpeed: 2
+  scaleAmount: 0.1
 --- !u!1 &6088030142105761747
 GameObject:
   m_ObjectHideFlags: 0
