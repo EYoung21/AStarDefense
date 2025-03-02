@@ -4293,6 +4293,23 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1f91560870d6c4dc79c2f8632a4e1526, type: 3}
   - {fileID: 8300000, guid: ee4502a74b49f496599ffcc169733ae6, type: 3}
   turretUpgradeVolume: 1
+  projectileFiringSounds:
+  - {fileID: 8300000, guid: 07bbe0adc397c4699be61aad18f73964, type: 3}
+  - {fileID: 8300000, guid: f2557f99e13eb45b0bc605d8a797e202, type: 3}
+  - {fileID: 8300000, guid: bb095810e8d06463f94c322b4039f0f1, type: 3}
+  - {fileID: 8300000, guid: 83746ee7247c5424d8fff8beb697984b, type: 3}
+  projectileFiringVolume: 1
+  enemyDespawnSounds:
+  - {fileID: 8300000, guid: b6a81d71cec0441e9a3e4253eb393acf, type: 3}
+  - {fileID: 8300000, guid: 226cd2fe545564a2ab2d50c0bf16378c, type: 3}
+  - {fileID: 8300000, guid: dbe25c485461340a3926d95dcdeb8a30, type: 3}
+  - {fileID: 8300000, guid: cfd9669cbe2a34973a61d64b0ee5a7b6, type: 3}
+  - {fileID: 8300000, guid: 721e96b5139d445b8bacba8397705c6e, type: 3}
+  - {fileID: 8300000, guid: df186e4c798864c59ad72e70570ed133, type: 3}
+  - {fileID: 8300000, guid: 9b45b478b90a245a7b5c9fc5ee89bb35, type: 3}
+  - {fileID: 8300000, guid: 475fecad0cffb492a834b716cd0ecba9, type: 3}
+  - {fileID: 8300000, guid: aa3187fee7bf54b159317a2865ed3374, type: 3}
+  enemyDespawnVolume: 1
 --- !u!1 &1938027092
 GameObject:
   m_ObjectHideFlags: 0
