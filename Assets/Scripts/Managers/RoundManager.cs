@@ -4,18 +4,6 @@ using TMPro;
 
 public class RoundManager : MonoBehaviour
 {
-    // // Start is called once before the first execution of Update after the MonoBehaviour is created
-    // void Start()
-    // {
-        
-    // }
-
-    // // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
-
     public static RoundManager Instance;
 
     [Header("Round Settings")]
@@ -61,7 +49,7 @@ public class RoundManager : MonoBehaviour
     }
     
     void Start() {
-        // Initialize round display
+        //initialize round display
         UpdateRoundDisplay();
     }
 
@@ -69,19 +57,19 @@ public class RoundManager : MonoBehaviour
         int previousRound = round;
         round += amount;
         
-        // Check if we've reached a new difficulty tier
+        //check if we've reached a new difficulty tier
         int newDifficultyTier = CalculateDifficultyTier();
         if (newDifficultyTier > difficultyTier) {
             difficultyTier = newDifficultyTier;
             Debug.Log($"<color=orange>DIFFICULTY INCREASED: Now in {GetDifficultyTierName()} tier!</color>");
         }
         
-        // Log round change with scaling information
+        //log round change with scaling information
         Debug.Log($"<color=yellow>Round {previousRound} -> {round}</color>");
         Debug.Log($"Enemy Health Multiplier: {GetEnemyHealthMultiplier():F2}x");
         Debug.Log($"Enemy Damage Multiplier: {GetEnemyDamageMultiplier():F2}x");
         
-        // Update UI
+        //update UI
         UpdateRoundDisplay();
     }
     
