@@ -205,7 +205,7 @@ public class UnitManager : MonoBehaviour
     private void SetTurretsTargetingActive(bool active)
     {
         // Find all turrets in the scene
-        BaseTurret[] turrets = GameObject.FindObjectsOfType<BaseTurret>();
+        BaseTurret[] turrets = FindObjectsByType<BaseTurret>(FindObjectsSortMode.None);
         
         foreach (BaseTurret turret in turrets)
         {
@@ -342,6 +342,11 @@ public class UnitManager : MonoBehaviour
                 if (turret != unit) {
                     turret.SendMessage("SetSelected", false, SendMessageOptions.DontRequireReceiver);
                 }
+            }
+            
+            // Play turret selection sound
+            if (SFXManager.Instance != null) {
+                SFXManager.Instance.PlayTurretSelectionSound();
             }
         }
         

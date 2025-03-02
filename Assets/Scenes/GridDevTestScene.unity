@@ -3542,6 +3542,7 @@ Transform:
   - {fileID: 874818060}
   - {fileID: 835399422}
   - {fileID: 325188684}
+  - {fileID: 1827078530}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1600111761
@@ -4185,6 +4186,66 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &1827078529
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1827078530}
+  - component: {fileID: 1827078531}
+  m_Layer: 0
+  m_Name: SFXManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1827078530
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827078529}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1433760848}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1827078531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827078529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa0ae3d58f9e44902ac4c05513d6163c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxVolume: 0.7
+  turretSelectionSounds:
+  - {fileID: 8300000, guid: 1f91560870d6c4dc79c2f8632a4e1526, type: 3}
+  - {fileID: 8300000, guid: ee4502a74b49f496599ffcc169733ae6, type: 3}
+  turretSelectionVolume: 1
+  blockPlacementSounds:
+  - {fileID: 8300000, guid: 6517e51156d3741cdbe142d337599a8a, type: 3}
+  - {fileID: 8300000, guid: 1d752834e1929499fb2b45a2b86aa000, type: 3}
+  - {fileID: 8300000, guid: 5d79e3962098c4183a85aa98cd365bf4, type: 3}
+  - {fileID: 8300000, guid: 52e45eb8c47e6456fa754df98405a372, type: 3}
+  - {fileID: 8300000, guid: 71ebf5166250c4625b4f42bc1fbebd82, type: 3}
+  blockPlacementVolume: 1
+  turretUpgradeSounds:
+  - {fileID: 8300000, guid: 1f91560870d6c4dc79c2f8632a4e1526, type: 3}
+  - {fileID: 8300000, guid: ee4502a74b49f496599ffcc169733ae6, type: 3}
+  turretUpgradeVolume: 1
 --- !u!1 &1938027092
 GameObject:
   m_ObjectHideFlags: 0

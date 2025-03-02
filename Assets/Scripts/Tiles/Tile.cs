@@ -204,6 +204,11 @@ public abstract class Tile : MonoBehaviour
                 GridManager.Instance._grid.SetGridObject(gridPos, true);
                 Debug.Log(GridManager.Instance._grid.ToString());
                 
+                // Play block placement sound
+                if (SFXManager.Instance != null) {
+                    SFXManager.Instance.PlayBlockPlacementSound();
+                }
+                
                 CurrencyManager.Instance.currency -= 5;
                 UIManager.Instance.updateCurrencyUI();
             } else {
