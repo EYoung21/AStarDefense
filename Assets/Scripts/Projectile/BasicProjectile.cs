@@ -1,3 +1,4 @@
+using UnityEditor.Rendering.Analytics;
 using UnityEngine;
 
 public class BasicProjectile : BaseProjectile
@@ -9,12 +10,13 @@ public class BasicProjectile : BaseProjectile
     [SerializeField] private GameObject frostEffect;
     [SerializeField] private GameObject poisonEffect;
     [SerializeField] private GameObject splashEffect;
+
     
     // // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
         base.Start();
-        damage = 1;
+        damage = 5;
         lifetime = 5;
         
         // Enable appropriate visual effects based on projectile type

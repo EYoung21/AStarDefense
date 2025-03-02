@@ -501,8 +501,8 @@ MonoBehaviour:
   Faction: 0
   UnitName: OG Single-shot Turret
   healthBar: {fileID: 0}
-  baseAttackDamage: 10
-  baseAttackSpeed: 1
+  baseAttackDamage: 100
+  baseAttackSpeed: 100
   baseRange: 3
   projectilePrefab: {fileID: 2129480847880594891, guid: e3327026cae1747f180c2b9ca40dac5a, type: 3}
   rangeIndicator: {fileID: 0}

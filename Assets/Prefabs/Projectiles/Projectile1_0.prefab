@@ -103,9 +103,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileType: Basic projectile
-  speed: 4
-  damage: 1
+  speed: 10
+  damage: 10000
   lifetime: 0
+  hasFrostEffect: 0
+  hasPoisonEffect: 0
+  hasSplashEffect: 0
+  frostEffect: {fileID: 0}
+  poisonEffect: {fileID: 0}
+  splashEffect: {fileID: 0}
 --- !u!58 &8065306293000341361
 CircleCollider2D:
   m_ObjectHideFlags: 0
