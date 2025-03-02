@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -5542810377540342051}
   - component: {fileID: -674866080638243095}
   - component: {fileID: -48789941976760302}
+  - component: {fileID: -6484525902926877837}
   m_Layer: 0
   m_Name: SoldierPrefab
   m_TagString: Untagged
@@ -189,6 +190,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
+--- !u!114 &-6484525902926877837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490869277243840635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddf1cf793404a7345b604b679086db7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleSpeed: 2
+  scaleAmount: 0.1
+  healthBar: {fileID: 1324127124856370938}
 --- !u!1 &1975972512416241511
 GameObject:
   m_ObjectHideFlags: 0
