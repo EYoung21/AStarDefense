@@ -3,9 +3,7 @@ using UnityEngine;
 public class BasicProjectile : BaseProjectile
 {
     // Effect values
-    private float slowEffectAmount = 0f;
-    private float poisonDamageAmount = 0f;
-    private float splashRadiusAmount = 0f;
+    private float slowEffectAmount = 0.5f; // 50% slow effect
     
     // Particle effects for different upgrade types
     [SerializeField] private GameObject frostEffect;
@@ -56,11 +54,13 @@ public class BasicProjectile : BaseProjectile
             enemy.TakeDamage(damage);
             
             // Apply frost effect if applicable
-            if (hasFrostEffect && enemy.movement != null)
+            if (hasFrostEffect)
             {
-                // Apply slow effect (this would need to be implemented in the enemy movement class)
-                Debug.Log($"Applied frost effect to enemy");
-                // Example: enemy.movement.ApplySlow(0.3f, 2.0f); // 30% slow for 2 seconds
+                EnemyMovement movement = enemy.GetComponent<EnemyMovement>();
+                if (movement != null)
+                {
+                    movement.ApplySlow(slowEffectAmount, 2.0f); // Apply 50% slow for 2 seconds
+                }
             }
             
             // Apply poison effect if applicable
