@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TestEnemy1 : BaseEnemy
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    //start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
         base.Start();  //call the base class Start method
@@ -13,19 +13,13 @@ public class TestEnemy1 : BaseEnemy
         movement.moveSpeed = 4;
     }
 
-    // // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
-
     protected override void OnEnemyHitTurret(Collider2D other) {
         Debug.Log("TestEnemy1 hit");
         other.GetComponent<BaseTurret>().RemoveHealth(damageItDoes);
         
-        // Enemy dies after hitting turret
+        //enemy dies after hitting turret
         UnitManager.Instance.enemyCount--;
-        // No currency reward for hitting turret
+        //no currency reward for hitting turret
         
         Destroy(gameObject);
     }

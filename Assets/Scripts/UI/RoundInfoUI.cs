@@ -23,7 +23,7 @@ public class RoundInfoUI : MonoBehaviour
     
     void Start()
     {
-        // Hide enemy info panel initially
+        //hide enemy info panel initially
         if (enemyInfoPanel != null)
         {
             enemyInfoPanel.SetActive(false);
@@ -34,14 +34,14 @@ public class RoundInfoUI : MonoBehaviour
     
     void Update()
     {
-        // Update UI periodically
+        //update UI periodically
         if (Time.time > lastUpdateTime + updateInterval)
         {
             UpdateUI();
             lastUpdateTime = Time.time;
         }
         
-        // Toggle enemy info panel
+        //toggle enemy info panel
         if (Input.GetKeyDown(toggleInfoKey))
         {
             showingEnemyInfo = !showingEnemyInfo;
@@ -59,19 +59,19 @@ public class RoundInfoUI : MonoBehaviour
         int currentRound = RoundManager.Instance.round;
         string difficultyTier = RoundManager.Instance.GetDifficultyTierName();
         
-        // Update round text
+        //update round text
         if (roundText != null)
         {
             roundText.text = $"Round: {currentRound}";
         }
         
-        // Update difficulty text
+        //update difficulty text
         if (difficultyText != null)
         {
             difficultyText.text = $"Difficulty: {difficultyTier}";
         }
         
-        // Update enemy scaling text
+        //update enemy scaling text
         if (enemyScalingText != null)
         {
             float healthMultiplier = RoundManager.Instance.GetEnemyHealthMultiplier();
@@ -87,13 +87,13 @@ public class RoundInfoUI : MonoBehaviour
             }
         }
         
-        // Update next wave info
+        //update next wave info
         if (nextWaveInfoText != null && GameManager.Instance.GameState == GameState.PlayerPrepTurn)
         {
             int enemyCount = GameManager.Instance.globalNumberOfEnemiesToSpawn;
             nextWaveInfoText.text = $"Next Wave: {enemyCount} enemies";
             
-            // Add info about potential special enemies
+            //add info about potential special enemies
             if (currentRound >= 5)
             {
                 nextWaveInfoText.text += "\nTitan may appear!";
@@ -101,7 +101,7 @@ public class RoundInfoUI : MonoBehaviour
         }
     }
     
-    // Call this method to show detailed info about a specific enemy type
+    //call this method to show detailed info about a specific enemy type
     public void ShowEnemyTypeInfo(string enemyType)
     {
         string info = "Unknown Enemy";
@@ -125,7 +125,7 @@ public class RoundInfoUI : MonoBehaviour
                 break;
         }
         
-        // Display this info in a tooltip or panel
+        //display this info in a tooltip or panel
         Debug.Log(info);
     }
 } 

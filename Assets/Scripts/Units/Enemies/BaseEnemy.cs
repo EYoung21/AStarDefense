@@ -22,7 +22,7 @@ public class BaseEnemy : BaseUnit
             movement = gameObject.AddComponent<EnemyMovement>();
         }
         
-        // Apply round-based scaling to health and damage
+        //apply round-based scaling to health and damage
         if (RoundManager.Instance != null)
         {
             float healthMultiplier = RoundManager.Instance.GetEnemyHealthMultiplier();
@@ -32,7 +32,7 @@ public class BaseEnemy : BaseUnit
             maxHealth *= healthMultiplier;
             damageItDoes *= damageMultiplier;
             
-            // Update health bar with new max health
+            //update health bar with new max health
             if (healthBar != null)
             {
                 healthBar.UpdateHealthBar(health, maxHealth);
@@ -45,7 +45,7 @@ public class BaseEnemy : BaseUnit
         }
     }
 
-    // Update is called once per frame
+    //update is called once per frame
     void Update()
     {
         

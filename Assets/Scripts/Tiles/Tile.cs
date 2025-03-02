@@ -4,18 +4,6 @@ using UnityEngine.EventSystems;
 
 public abstract class Tile : MonoBehaviour
 {
-    // // Start is called once before the first execution of Update after the MonoBehaviour is created
-    // void Start()
-    // {
-        
-    // }
-
-    // // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
-
     [SerializeField] protected SpriteRenderer _renderer;
     //protected: effectively private, but derrived tiles (from this class) can also access it
 
@@ -29,7 +17,7 @@ public abstract class Tile : MonoBehaviour
     }
 
     void OnMouseEnter() { //only want to set highlight for turrets, and places that aren't occupied by walls
-        // Don't highlight if over UI
+        //don't highlight if over UI
         if (EventSystem.current.IsPointerOverGameObject())
         {
             return;
@@ -80,12 +68,12 @@ public abstract class Tile : MonoBehaviour
             return;
         }
 
-        // Handle turret selection and block placement
+        //handle turret selection and block placement
         if (OccupiedUnit != null) {
             if (OccupiedUnit.Faction == Faction.Turret) {
                 UnitManager.Instance.SetSelectedUnit((BaseTurret)OccupiedUnit);
                 
-                // Check if this is the central turret
+                //check if this is the central turret
                 Vector2 centerPosition = new Vector2(
                     GridManager.Instance._width / 2, 
                     GridManager.Instance._height / 2
@@ -97,13 +85,13 @@ public abstract class Tile : MonoBehaviour
                 );
                 
                 if (GameManager.Instance.GameState == GameState.EnemyWaveTurn) {
-                    // During enemy wave, only handle turret control
+                    //during enemy wave, only handle turret control
                     if (centerPosition == currPosition) {
                         ((BaseTurret)OccupiedUnit).SetSelected(true);
                         Debug.Log("Central turret selected for manual control via tile");
                     }
                 } else if (GameManager.Instance.GameState == GameState.PlayerPrepTurn) {
-                    // During prep turn, show upgrade panel
+                    //during prep turn, show upgrade panel
                     Debug.Log("Trying to show upgrade panel");
                     if (TurretUpgradeUI.Instance != null) {
                         Debug.Log("Found TurretUpgradeUI instance");
@@ -118,7 +106,7 @@ public abstract class Tile : MonoBehaviour
             return;
         }
 
-        // If the upgrade panel is active, just close it and don't place blocks
+        //if the upgrade panel is active, just close it and don't place blocks
         if (TurretUpgradeUI.Instance != null && 
             TurretUpgradeUI.Instance.IsUpgradePanelActive())
         {
@@ -126,13 +114,13 @@ public abstract class Tile : MonoBehaviour
             return;
         }
 
-        // Handle empty tile clicks
+        //handle empty tile clicks
         UnitManager.Instance.SetSelectedUnit(null);
         
-        // Check if we can place blocks
+        //check if we can place blocks
         bool canPlaceBlock = true;
         
-        // Prevent block placement if a turret is selected during prep turn
+        //prevent block placement if a turret is selected during prep turn
         if (GameManager.Instance.GameState == GameState.PlayerPrepTurn && 
             UnitManager.Instance.SelectedUnit != null && 
             UnitManager.Instance.SelectedUnit is BaseTurret)
@@ -142,7 +130,7 @@ public abstract class Tile : MonoBehaviour
             return;
         }
         
-        // Check for central turret control during enemy wave
+        //check for central turret control during enemy wave
         if (GameManager.Instance.GameState == GameState.EnemyWaveTurn) {
             Vector2 centerPosition = new Vector2(
                 GridManager.Instance._width / 2, 
@@ -168,7 +156,7 @@ public abstract class Tile : MonoBehaviour
             }
         }
 
-        // Try to place block if allowed
+        //try to place block if allowed
         if (canPlaceBlock && CurrencyManager.Instance.currency > 0) {
             PlaceBlock();
         }
@@ -307,15 +295,15 @@ public abstract class Tile : MonoBehaviour
     }
 
     private bool IsEdgeTile() {
-        // Get mouse position in world coordinates
+        //get mouse position in world coordinates
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 gridPos = new Vector2(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(mousePos.y));
         
-        // Get the grid dimensions from GridManager
+        //get the grid dimensions from GridManager
         int width = GridManager.Instance._width;
         int height = GridManager.Instance._height;
         
-        // Check if the mouse position is on any edge of the grid
+        //check if the mouse position is on any edge of the grid
         return gridPos.x == 0 || gridPos.x == width - 1 || gridPos.y == 0 || gridPos.y == height - 1;
     }
 }

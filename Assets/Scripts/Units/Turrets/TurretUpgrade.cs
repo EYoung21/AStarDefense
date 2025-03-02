@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-// Temporarily rename to help identify the conflict
+//temporarily rename to help identify the conflict
 public class TurretUpgrade : MonoBehaviour
 {
     [System.Serializable]
@@ -45,7 +45,7 @@ public class TurretUpgrade : MonoBehaviour
         else
         {
             Debug.LogError($"Failed to find BaseTurret component on {gameObject.name}! Upgrades will not work.");
-            // Try to find the BaseTurret component in parent or children
+            //try to find the BaseTurret component in parent or children
             turret = GetComponentInParent<BaseTurret>();
             if (turret != null)
             {
@@ -66,7 +66,7 @@ public class TurretUpgrade : MonoBehaviour
 
     void OnEnable()
     {
-        // Double-check that we have a valid turret reference
+        //double-check that we have a valid turret reference
         if (turret == null)
         {
             turret = GetComponent<BaseTurret>();
@@ -92,7 +92,7 @@ public class TurretUpgrade : MonoBehaviour
 
     void Update()
     {
-        // Press 'U' to print upgrade levels
+        //press 'U' to print upgrade levels
         if (Input.GetKeyDown(KeyCode.U))
         {
             PrintUpgradeLevels();
@@ -103,7 +103,7 @@ public class TurretUpgrade : MonoBehaviour
     {
         upgradeStats = new Dictionary<UpgradeType, UpgradeLevel[]>();
 
-        // Initialize Frost upgrades
+        //initialize Frost upgrades
         upgradeStats[UpgradeType.Frost] = new UpgradeLevel[] {
             new UpgradeLevel {
                 upgradeName = "Frost Turret",
@@ -128,7 +128,7 @@ public class TurretUpgrade : MonoBehaviour
             }
         };
 
-        // Initialize Poison upgrades
+        //initialize Poison upgrades
         upgradeStats[UpgradeType.Poison] = new UpgradeLevel[] {
             new UpgradeLevel {
                 upgradeName = "Poison Turret",
@@ -153,7 +153,7 @@ public class TurretUpgrade : MonoBehaviour
             }
         };
 
-        // Initialize Splash upgrades
+        //initialize Splash upgrades
         upgradeStats[UpgradeType.Splash] = new UpgradeLevel[] {
             new UpgradeLevel {
                 upgradeName = "Splash Turret",
@@ -181,7 +181,7 @@ public class TurretUpgrade : MonoBehaviour
             }
         };
 
-        // Initialize RapidFire upgrades
+        //initialize RapidFire upgrades
         upgradeStats[UpgradeType.RapidFire] = new UpgradeLevel[] {
             new UpgradeLevel {
                 upgradeName = "Rapid Fire",
@@ -206,7 +206,7 @@ public class TurretUpgrade : MonoBehaviour
             }
         };
 
-        // Initialize Sniper upgrades
+        //initialize Sniper upgrades
         upgradeStats[UpgradeType.Sniper] = new UpgradeLevel[] {
             new UpgradeLevel {
                 upgradeName = "Sniper Turret",
@@ -252,7 +252,7 @@ public class TurretUpgrade : MonoBehaviour
     {
         Debug.Log($"TurretUpgrade.ApplyUpgrade called for {type}");
         
-        // Double-check that we have a valid turret reference
+        //double-check that we have a valid turret reference
         if (turret == null)
         {
             turret = GetComponent<BaseTurret>();
@@ -284,7 +284,7 @@ public class TurretUpgrade : MonoBehaviour
             upgradeLevels[type]++;
             Debug.Log($"Upgraded {type} from level {oldLevel} to level {upgradeLevels[type]}");
             
-            // Log the turret reference
+            //log the turret reference
             if (turret != null)
             {
                 Debug.Log($"Turret reference exists: {turret.name}");
@@ -292,7 +292,7 @@ public class TurretUpgrade : MonoBehaviour
             else
             {
                 Debug.LogError("Turret reference is null! Cannot apply stats.");
-                return false; // Return early if turret is null
+                return false; //return early if turret is null
             }
             
             UpdateTurretStats();
@@ -404,7 +404,7 @@ public class TurretUpgrade : MonoBehaviour
             }
         }
         
-        // Check if turret reference is valid
+        //check if turret reference is valid
         if (turret != null)
         {
             Debug.Log($"Turret reference is valid: {turret.name}");

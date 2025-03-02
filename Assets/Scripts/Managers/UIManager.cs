@@ -4,18 +4,6 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    // // Start is called once before the first execution of Update after the MonoBehaviour is created
-    // void Start()
-    // {
-        
-    // }
-
-    // // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
-
     [SerializeField] private GameObject SelectedUnitObject;
     
     [SerializeField] private GameObject roundObject;
@@ -44,8 +32,8 @@ public class UIManager : MonoBehaviour
     }
 
     public void DisplayTurretSelection() {
-        // Show turret selection UI, hide other UI elements
-        // Turret selection options, turret preview, turret stats, select turret button, cancel button
+        //show turret selection UI, hide other UI elements
+        //turret selection options, turret preview, turret stats, select turret button, cancel button
 
         //only continue once player has selected a turret
 
@@ -66,8 +54,8 @@ public class UIManager : MonoBehaviour
 
     //at some point in the following two functions, we need to call GameManager.Instance.ChangeState(GameState.GameOver);
     public void DisplayPlayerPrepTurnUI() {
-        // Show player prep turn UI, hide other UI elements
-        // Score, block / turret placement options, cancel button
+        //show player prep turn UI, hide other UI elements
+        //score, block / turret placement options, cancel button
 
         //only continue once played has clicked next round button
         roundObject.SetActive(true);
@@ -100,7 +88,7 @@ public class UIManager : MonoBehaviour
     }
 
     public void DisplayEnemyWaveTurnUI() {
-        // Show enemy wave turn UI, hide other UI elements
+        //show enemy wave turn UI, hide other UI elements
 
         //only continue once enemy wave is finished
 
@@ -111,7 +99,7 @@ public class UIManager : MonoBehaviour
 
     //TODO: this is only called when the player dies, so we need to figure out under what conditions to exit the above loop that goes between turns
     public void DisplayGameOver() {
-        // Show game over UI, display final score, play again button, return to main menu button, exit game button, 
+        //show game over UI, display final score, play again button, return to main menu button, exit game button, 
 
         throw new System.NotImplementedException();
     }

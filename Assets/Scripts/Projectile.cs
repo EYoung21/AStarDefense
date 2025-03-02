@@ -18,7 +18,7 @@ public class Projectile : MonoBehaviour
         this.damage = damage;
         this.effects = effects;
 
-        // Update visual effects based on projectile type
+        //update visual effects based on projectile type
         if (trailRenderer != null)
         {
             if (effects.slowEffect > 0)
@@ -38,11 +38,11 @@ public class Projectile : MonoBehaviour
             return;
         }
 
-        // Move towards target
+        //move towards target
         Vector2 direction = (target.transform.position - transform.position).normalized;
         transform.position += (Vector3)direction * moveSpeed * Time.deltaTime;
 
-        // Check if we've hit the target
+        //check if we've hit the target
         if (Vector2.Distance(transform.position, target.transform.position) < 0.1f)
         {
             Hit();
@@ -54,17 +54,17 @@ public class Projectile : MonoBehaviour
         if (hasHit) return;
         hasHit = true;
 
-        // Apply direct damage
+        //apply direct damage
         target.TakeDamage(damage);
 
-        // Apply status effects
+        //apply status effects
         if (effects.slowEffect > 0)
             target.ApplySlow(effects.slowEffect, 2f);
 
         if (effects.poisonDamage > 0)
             target.ApplyPoison(effects.poisonDamage, 3f);
 
-        // Handle splash damage
+        //handle splash damage
         if (effects.splashRadius > 0)
         {
             Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, effects.splashRadius);
@@ -79,10 +79,10 @@ public class Projectile : MonoBehaviour
             }
         }
 
-        // Handle life leech
+        //handle life leech
         if (effects.lifeLeechAmount > 0)
         {
-            // Find nearby friendly turrets to heal
+            //find nearby friendly turrets to heal
             Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 2f);
             foreach (Collider2D collider in colliders)
             {
@@ -95,7 +95,7 @@ public class Projectile : MonoBehaviour
             }
         }
 
-        // Spawn hit effect
+        //spawn hit effect
         if (hitEffectPrefab != null)
         {
             Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);

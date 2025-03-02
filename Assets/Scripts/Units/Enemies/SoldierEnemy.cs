@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class SoldierEnemy : BaseEnemy
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    //start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
     {
-        base.Start();  // Call the base class Start method
-        health = 7;    // Medium health
+        base.Start();  //call the base class Start method
+        health = 7;    //medium health
         maxHealth = 7;
-        damageItDoes = 2;  // Medium damage
+        damageItDoes = 2;  //medium damage
         healthBar.UpdateHealthBar(health, maxHealth);
-        movement.moveSpeed = 4;  // Medium speed
+        movement.moveSpeed = 4;  //medium speed
         
-        // Log enemy creation for debugging
+        //log enemy creation for debugging
         Debug.Log($"SoldierEnemy created with health: {health}, damage: {damageItDoes}, speed: {movement.moveSpeed}");
     }
 
@@ -21,9 +21,9 @@ public class SoldierEnemy : BaseEnemy
         Debug.Log("SoldierEnemy hit turret");
         other.GetComponent<BaseTurret>().RemoveHealth(damageItDoes);
         
-        // Enemy dies after hitting turret
+        //enemy dies after hitting turret
         UnitManager.Instance.enemyCount--;
-        // No currency reward for hitting turret
+        //no currency reward for hitting turret
         
         Destroy(gameObject);
     }

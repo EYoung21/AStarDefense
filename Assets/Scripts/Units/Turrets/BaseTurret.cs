@@ -7,19 +7,6 @@ using System.Collections.Generic;
 
 public class BaseTurret : BaseUnit
 {
-    // // start is called once before the first execution of update after the monobehaviour is created
-    // void Start()
-    // {
-        
-    // }
-
-    // // update is called once per frame
-    // void Update()
-    // {
-        
-    // }
-
-
     [SerializeField] protected FloatingHealthBar healthBar;
     [Header("Base Stats")]
     [SerializeField] protected float baseAttackDamage = 12f;
@@ -46,8 +33,8 @@ public class BaseTurret : BaseUnit
     [SerializeField] protected Color frostColor = Color.cyan;
     [SerializeField] protected Color poisonColor = Color.green;
     [SerializeField] protected Color splashColor = Color.yellow;
-    [SerializeField] protected Color rapidFireColor = new Color(1.0f, 0.5f, 0.0f); // Orange
-    [SerializeField] protected Color sniperColor = new Color(0.8f, 0.0f, 0.8f); // Purple
+    [SerializeField] protected Color rapidFireColor = new Color(1.0f, 0.5f, 0.0f); //orange
+    [SerializeField] protected Color sniperColor = new Color(0.8f, 0.0f, 0.8f); //purple
     
     protected SpriteRenderer spriteRenderer;
     protected List<Enemy> enemiesInRange = new List<Enemy>();
@@ -61,10 +48,10 @@ public class BaseTurret : BaseUnit
 
     public Vector3 directionToEnemy;
     
-    // Flag to track if this is the central turret
+    //flag to track if this is the central turret
     protected bool isCentralTurret = false;
     
-    // Flag to track if this turret is currently selected for manual control
+    //flag to track if this turret is currently selected for manual control
     protected bool isSelected = false;
 
     public float maxHealth;
@@ -81,7 +68,7 @@ public class BaseTurret : BaseUnit
     protected virtual void Start() {
         healthBar = GetComponentInChildren<FloatingHealthBar>();
         
-        // Check if this is the central turret
+        //check if this is the central turret
         Vector2 centerPosition = new Vector2(
             GridManager.Instance._width / 2, 
             GridManager.Instance._height / 2
@@ -115,7 +102,7 @@ public class BaseTurret : BaseUnit
         float oldRange = currentRange;
         float oldAttackSpeed = currentAttackSpeed;
         
-        // Make sure we're not using zero values
+        //make sure we're not using zero values
         if (damageMultiplier <= 0) damageMultiplier = 1f;
         if (rangeMultiplier <= 0) rangeMultiplier = 1f;
         if (attackSpeedMultiplier <= 0) attackSpeedMultiplier = 1f;
@@ -126,20 +113,20 @@ public class BaseTurret : BaseUnit
         
         Debug.Log($"Stats updated - Damage: {oldDamage} -> {currentDamage}, Range: {oldRange} -> {currentRange}, Attack Speed: {oldAttackSpeed} -> {currentAttackSpeed}");
         
-        // Make sure the range indicator is updated
+        //make sure the range indicator is updated
         UpdateRangeIndicator();
         
-        // Play a visual effect to show the upgrade
+        //play a visual effect to show the upgrade
         PlayUpgradeEffect();
         
-        // If this is a significant upgrade, change the turret's appearance
+        //if this is a significant upgrade, change the turret's appearance
         if (damageMultiplier > 1.5f || rangeMultiplier > 1.5f || attackSpeedMultiplier > 1.5f)
         {
             if (spriteRenderer != null)
             {
-                // Add a slight tint to show the turret is upgraded
+                //add a slight tint to show the turret is upgraded
                 Color oldColor = spriteRenderer.color;
-                spriteRenderer.color = new Color(1.0f, 1.0f, 0.8f); // Slight yellow tint
+                spriteRenderer.color = new Color(1.0f, 1.0f, 0.8f); //slight yellow tint
                 Debug.Log($"Turret appearance changed - Color: {oldColor} -> {spriteRenderer.color}");
             }
             else
@@ -167,28 +154,28 @@ public class BaseTurret : BaseUnit
         
         Debug.Log($"Effects updated - Slow: {oldSlowEffect} -> {slowEffect}, Poison: {oldPoisonDamage} -> {poisonDamage}, Splash Radius: {oldSplashRadius} -> {splashRadius}");
         
-        // Update the projectile effects
+        //update the projectile effects
         UpdateProjectileEffects();
         
-        // Apply visual changes based on effects
+        //apply visual changes based on effects
         if (spriteRenderer != null)
         {
             Color oldColor = spriteRenderer.color;
             
-            // Change the turret color based on its strongest effect
+            //change the turret color based on its strongest effect
             if (slowEffect > 0.3f)
             {
-                spriteRenderer.color = new Color(0.7f, 0.9f, 1.0f); // Light blue for frost
+                spriteRenderer.color = new Color(0.7f, 0.9f, 1.0f); //light blue for frost
                 Debug.Log($"Applied frost color to turret: {oldColor} -> {spriteRenderer.color}");
             }
             else if (poisonDamage > 3f)
             {
-                spriteRenderer.color = new Color(0.7f, 1.0f, 0.7f); // Light green for poison
+                spriteRenderer.color = new Color(0.7f, 1.0f, 0.7f); //light green for poison
                 Debug.Log($"Applied poison color to turret: {oldColor} -> {spriteRenderer.color}");
             }
             else if (splashRadius > 1f)
             {
-                spriteRenderer.color = new Color(1.0f, 1.0f, 0.7f); // Light yellow for splash
+                spriteRenderer.color = new Color(1.0f, 1.0f, 0.7f); //light yellow for splash
                 Debug.Log($"Applied splash color to turret: {oldColor} -> {spriteRenderer.color}");
             }
         }
@@ -202,7 +189,7 @@ public class BaseTurret : BaseUnit
 
     protected virtual void UpdateProjectileEffects()
     {
-        // Update projectile color based on strongest effect
+        //update projectile color based on strongest effect
         Color effectColor = Color.white;
         hasFrostEffect = false;
         hasPoisonEffect = false;
@@ -210,7 +197,7 @@ public class BaseTurret : BaseUnit
         hasRapidFireEffect = false;
         hasSniperEffect = false;
         
-        // Check which effects are active
+        //check which effects are active
         if (slowEffect > 0) {
             hasFrostEffect = true;
             effectColor = frostColor;
@@ -224,23 +211,23 @@ public class BaseTurret : BaseUnit
             effectColor = splashColor;
         }
         
-        // Check for stat-based upgrades
+        //check for stat-based upgrades
         if (currentAttackSpeed > baseAttackSpeed * 1.2f) {
             hasRapidFireEffect = true;
-            // Only override color if no special effect is active
+            //only override color if no special effect is active
             if (!hasFrostEffect && !hasPoisonEffect && !hasSplashEffect) {
                 effectColor = rapidFireColor;
             }
         }
         if (currentDamage > baseAttackDamage * 1.2f && currentRange > baseRange * 1.1f) {
             hasSniperEffect = true;
-            // Only override color if no special effect is active
+            //only override color if no special effect is active
             if (!hasFrostEffect && !hasPoisonEffect && !hasSplashEffect && !hasRapidFireEffect) {
                 effectColor = sniperColor;
             }
         }
         
-        // Store the color for use when firing projectiles
+        //store the color for use when firing projectiles
         currentProjectileColor = effectColor;
         
         Debug.Log($"Updated projectile effects - Color: {currentProjectileColor}, Frost: {hasFrostEffect}, Poison: {hasPoisonEffect}, Splash: {hasSplashEffect}");
@@ -261,7 +248,7 @@ public class BaseTurret : BaseUnit
         {
             upgradeParticles.Play();
             
-            // Play a sound effect if available
+            //play a sound effect if available
             if (shotSound != null)
             {
                 AudioSource.PlayClipAtPoint(shotSound, transform.position, 0.5f);
@@ -277,7 +264,7 @@ public class BaseTurret : BaseUnit
     {
         while (true)
         {
-            // Update enemies in range
+            //update enemies in range
             enemiesInRange.Clear();
             Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, currentRange);
             
@@ -290,23 +277,23 @@ public class BaseTurret : BaseUnit
                 }
             }
 
-            // Select target
+            //select target
             SelectTarget();
 
-            // Attack if we have a target
+            //attack if we have a target
             if (currentTarget != null && Time.time >= lastAttackTime + (1f / currentAttackSpeed))
             {
                 Attack();
                 lastAttackTime = Time.time;
             }
 
-            yield return new WaitForSeconds(0.1f); // Scan every 0.1 seconds
+            yield return new WaitForSeconds(0.1f); //scan every 0.1 seconds
         }
     }
 
     protected virtual void SelectTarget()
     {
-        // Simple target selection - choose closest enemy
+        //simple target selection - choose closest enemy
         float closestDistance = float.MaxValue;
         currentTarget = null;
 
@@ -332,7 +319,7 @@ public class BaseTurret : BaseUnit
         
         if (projectile != null)
         {
-            // Set up projectile with all effects
+            //set up projectile with all effects
             projectile.Initialize(currentTarget, currentDamage, new ProjectileEffects
             {
                 slowEffect = slowEffect,
@@ -343,7 +330,7 @@ public class BaseTurret : BaseUnit
             });
         }
 
-        // Play attack sound if available
+        //play attack sound if available
         if (shotSound != null)
         {
             AudioSource.PlayClipAtPoint(shotSound, transform.position);
@@ -352,7 +339,7 @@ public class BaseTurret : BaseUnit
 
     protected virtual void OnDrawGizmos()
     {
-        // Draw range in editor
+        //draw range in editor
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, currentRange);
     }
@@ -386,7 +373,7 @@ public class BaseTurret : BaseUnit
         }
     }
     
-    // Method to handle selection state changes
+    //method to handle selection state changes
     public void SetSelected(bool selected) {
         isSelected = selected;
         if (selected) {
@@ -396,7 +383,7 @@ public class BaseTurret : BaseUnit
         }
     }
     
-    // Method to get the selected state for other scripts
+    //method to get the selected state for other scripts
     public void GetSelectedState(Action<bool> callback) {
         callback?.Invoke(isSelected);
     }
@@ -441,28 +428,28 @@ public class BaseTurret : BaseUnit
         }
     }
     
-    // Just follow the mouse without firing
+    //just follow the mouse without firing
     protected virtual void FollowMouse() {
-        // Get mouse position in world coordinates
+        //get mouse position in world coordinates
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0; // Ensure we're in the same z-plane
+        mousePos.z = 0; //ensure we're in the same z-plane
         
-        // Calculate direction from turret to mouse
+        //calculate direction from turret to mouse
         Vector3 directionToMouse = (mousePos - transform.position).normalized;
         
-        // Calculate rotation angle
+        //calculate rotation angle
         float ydir = directionToMouse.y;
         float xdir = directionToMouse.x;
         float angle = Mathf.Atan2(ydir, xdir) * Mathf.Rad2Deg - 90;
         
-        // Apply rotation
+        //apply rotation
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         
-        // Store direction for firing
+        //store direction for firing
         directionToEnemy = directionToMouse;
     }
     
-    // Automatic firing at enemies
+    //automatic firing at enemies
     protected virtual void AutomaticFiring() {
         if ((lastTimeFired + 1 / rateOfFire) < Time.time) {
             lastTimeFired = Time.time;
@@ -470,25 +457,25 @@ public class BaseTurret : BaseUnit
         }
     }
     
-    // Handle manual aiming and firing for the central turret
+    //handle manual aiming and firing for the central turret
     protected virtual void HandleManualControl() {
-        // Follow the mouse
+        //follow the mouse
         FollowMouse();
         
-        // Fire on left mouse button click with rate limit
+        //fire on left mouse button click with rate limit
         if (Input.GetMouseButtonDown(0) && (lastTimeFired + 1 / rateOfFire) < Time.time) {
             lastTimeFired = Time.time;
             FireManually();
         }
     }
     
-    // Fire method for manual control
+    //fire method for manual control
     protected virtual void FireManually() {
         GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
         BaseProjectile baseProjectile = projectile.GetComponent<BaseProjectile>();
         baseProjectile.SetDirection(directionToEnemy);
         
-        // Set the projectile color and effects
+        //set the projectile color and effects
         baseProjectile.SetProjectileColor(currentProjectileColor);
         baseProjectile.SetProjectileEffects(hasFrostEffect, hasPoisonEffect, hasSplashEffect);
         
@@ -520,7 +507,7 @@ public class BaseTurret : BaseUnit
         BaseProjectile baseProjectile = projectile.GetComponent<BaseProjectile>();
         baseProjectile.SetDirection(directionToEnemy);
         
-        // Set the projectile color and effects
+        //set the projectile color and effects
         baseProjectile.SetProjectileColor(currentProjectileColor);
         baseProjectile.SetProjectileEffects(hasFrostEffect, hasPoisonEffect, hasSplashEffect);
     }
@@ -558,7 +545,7 @@ public class BaseTurret : BaseUnit
         }
     }
 
-    // Add healing method for life leech
+    //add healing method for life leech
     public virtual void Heal(float amount)
     {
         health = Mathf.Min(health + amount, maxHealth);
@@ -570,6 +557,6 @@ public class BaseTurret : BaseUnit
 
     protected virtual void UpdateTurretStats()
     {
-        // This method should be removed or renamed since it's now handled by TurretUpgrade
+        //this method should be removed or renamed since it's now handled by TurretUpgrade
     }
 }
