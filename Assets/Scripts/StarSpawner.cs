@@ -3,9 +3,9 @@ using System.Collections;
 
 public class StarSpawner : MonoBehaviour
 {
-    public GameObject starPrefab; // Assign the star prefab in Inspector
-    public float spawnRate = 0.5f; // Time between spawns
-    public float spawnRangeY = 2f; // Adjust how spread out stars spawn
+    public GameObject starPrefab; //assign the star prefab in Inspector
+    public float spawnRate = 0.5f; //time between spawns
+    public float spawnRangeY = 2f; //adjust how spread out stars spawn
 
     private Vector2 spawnPosition;
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -27,26 +28,51 @@ public class AudioManager : MonoBehaviour
     [Tooltip("Should a new random track be selected when the current one finishes?")]
     public bool autoChangeTrack = true;
     
+    [Header("Scene Handling")]
+    [Tooltip("Should the AudioManager persist across scenes?")]
+    public bool persistAcrossScenes = false;
+    
+    [Tooltip("Should music change when scenes change (even if persisting)?")]
+    public bool changeMusicOnSceneChange = true;
+    
     private AudioSource musicSource;
-    private AudioSource secondMusicSource; // For crossfading
+    private AudioSource secondMusicSource; //for crossfading
     private int currentTrackIndex = -1;
     private bool isSecondSourcePlaying = false;
+    private string currentSceneName;
 
     private void Awake()
     {
-        // Singleton pattern
-        if (Instance == null)
+        // Record the current scene
+        currentSceneName = SceneManager.GetActiveScene().name;
+        
+        // Check if this is the primary AudioManager or a duplicate
+        if (Instance != null && Instance != this)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
+            // If we want to change music for each scene, let the existing manager know
+            if (changeMusicOnSceneChange)
+            {
+                Instance.OnSceneChanged(currentSceneName);
+            }
+            
+            // Destroy this duplicate AudioManager
             Destroy(gameObject);
             return;
         }
         
-        // Create audio sources
+        // This is the first AudioManager we've encountered
+        Instance = this;
+        
+        // Only mark DontDestroyOnLoad if we want persistence
+        if (persistAcrossScenes)
+        {
+            DontDestroyOnLoad(gameObject);
+            
+            // Register for scene change events
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+        
+        //create audio sources
         musicSource = gameObject.AddComponent<AudioSource>();
         musicSource.loop = loopMusic;
         musicSource.volume = musicVolume;
@@ -58,9 +84,39 @@ public class AudioManager : MonoBehaviour
         secondMusicSource.playOnAwake = false;
     }
 
+    private void OnDestroy()
+    {
+        // Unregister from scene events when destroyed
+        if (persistAcrossScenes && Instance == this)
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+    }
+
+    // Called when a new scene is loaded
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (changeMusicOnSceneChange && scene.name != currentSceneName)
+        {
+            OnSceneChanged(scene.name);
+        }
+    }
+    
+    // Handle scene change logic
+    private void OnSceneChanged(string newSceneName)
+    {
+        currentSceneName = newSceneName;
+        
+        // Play a new random track for the new scene
+        if (backgroundMusicTracks.Length > 0)
+        {
+            PlayRandomBackgroundMusic();
+        }
+    }
+
     private void Start()
     {
-        // Start playing a random track if we have any
+        //start playing a random track if we have any
         if (backgroundMusicTracks.Length > 0)
         {
             PlayRandomBackgroundMusic();
@@ -69,7 +125,7 @@ public class AudioManager : MonoBehaviour
     
     private void Update()
     {
-        // If auto-change is enabled and the current track has finished playing
+        //if auto-change is enabled and the current track has finished playing
         if (autoChangeTrack && !loopMusic && musicSource.isPlaying == false && secondMusicSource.isPlaying == false)
         {
             PlayRandomBackgroundMusic();
@@ -87,7 +143,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
         
-        // Select a random track (different from the current one if possible)
+        //select a random track (different from the current one if possible)
         int newTrackIndex = currentTrackIndex;
         if (backgroundMusicTracks.Length > 1)
         {
@@ -104,8 +160,8 @@ public class AudioManager : MonoBehaviour
         currentTrackIndex = newTrackIndex;
         AudioClip trackToPlay = backgroundMusicTracks[currentTrackIndex];
         
-        // Play the track (with crossfade if enabled)
-        if (crossfadeMusic && musicSource.isPlaying)
+        //play the track (with crossfade if enabled)
+        if (crossfadeMusic && (musicSource.isPlaying || secondMusicSource.isPlaying))
         {
             StartCoroutine(CrossfadeTracks(trackToPlay));
         }
@@ -122,16 +178,16 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     private IEnumerator CrossfadeTracks(AudioClip newTrack)
     {
-        // Determine which source is currently playing and which will play the new track
+        //determine which source is currently playing and which will play the new track
         AudioSource sourceToFadeOut = isSecondSourcePlaying ? secondMusicSource : musicSource;
         AudioSource sourceToFadeIn = isSecondSourcePlaying ? musicSource : secondMusicSource;
         
-        // Set up the new track
+        //set up the new track
         sourceToFadeIn.clip = newTrack;
         sourceToFadeIn.volume = 0f;
         sourceToFadeIn.Play();
         
-        // Crossfade
+        //crossfade
         float timer = 0f;
         while (timer < crossfadeDuration)
         {
@@ -144,12 +200,12 @@ public class AudioManager : MonoBehaviour
             yield return null;
         }
         
-        // Ensure final volumes are set correctly
+        //ensure final volumes are set correctly
         sourceToFadeOut.Stop();
         sourceToFadeOut.volume = 0f;
         sourceToFadeIn.volume = musicVolume;
         
-        // Toggle which source is playing
+        //toggle which source is playing
         isSecondSourcePlaying = !isSecondSourcePlaying;
     }
     

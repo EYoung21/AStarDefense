@@ -684,6 +684,8 @@ MonoBehaviour:
   difficultyText: {fileID: 0}
   healthScalingPerRound: 0.15
   damageScalingPerRound: 0.1
+  maxHealthMultiplier: 5
+  maxDamageMultiplier: 4
   healthScalingStartRound: 3
   damageScalingStartRound: 4
   difficultyTierRounds: 01000000050000000a0000000f00000014000000
@@ -693,6 +695,8 @@ MonoBehaviour:
   - Difficult
   - Extreme
   - Nightmare
+  baseRoundCompletionReward: 50
+  additionalRewardPerTier: 25
 --- !u!1 &278128643
 GameObject:
   m_ObjectHideFlags: 0
@@ -886,6 +890,8 @@ MonoBehaviour:
   crossfadeMusic: 1
   crossfadeDuration: 1.5
   autoChangeTrack: 1
+  persistAcrossScenes: 0
+  changeMusicOnSceneChange: 1
 --- !u!1 &343151522
 GameObject:
   m_ObjectHideFlags: 0
@@ -1707,7 +1713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63c89cf426e140045a290fde79f8afc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currency: 10000
+  currency: 300
 --- !u!1001 &922517083
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class RotateSprite : MonoBehaviour
 {
-    public float rotationSpeed = 100f; // Adjust this value to control speed
+    public float rotationSpeed = 100f; //adjust this value to control speed
 
     void Update()
     {

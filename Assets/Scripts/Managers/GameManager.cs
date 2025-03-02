@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     }
     
     void Update() {
-        // Handle game speed controls
+        //handle game speed controls
         if (Input.GetKeyDown(KeyCode.P)) {
             TogglePause();
         }

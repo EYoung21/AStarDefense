@@ -2,29 +2,29 @@ using UnityEngine;
 
 public class PulseEffect : MonoBehaviour
 {
-    public float scaleSpeed = 2f;   // Speed of pulsating
-    public float scaleAmount = 0.1f; // How much it expands and contracts
-    public Transform healthBar;      // Assign this in the Inspector
+    public float scaleSpeed = 2f;   //speed of pulsating
+    public float scaleAmount = 0.1f; //how much it expands and contracts
+    public Transform healthBar;      //assign this in the Inspector
 
     private Vector3 initialScale;
     private Vector3 healthBarInitialScale;
 
     void Start()
     {
-        initialScale = transform.localScale; // Store the original scale
+        initialScale = transform.localScale; //store the original scale
         if (healthBar != null)
-            healthBarInitialScale = healthBar.localScale; // Store the health bar's original scale
+            healthBarInitialScale = healthBar.localScale; //store the health bar's original scale
     }
 
     void Update()
     {
-        // Calculate scaling factor using a sine wave
+        //calculate scaling factor using a sine wave
         float scaleFactor = (1 - scaleAmount) + Mathf.Sin(Time.time * scaleSpeed) * scaleAmount;
 
-        // Apply scale to the entire prefab
+        //apply scale to the entire prefab
         transform.localScale = initialScale * scaleFactor;
 
-        // Counteract the parent's scaling effect on the health bar
+        //counteract the parent's scaling effect on the health bar
         if (healthBar != null)
             healthBar.localScale = healthBarInitialScale / scaleFactor;
     }

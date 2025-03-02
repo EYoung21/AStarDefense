@@ -931,6 +931,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2018885497}
   m_CullTransparentMesh: 1
+--- !u!1 &2142896690
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2142896692}
+  - component: {fileID: 2142896691}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2142896691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142896690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a7e9f4d8b3c44f0a8d7e5c6b2a1d0e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundMusicTracks:
+  - {fileID: 8300000, guid: 99964601440f94a21a65f116c78aef2d, type: 3}
+  - {fileID: 8300000, guid: fc26016c805c04563a963de7f4f5277d, type: 3}
+  - {fileID: 8300000, guid: 0f7986961bc1f4b7997a483405a431ee, type: 3}
+  - {fileID: 8300000, guid: 11828d56a88f843388871bd485ade19d, type: 3}
+  - {fileID: 8300000, guid: 483a557b6174a416ba664bc13dbcbaac, type: 3}
+  loopMusic: 0
+  musicVolume: 0.5
+  crossfadeMusic: 1
+  crossfadeDuration: 1.5
+  autoChangeTrack: 1
+  persistAcrossScenes: 0
+  changeMusicOnSceneChange: 1
+--- !u!4 &2142896692
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142896690}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 61.443626, y: 323.88345, z: -2.633511}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -940,3 +997,4 @@ SceneRoots:
   - {fileID: 1022065617}
   - {fileID: 1374859525}
   - {fileID: 850187668}
+  - {fileID: 2142896692}
