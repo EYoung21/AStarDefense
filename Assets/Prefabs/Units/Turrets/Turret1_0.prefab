@@ -510,6 +510,8 @@ MonoBehaviour:
   frostColor: {r: 0, g: 1, b: 1, a: 1}
   poisonColor: {r: 0, g: 1, b: 0, a: 1}
   splashColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  rapidFireColor: {r: 1, g: 0.5, b: 0, a: 1}
+  sniperColor: {r: 0.8, g: 0, b: 0.8, a: 1}
   shotSound: {fileID: 0}
   rateOfFire: 0
   directionToEnemy: {x: 0, y: 0, z: 0}
