@@ -1,4 +1,3 @@
-using UnityEditor.Rendering.Analytics;
 using UnityEngine;
 
 public class BasicProjectile : BaseProjectile
