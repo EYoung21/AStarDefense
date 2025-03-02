@@ -455,6 +455,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scaleSpeed: 2
   scaleAmount: 0.1
+  healthBar: {fileID: 7634069680454223136}
 --- !u!1 &6088030142105761747
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,7 +492,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.378, y: -34.4}
+  m_AnchoredPosition: {x: 0.378, y: 74.3}
   m_SizeDelta: {x: 130.757, y: 28.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6554367547790153004
@@ -560,7 +561,7 @@ MonoBehaviour:
   slider: {fileID: 6554367547790153004}
   mainCamera: {fileID: 0}
   target: {fileID: 4144278653025537638}
-  offset: {x: 0, y: 0.1, z: 0}
+  offset: {x: 0, y: 0.65, z: 0}
 --- !u!1 &6531909137074171524
 GameObject:
   m_ObjectHideFlags: 0
