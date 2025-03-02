@@ -68,6 +68,10 @@ public class TurretUpgradeUI : MonoBehaviour
     [SerializeField] private GameObject upgradePanel;
     [SerializeField] private TextMeshProUGUI turretNameText;
 
+    [Header("Keyboard Shortcut Hint")]
+    [SerializeField] private GameObject keyboardShortcutHint;
+    [SerializeField] private float hintDisplayTime = 5f;
+
     private BaseTurret selectedTurret;
     private TurretUpgrade turretUpgrade;
     private bool justShown = false;
@@ -214,40 +218,41 @@ public class TurretUpgradeUI : MonoBehaviour
 
     private void Update()
     {
+        // Test key presses for direct upgrades (no button clicks needed)
+        if (upgradePanel != null && upgradePanel.activeSelf && turretUpgrade != null)
+        {
+            // Use number keys 1-5 for direct upgrade purchases
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                Debug.Log("DIRECT UPGRADE: Frost via keyboard shortcut");
+                DirectPurchaseUpgrade(TurretUpgrade.UpgradeType.Frost);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                Debug.Log("DIRECT UPGRADE: Poison via keyboard shortcut");
+                DirectPurchaseUpgrade(TurretUpgrade.UpgradeType.Poison);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                Debug.Log("DIRECT UPGRADE: Splash via keyboard shortcut");
+                DirectPurchaseUpgrade(TurretUpgrade.UpgradeType.Splash);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                Debug.Log("DIRECT UPGRADE: Rapid Fire via keyboard shortcut");
+                DirectPurchaseUpgrade(TurretUpgrade.UpgradeType.RapidFire);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                Debug.Log("DIRECT UPGRADE: Sniper via keyboard shortcut");
+                DirectPurchaseUpgrade(TurretUpgrade.UpgradeType.Sniper);
+            }
+        }
+
         // Reset justShown flag if mouse button is released
         if (Input.GetMouseButtonUp(0))
         {
             justShown = false;
-        }
-
-        // Test key presses for direct button clicks (T + 1-5)
-        if (Input.GetKey(KeyCode.T))
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1) && frostButton.button != null)
-            {
-                Debug.Log("DIRECT TEST: Manually invoking Frost button click");
-                frostButton.button.onClick.Invoke();
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2) && poisonButton.button != null)
-            {
-                Debug.Log("DIRECT TEST: Manually invoking Poison button click");
-                poisonButton.button.onClick.Invoke();
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3) && splashButton.button != null)
-            {
-                Debug.Log("DIRECT TEST: Manually invoking Splash button click");
-                splashButton.button.onClick.Invoke();
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha4) && rapidFireButton.button != null)
-            {
-                Debug.Log("DIRECT TEST: Manually invoking Rapid Fire button click");
-                rapidFireButton.button.onClick.Invoke();
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha5) && sniperButton.button != null)
-            {
-                Debug.Log("DIRECT TEST: Manually invoking Sniper button click");
-                sniperButton.button.onClick.Invoke();
-            }
         }
 
         // Only hide panel when pressing space or clicking outside UI
@@ -273,196 +278,99 @@ public class TurretUpgradeUI : MonoBehaviour
                 Debug.Log("Hiding upgrade panel due to click outside UI");
                 HideUpgradePanel();
             }
-            else
-            {
-                // Debug what UI element was clicked
-                foreach (RaycastResult result in results)
-                {
-                    Debug.Log($"Clicked on UI element: {result.gameObject.name}");
-                    
-                    // Check if we clicked on a button
-                    Button button = result.gameObject.GetComponent<Button>();
-                    if (button != null)
-                    {
-                        Debug.Log($"Clicked on button: {result.gameObject.name}");
-                        
-                        // Check which upgrade button was clicked
-                        if (frostButton.button == button)
-                        {
-                            Debug.Log("Frost button clicked via direct detection");
-                            justShown = true;
-                            // IMPORTANT: Directly invoke the button's onClick event
-                            frostButton.button.onClick.Invoke();
-                        }
-                        else if (poisonButton.button == button)
-                        {
-                            Debug.Log("Poison button clicked via direct detection");
-                            justShown = true;
-                            poisonButton.button.onClick.Invoke();
-                        }
-                        else if (splashButton.button == button)
-                        {
-                            Debug.Log("Splash button clicked via direct detection");
-                            justShown = true;
-                            splashButton.button.onClick.Invoke();
-                        }
-                        else if (rapidFireButton.button == button)
-                        {
-                            Debug.Log("Rapid Fire button clicked via direct detection");
-                            justShown = true;
-                            rapidFireButton.button.onClick.Invoke();
-                        }
-                        else if (sniperButton.button == button)
-                        {
-                            Debug.Log("Sniper button clicked via direct detection");
-                            justShown = true;
-                            sniperButton.button.onClick.Invoke();
-                        }
-                    }
-                }
-            }
         }
     }
 
     private void InitializeButtons()
     {
-        Debug.Log("Initializing upgrade buttons");
+        Debug.Log("InitializeButtons called");
         
-        // Fix button hierarchy issues first
-        FixButtonHierarchy();
-        
-        // Remove any existing listeners to prevent duplicates
-        if (frostButton.button != null)
+        // Initialize frost button
+        if (frostButton != null && frostButton.button != null)
         {
-            // Ensure the button's image is a raycast target
-            if (frostButton.button.image != null)
-            {
-                frostButton.button.image.raycastTarget = true;
-                Debug.Log("Set Frost button image as raycast target");
-            }
-            
             frostButton.button.onClick.RemoveAllListeners();
             frostButton.button.onClick.AddListener(() => {
-                Debug.Log("Frost button clicked - DIRECT EVENT");
-                Debug.Log($"Current currency at click time: {CurrencyManager.Instance.currency}");
+                Debug.Log("Frost button clicked");
+                // Stop event propagation
+                EventSystem.current.SetSelectedGameObject(null);
                 PurchaseUpgrade(TurretUpgrade.UpgradeType.Frost);
-                // IMPORTANT: Don't hide the panel after clicking a button
-                // This prevents the panel from disappearing when a button is clicked
-                justShown = true;
-                Debug.Log("Set justShown to true after Frost button click");
             });
-            
-            // Add a second listener for extra verification
-            frostButton.button.onClick.AddListener(() => {
-                Debug.Log("VERIFICATION: Frost button click event fired");
-            });
-            
-            Debug.Log("Frost button initialized");
+            EnsureButtonClickable(frostButton.button, "Frost");
         }
         else
         {
-            Debug.LogError("Frost button reference is missing");
+            Debug.LogError("Frost button reference is missing!");
         }
         
-        if (poisonButton.button != null)
+        // Initialize poison button
+        if (poisonButton != null && poisonButton.button != null)
         {
-            // Ensure the button's image is a raycast target
-            if (poisonButton.button.image != null)
-            {
-                poisonButton.button.image.raycastTarget = true;
-                Debug.Log("Set Poison button image as raycast target");
-            }
-            
             poisonButton.button.onClick.RemoveAllListeners();
             poisonButton.button.onClick.AddListener(() => {
-                Debug.Log("Poison button clicked - DIRECT EVENT");
-                Debug.Log($"Current currency at click time: {CurrencyManager.Instance.currency}");
+                Debug.Log("Poison button clicked");
+                // Stop event propagation
+                EventSystem.current.SetSelectedGameObject(null);
                 PurchaseUpgrade(TurretUpgrade.UpgradeType.Poison);
-                // IMPORTANT: Don't hide the panel after clicking a button
-                justShown = true;
-                Debug.Log("Set justShown to true after Poison button click");
             });
-            Debug.Log("Poison button initialized");
+            EnsureButtonClickable(poisonButton.button, "Poison");
         }
         else
         {
-            Debug.LogError("Poison button reference is missing");
+            Debug.LogError("Poison button reference is missing!");
         }
         
-        if (splashButton.button != null)
+        // Initialize splash button
+        if (splashButton != null && splashButton.button != null)
         {
-            // Ensure the button's image is a raycast target
-            if (splashButton.button.image != null)
-            {
-                splashButton.button.image.raycastTarget = true;
-                Debug.Log("Set Splash button image as raycast target");
-            }
-            
             splashButton.button.onClick.RemoveAllListeners();
             splashButton.button.onClick.AddListener(() => {
-                Debug.Log("Splash button clicked - DIRECT EVENT");
-                Debug.Log($"Current currency at click time: {CurrencyManager.Instance.currency}");
+                Debug.Log("Splash button clicked");
+                // Stop event propagation
+                EventSystem.current.SetSelectedGameObject(null);
                 PurchaseUpgrade(TurretUpgrade.UpgradeType.Splash);
-                // IMPORTANT: Don't hide the panel after clicking a button
-                justShown = true;
-                Debug.Log("Set justShown to true after Splash button click");
             });
-            Debug.Log("Splash button initialized");
+            EnsureButtonClickable(splashButton.button, "Splash");
         }
         else
         {
-            Debug.LogError("Splash button reference is missing");
+            Debug.LogError("Splash button reference is missing!");
         }
         
-        if (rapidFireButton.button != null)
+        // Initialize rapid fire button
+        if (rapidFireButton != null && rapidFireButton.button != null)
         {
-            // Ensure the button's image is a raycast target
-            if (rapidFireButton.button.image != null)
-            {
-                rapidFireButton.button.image.raycastTarget = true;
-                Debug.Log("Set Rapid Fire button image as raycast target");
-            }
-            
             rapidFireButton.button.onClick.RemoveAllListeners();
             rapidFireButton.button.onClick.AddListener(() => {
-                Debug.Log("Rapid Fire button clicked - DIRECT EVENT");
-                Debug.Log($"Current currency at click time: {CurrencyManager.Instance.currency}");
+                Debug.Log("Rapid Fire button clicked");
+                // Stop event propagation
+                EventSystem.current.SetSelectedGameObject(null);
                 PurchaseUpgrade(TurretUpgrade.UpgradeType.RapidFire);
-                // IMPORTANT: Don't hide the panel after clicking a button
-                justShown = true;
-                Debug.Log("Set justShown to true after Rapid Fire button click");
             });
-            Debug.Log("Rapid Fire button initialized");
+            EnsureButtonClickable(rapidFireButton.button, "Rapid Fire");
         }
         else
         {
-            Debug.LogError("Rapid Fire button reference is missing");
+            Debug.LogError("Rapid Fire button reference is missing!");
         }
         
-        if (sniperButton.button != null)
+        // Initialize sniper button
+        if (sniperButton != null && sniperButton.button != null)
         {
-            // Ensure the button's image is a raycast target
-            if (sniperButton.button.image != null)
-            {
-                sniperButton.button.image.raycastTarget = true;
-                Debug.Log("Set Sniper button image as raycast target");
-            }
-            
             sniperButton.button.onClick.RemoveAllListeners();
             sniperButton.button.onClick.AddListener(() => {
-                Debug.Log("Sniper button clicked - DIRECT EVENT");
-                Debug.Log($"Current currency at click time: {CurrencyManager.Instance.currency}");
+                Debug.Log("Sniper button clicked");
+                // Stop event propagation
+                EventSystem.current.SetSelectedGameObject(null);
                 PurchaseUpgrade(TurretUpgrade.UpgradeType.Sniper);
-                // IMPORTANT: Don't hide the panel after clicking a button
-                justShown = true;
-                Debug.Log("Set justShown to true after Sniper button click");
             });
-            Debug.Log("Sniper button initialized");
+            EnsureButtonClickable(sniperButton.button, "Sniper");
         }
         else
         {
-            Debug.LogError("Sniper button reference is missing");
+            Debug.LogError("Sniper button reference is missing!");
         }
+        
+        Debug.Log("All buttons initialized");
     }
 
     public void ShowUpgradePanel(BaseTurret turret)
@@ -485,11 +393,24 @@ public class TurretUpgradeUI : MonoBehaviour
         {
             Debug.LogWarning($"No TurretUpgrade component found on turret: {turret.name}. Adding one now.");
             turretUpgrade = turret.gameObject.AddComponent<TurretUpgrade>();
-            // Give it time to initialize
-            StartCoroutine(DelayedUpdateUI());
+            
+            // Wait for the next frame to ensure the component is properly initialized
+            StartCoroutine(DelayedShowUpgradePanel());
             return;
         }
 
+        CompleteShowUpgradePanel();
+    }
+    
+    private IEnumerator DelayedShowUpgradePanel()
+    {
+        // Wait for the TurretUpgrade component to initialize
+        yield return new WaitForEndOfFrame();
+        CompleteShowUpgradePanel();
+    }
+    
+    private void CompleteShowUpgradePanel()
+    {
         if (upgradePanel == null)
         {
             Debug.LogError("upgradePanel reference is missing in TurretUpgradeUI!");
@@ -497,14 +418,14 @@ public class TurretUpgradeUI : MonoBehaviour
         }
 
         upgradePanel.SetActive(true);
-        justShown = true;  // Set the flag when showing the panel
+        justShown = true;
         Debug.Log("Set justShown to true when showing upgrade panel");
         
         // Set the turret name
-        if (turretNameText != null)
+        if (turretNameText != null && selectedTurret != null)
         {
-            turretNameText.text = turret.UnitName;
-            Debug.Log($"Set turret name text to: {turret.UnitName}");
+            turretNameText.text = selectedTurret.UnitName;
+            Debug.Log($"Set turret name text to: {selectedTurret.UnitName}");
         }
 
         Debug.Log($"Upgrade panel shown. Panel active state: {upgradePanel.activeSelf}");
@@ -517,7 +438,6 @@ public class TurretUpgradeUI : MonoBehaviour
         // Force the buttons to be interactable
         if (frostButton.button != null) {
             Debug.Log($"Frost button interactable: {frostButton.button.interactable}");
-            // Ensure the button is properly configured for clicks
             EnsureButtonClickable(frostButton.button, "Frost");
         }
         if (poisonButton.button != null) {
@@ -535,6 +455,34 @@ public class TurretUpgradeUI : MonoBehaviour
         if (sniperButton.button != null) {
             Debug.Log($"Sniper button interactable: {sniperButton.button.interactable}");
             EnsureButtonClickable(sniperButton.button, "Sniper");
+        }
+        
+        // Show keyboard shortcut hint
+        ShowKeyboardShortcutHint();
+        
+        // Display a message to the user about keyboard shortcuts
+        Debug.Log("IMPORTANT: You can use number keys 1-5 to directly purchase upgrades without clicking buttons");
+    }
+
+    private void ShowKeyboardShortcutHint()
+    {
+        if (keyboardShortcutHint != null)
+        {
+            keyboardShortcutHint.SetActive(true);
+            StartCoroutine(HideKeyboardShortcutHintAfterDelay());
+        }
+        else
+        {
+            Debug.LogWarning("keyboardShortcutHint reference is missing. Create a UI text element with instructions for keyboard shortcuts.");
+        }
+    }
+    
+    private IEnumerator HideKeyboardShortcutHintAfterDelay()
+    {
+        yield return new WaitForSeconds(hintDisplayTime);
+        if (keyboardShortcutHint != null)
+        {
+            keyboardShortcutHint.SetActive(false);
         }
     }
 
@@ -587,41 +535,30 @@ public class TurretUpgradeUI : MonoBehaviour
         }
     }
 
-    private IEnumerator DelayedUpdateUI()
-    {
-        // Wait for the TurretUpgrade component to initialize
-        yield return new WaitForEndOfFrame();
-        
-        if (upgradePanel == null)
-        {
-            Debug.LogError("upgradePanel reference is missing in TurretUpgradeUI!");
-            yield break;
-        }
-
-        upgradePanel.SetActive(true);
-        justShown = true;
-        
-        // Set the turret name
-        if (turretNameText != null && selectedTurret != null)
-        {
-            turretNameText.text = selectedTurret.UnitName;
-        }
-
-        Debug.Log($"Upgrade panel shown after delay. Panel active state: {upgradePanel.activeSelf}");
-        UpdateUI();
-    }
-
     public void HideUpgradePanel()
     {
-        Debug.Log("Hiding upgrade panel");
-        if (upgradePanel != null) {
-            upgradePanel.SetActive(false);
-            justShown = false;  // Reset the flag when hiding
-        } else {
-            Debug.LogError("upgradePanel reference is missing!");
+        Debug.Log("HideUpgradePanel called");
+        
+        // Don't hide if justShown is true
+        if (justShown)
+        {
+            Debug.Log("Panel was just shown, not hiding it");
+            return;
         }
-        selectedTurret = null;
-        turretUpgrade = null;
+        
+        if (upgradePanel != null)
+        {
+            upgradePanel.SetActive(false);
+            Debug.Log("Upgrade panel hidden");
+            
+            // Clear references when actually hiding
+            selectedTurret = null;
+            turretUpgrade = null;
+        }
+        else
+        {
+            Debug.LogError("Cannot hide upgrade panel: upgradePanel reference is null!");
+        }
     }
 
     private void UpdateUI()
@@ -691,6 +628,9 @@ public class TurretUpgradeUI : MonoBehaviour
     {
         Debug.Log($"PurchaseUpgrade called for {type}");
         
+        // Set justShown to true immediately to prevent panel from closing
+        justShown = true;
+        
         if (turretUpgrade == null)
         {
             Debug.LogError("turretUpgrade is null when trying to purchase upgrade");
@@ -756,6 +696,9 @@ public class TurretUpgradeUI : MonoBehaviour
                 // Keep the panel open after purchase
                 justShown = true;
                 Debug.Log("Set justShown to true to keep panel open after purchase");
+                
+                // Add a small delay before allowing the panel to close
+                StartCoroutine(ResetJustShownAfterDelay(0.5f));
             }
             else
             {
@@ -766,6 +709,12 @@ public class TurretUpgradeUI : MonoBehaviour
         {
             Debug.Log("Not enough currency to purchase upgrade");
         }
+    }
+
+    private IEnumerator ResetJustShownAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        justShown = false;
     }
 
     public bool IsUpgradePanelActive()
@@ -810,6 +759,57 @@ public class TurretUpgradeUI : MonoBehaviour
                 childImage.raycastTarget = false;
                 Debug.Log($"Disabled raycastTarget on {buttonName} button's child '{child.name}'");
             }
+        }
+    }
+
+    // Direct purchase method that bypasses button clicks
+    private void DirectPurchaseUpgrade(TurretUpgrade.UpgradeType type)
+    {
+        if (turretUpgrade == null)
+        {
+            Debug.LogError("turretUpgrade is null when trying direct purchase");
+            return;
+        }
+
+        int cost = turretUpgrade.GetUpgradeCost(type);
+        int currentCurrency = CurrencyManager.Instance.currency;
+        Debug.Log($"Direct upgrade cost: {cost}, Available currency: {currentCurrency}");
+        
+        if (currentCurrency >= cost)
+        {
+            Debug.Log($"Direct purchasing upgrade: {type} for {cost} currency");
+            
+            // Store the current level for verification
+            int previousLevel = turretUpgrade.GetCurrentLevel(type);
+            Debug.Log($"Current upgrade level before direct purchase: {previousLevel}");
+            
+            // Apply the upgrade
+            bool upgradeSuccess = turretUpgrade.ApplyUpgrade(type);
+            Debug.Log($"Direct ApplyUpgrade result: {upgradeSuccess}");
+            
+            // Verify the upgrade was applied
+            int newLevel = turretUpgrade.GetCurrentLevel(type);
+            Debug.Log($"New upgrade level after direct purchase: {newLevel}");
+            
+            if (newLevel > previousLevel && upgradeSuccess)
+            {
+                Debug.Log($"Direct upgrade level increased from {previousLevel} to {newLevel}.");
+                
+                // Remove currency
+                CurrencyManager.Instance.RemoveCurrency(cost);
+                Debug.Log($"Currency reduced from {currentCurrency} to {CurrencyManager.Instance.currency}");
+                
+                // Update the UI to reflect changes
+                UpdateUI();
+            }
+            else
+            {
+                Debug.LogError($"Direct upgrade failed! Level did not increase from {previousLevel}");
+            }
+        }
+        else
+        {
+            Debug.Log("Not enough currency for direct upgrade");
         }
     }
 } 
