@@ -227,6 +227,7 @@ GameObject:
   - component: {fileID: 7398660364605505170}
   - component: {fileID: 7653977862569451747}
   - component: {fileID: 5896764532767881229}
+  - component: {fileID: 1999149637094291864}
   m_Layer: 0
   m_Name: SpeedPrefab
   m_TagString: Untagged
@@ -402,6 +403,21 @@ MonoBehaviour:
   damageItDoes: 2
   healthBar: {fileID: 0}
   movement: {fileID: 0}
+--- !u!114 &1999149637094291864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3318674865779784380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddf1cf793404a7345b604b679086db7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleSpeed: 2
+  scaleAmount: 0.1
+  healthBar: {fileID: 8031228144292143536}
 --- !u!1 &6827675702908771994
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,7 +495,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -6381605330626397364, guid: fb330c6bb024f9443a4dcc20ba3aa38e, type: 3}
+  m_Sprite: {fileID: -6757650509867252992, guid: 135097c6e71f8e040b45a821a47f9664, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -683,4 +699,4 @@ MonoBehaviour:
   slider: {fileID: 7532460139461477589}
   mainCamera: {fileID: 0}
   target: {fileID: 7866919805224724008}
-  offset: {x: 0, y: 0.1, z: 0}
+  offset: {x: 0, y: 0.65, z: 0}
