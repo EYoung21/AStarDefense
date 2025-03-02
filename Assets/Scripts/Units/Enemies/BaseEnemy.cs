@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class BaseEnemy : BaseUnit
 {
+    public bool IsAlive { get; private set; } = true; // Default to alive
+
 
     [SerializeField] protected float health;
     [SerializeField] protected float maxHealth;

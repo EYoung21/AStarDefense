@@ -10,7 +10,7 @@ public class BaseTurret : BaseUnit
     [SerializeField] protected FloatingHealthBar healthBar;
     [Header("Base Stats")]
     [SerializeField] protected float baseAttackDamage = 12f;
-    [SerializeField] protected float baseAttackSpeed = 1.0f;
+    [SerializeField] protected float baseAttackSpeed = 10f;
     [SerializeField] protected float baseRange = 3.0f;
     [SerializeField] protected GameObject projectilePrefab;
 
@@ -66,6 +66,7 @@ public class BaseTurret : BaseUnit
     protected bool hasSniperEffect = false;
 
     protected virtual void Start() {
+
         healthBar = GetComponentInChildren<FloatingHealthBar>();
         
         //check if this is the central turret
@@ -110,7 +111,10 @@ public class BaseTurret : BaseUnit
         currentDamage = baseAttackDamage * damageMultiplier;
         currentRange = baseRange * rangeMultiplier;
         currentAttackSpeed = baseAttackSpeed * attackSpeedMultiplier;
-        
+
+        rateOfFire = currentAttackSpeed;
+
+
         Debug.Log($"Stats updated - Damage: {oldDamage} -> {currentDamage}, Range: {oldRange} -> {currentRange}, Attack Speed: {oldAttackSpeed} -> {currentAttackSpeed}");
         
         //make sure the range indicator is updated
