@@ -22,9 +22,9 @@ public class BaseTurret : BaseUnit
 
     [SerializeField] protected FloatingHealthBar healthBar;
     [Header("Base Stats")]
-    [SerializeField] protected float baseAttackDamage = 8f;
-    [SerializeField] protected float baseAttackSpeed = 0.8f;
-    [SerializeField] protected float baseRange = 2.5f;
+    [SerializeField] protected float baseAttackDamage = 12f;
+    [SerializeField] protected float baseAttackSpeed = 1.0f;
+    [SerializeField] protected float baseRange = 3.0f;
     [SerializeField] protected GameObject projectilePrefab;
 
     [Header("Current Stats")]

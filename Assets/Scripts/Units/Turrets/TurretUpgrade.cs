@@ -107,21 +107,24 @@ public class TurretUpgrade : MonoBehaviour
         upgradeStats[UpgradeType.Frost] = new UpgradeLevel[] {
             new UpgradeLevel {
                 upgradeName = "Frost Turret",
-                description = "Slows enemies by 20%",
+                description = "Slows enemies by 30%",
                 cost = 75,
-                slowEffect = 0.2f
+                slowEffect = 0.3f,
+                damageMultiplier = 1.1f
             },
             new UpgradeLevel {
                 upgradeName = "Deep Freeze",
-                description = "Slows enemies by 35%",
+                description = "Slows enemies by 45%",
                 cost = 150,
-                slowEffect = 0.35f
+                slowEffect = 0.45f,
+                damageMultiplier = 1.2f
             },
             new UpgradeLevel {
                 upgradeName = "Absolute Zero",
-                description = "Slows enemies by 50%",
+                description = "Slows enemies by 60%",
                 cost = 250,
-                slowEffect = 0.5f
+                slowEffect = 0.6f,
+                damageMultiplier = 1.3f
             }
         };
 
@@ -129,21 +132,24 @@ public class TurretUpgrade : MonoBehaviour
         upgradeStats[UpgradeType.Poison] = new UpgradeLevel[] {
             new UpgradeLevel {
                 upgradeName = "Poison Turret",
-                description = "Deals 2 poison damage per second",
+                description = "Deals 3 poison damage per second",
                 cost = 75,
-                poisonDamage = 2f
+                poisonDamage = 3f,
+                damageMultiplier = 1.1f
             },
             new UpgradeLevel {
                 upgradeName = "Potent Poison",
-                description = "Deals 4 poison damage per second",
+                description = "Deals 6 poison damage per second",
                 cost = 150,
-                poisonDamage = 4f
+                poisonDamage = 6f,
+                damageMultiplier = 1.2f
             },
             new UpgradeLevel {
                 upgradeName = "Deadly Venom",
-                description = "Deals 6 poison damage per second",
+                description = "Deals 9 poison damage per second",
                 cost = 250,
-                poisonDamage = 6f
+                poisonDamage = 9f,
+                damageMultiplier = 1.3f
             }
         };
 
@@ -151,24 +157,27 @@ public class TurretUpgrade : MonoBehaviour
         upgradeStats[UpgradeType.Splash] = new UpgradeLevel[] {
             new UpgradeLevel {
                 upgradeName = "Splash Turret",
-                description = "1 unit splash radius, 50% splash damage",
+                description = "1.2 unit splash radius, 60% splash damage",
                 cost = 100,
-                splashRadius = 1f,
-                splashDamageMultiplier = 0.5f
+                splashRadius = 1.2f,
+                splashDamageMultiplier = 0.6f,
+                damageMultiplier = 1.15f
             },
             new UpgradeLevel {
                 upgradeName = "Wide Splash",
-                description = "1.5 unit splash radius, 60% splash damage",
+                description = "1.8 unit splash radius, 70% splash damage",
                 cost = 200,
-                splashRadius = 1.5f,
-                splashDamageMultiplier = 0.6f
+                splashRadius = 1.8f,
+                splashDamageMultiplier = 0.7f,
+                damageMultiplier = 1.25f
             },
             new UpgradeLevel {
                 upgradeName = "Massive Splash",
-                description = "2 unit splash radius, 75% splash damage",
+                description = "2.5 unit splash radius, 85% splash damage",
                 cost = 300,
-                splashRadius = 2f,
-                splashDamageMultiplier = 0.75f
+                splashRadius = 2.5f,
+                splashDamageMultiplier = 0.85f,
+                damageMultiplier = 1.35f
             }
         };
 
@@ -176,21 +185,24 @@ public class TurretUpgrade : MonoBehaviour
         upgradeStats[UpgradeType.RapidFire] = new UpgradeLevel[] {
             new UpgradeLevel {
                 upgradeName = "Rapid Fire",
-                description = "20% faster attack speed",
+                description = "30% faster attack speed",
                 cost = 75,
-                attackSpeedMultiplier = 1.2f
+                attackSpeedMultiplier = 1.3f,
+                damageMultiplier = 1.1f
             },
             new UpgradeLevel {
                 upgradeName = "Quick Shot",
-                description = "40% faster attack speed",
+                description = "60% faster attack speed",
                 cost = 150,
-                attackSpeedMultiplier = 1.4f
+                attackSpeedMultiplier = 1.6f,
+                damageMultiplier = 1.15f
             },
             new UpgradeLevel {
                 upgradeName = "Lightning Shot",
-                description = "60% faster attack speed",
+                description = "90% faster attack speed",
                 cost = 250,
-                attackSpeedMultiplier = 1.6f
+                attackSpeedMultiplier = 1.9f,
+                damageMultiplier = 1.2f
             }
         };
 
@@ -198,24 +210,24 @@ public class TurretUpgrade : MonoBehaviour
         upgradeStats[UpgradeType.Sniper] = new UpgradeLevel[] {
             new UpgradeLevel {
                 upgradeName = "Sniper Turret",
-                description = "25% more damage, 20% more range",
+                description = "40% more damage, 25% more range",
                 cost = 100,
-                damageMultiplier = 1.25f,
-                rangeMultiplier = 1.2f
+                damageMultiplier = 1.4f,
+                rangeMultiplier = 1.25f
             },
             new UpgradeLevel {
                 upgradeName = "Long Shot",
-                description = "50% more damage, 40% more range",
+                description = "80% more damage, 50% more range",
                 cost = 200,
-                damageMultiplier = 1.5f,
-                rangeMultiplier = 1.4f
+                damageMultiplier = 1.8f,
+                rangeMultiplier = 1.5f
             },
             new UpgradeLevel {
                 upgradeName = "Sniper Elite",
-                description = "100% more damage, 60% more range",
+                description = "150% more damage, 75% more range",
                 cost = 300,
-                damageMultiplier = 2f,
-                rangeMultiplier = 1.6f
+                damageMultiplier = 2.5f,
+                rangeMultiplier = 1.75f
             }
         };
     }
