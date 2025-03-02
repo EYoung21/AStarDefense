@@ -27,6 +27,9 @@ public class BaseTurret : BaseUnit
     protected float splashDamageMultiplier = 0f;
     protected float lifeLeechAmount = 0f;
 
+    // Flag to control if targeting is active
+    protected bool isTargetingActive = true;
+
     [Header("Visual Effects")]
     [SerializeField] protected GameObject rangeIndicator;
     [SerializeField] protected ParticleSystem upgradeParticles;
@@ -268,27 +271,37 @@ public class BaseTurret : BaseUnit
     {
         while (true)
         {
-            //update enemies in range
-            enemiesInRange.Clear();
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, currentRange);
-            
-            foreach (Collider2D collider in colliders)
+            // Skip targeting when inactive
+            if (isTargetingActive)
             {
-                Enemy enemy = collider.GetComponent<Enemy>();
-                if (enemy != null)
+                //update enemies in range
+                enemiesInRange.Clear();
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, currentRange);
+                
+                foreach (Collider2D collider in colliders)
                 {
-                    enemiesInRange.Add(enemy);
+                    Enemy enemy = collider.GetComponent<Enemy>();
+                    if (enemy != null)
+                    {
+                        enemiesInRange.Add(enemy);
+                    }
+                }
+
+                //select target
+                SelectTarget();
+
+                //attack if we have a target
+                if (currentTarget != null && Time.time >= lastAttackTime + (1f / currentAttackSpeed))
+                {
+                    Attack();
+                    lastAttackTime = Time.time;
                 }
             }
-
-            //select target
-            SelectTarget();
-
-            //attack if we have a target
-            if (currentTarget != null && Time.time >= lastAttackTime + (1f / currentAttackSpeed))
+            else
             {
-                Attack();
-                lastAttackTime = Time.time;
+                // Targeting is disabled, make sure we don't have a target
+                currentTarget = null;
+                enemiesInRange.Clear();
             }
 
             yield return new WaitForSeconds(0.1f); //scan every 0.1 seconds
@@ -562,5 +575,19 @@ public class BaseTurret : BaseUnit
     protected virtual void UpdateTurretStats()
     {
         //this method should be removed or renamed since it's now handled by TurretUpgrade
+    }
+
+    // Method to enable or disable targeting for this turret
+    public void SetTargetingActive(bool active)
+    {
+        isTargetingActive = active;
+        
+        // If turning off targeting, clear current target
+        if (!active)
+        {
+            currentTarget = null;
+            enemiesInRange.Clear();
+            directionToEnemy = Vector3.zero;
+        }
     }
 }

@@ -204,7 +204,7 @@ public abstract class Tile : MonoBehaviour
                 GridManager.Instance._grid.SetGridObject(gridPos, true);
                 Debug.Log(GridManager.Instance._grid.ToString());
                 
-                CurrencyManager.Instance.currency -= 1;
+                CurrencyManager.Instance.currency -= 5;
                 UIManager.Instance.updateCurrencyUI();
             } else {
                 Pathfinding.Instance.SetIsWalkable(gridPos, true);

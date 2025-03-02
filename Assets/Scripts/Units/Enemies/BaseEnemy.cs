@@ -11,6 +11,9 @@ public class BaseEnemy : BaseUnit
 
     [SerializeField] protected float damageItDoes;
 
+    [SerializeField] protected int baseCurrencyReward = 3; // Base currency reward for this enemy type
+    [SerializeField] protected bool useRoundScaledReward = true; // Whether to scale reward with round number
+
     [SerializeField] protected FloatingHealthBar healthBar;
     [SerializeField] protected EnemyMovement movement;
 
@@ -59,7 +62,19 @@ public class BaseEnemy : BaseUnit
         if (health <= 0) {
             Destroy(gameObject);
             UnitManager.Instance.enemyCount--;
-            CurrencyManager.Instance.AddCurrency(2);
+            
+            // Calculate currency reward based on enemy type and round if applicable
+            int reward = baseCurrencyReward;
+            
+            // Apply round scaling if enabled and RoundManager exists
+            if (useRoundScaledReward && RoundManager.Instance != null) {
+                // Increase reward based on round number
+                int roundBonus = Mathf.FloorToInt(RoundManager.Instance.round / 5);
+                reward += roundBonus;
+            }
+            
+            // Add currency
+            CurrencyManager.Instance.AddCurrency(reward);
         }
     }
 

@@ -45,7 +45,7 @@ public class CurrencyManager : MonoBehaviour
     }
 
     // Set initial currency to 500 for a more balanced start
-    public int currency = 500;
+    public int currency = 300;
 
     public void AddCurrency(int amount) 
     {

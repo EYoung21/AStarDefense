@@ -28,10 +28,16 @@ public class RoundManager : MonoBehaviour
     
     [Header("Enemy Scaling")]
     [Tooltip("How much enemy health increases per round after round 2")]
-    public float healthScalingPerRound = 0.15f; // 15% per round
+    public float healthScalingPerRound = 0.10f; // Reduced from 15% to 10% per round
     
     [Tooltip("How much enemy damage increases per round after round 3")]
-    public float damageScalingPerRound = 0.10f; // 10% per round
+    public float damageScalingPerRound = 0.08f; // Reduced from 10% to 8% per round
+    
+    [Tooltip("Maximum health multiplier cap")]
+    public float maxHealthMultiplier = 5.0f; // Cap health scaling at 5x
+    
+    [Tooltip("Maximum damage multiplier cap")]
+    public float maxDamageMultiplier = 4.0f; // Cap damage scaling at 4x
     
     [Tooltip("Round when health scaling begins")]
     public int healthScalingStartRound = 3;
@@ -42,6 +48,13 @@ public class RoundManager : MonoBehaviour
     [Header("Round Milestones")]
     public int[] difficultyTierRounds = { 1, 5, 10, 15, 20 };
     public string[] difficultyTierNames = { "Novice", "Challenging", "Difficult", "Extreme", "Nightmare" };
+
+    [Header("Round Rewards")]
+    [Tooltip("Base currency reward for completing a round")]
+    public int baseRoundCompletionReward = 50;
+    
+    [Tooltip("Additional currency per difficulty tier")]
+    public int additionalRewardPerTier = 25;
 
     void Awake() {
         Instance = this;
@@ -105,7 +118,10 @@ public class RoundManager : MonoBehaviour
         if (round < healthScalingStartRound) return 1.0f;
         
         // Increase by healthScalingPerRound per round after healthScalingStartRound
-        return 1.0f + ((round - (healthScalingStartRound - 1)) * healthScalingPerRound);
+        float multiplier = 1.0f + ((round - (healthScalingStartRound - 1)) * healthScalingPerRound);
+        
+        // Apply cap to prevent excessive scaling
+        return Mathf.Min(multiplier, maxHealthMultiplier);
     }
     
     // Get enemy damage multiplier based on round number
@@ -114,7 +130,15 @@ public class RoundManager : MonoBehaviour
         if (round < damageScalingStartRound) return 1.0f;
         
         // Increase by damageScalingPerRound per round after damageScalingStartRound
-        return 1.0f + ((round - (damageScalingStartRound - 1)) * damageScalingPerRound);
+        float multiplier = 1.0f + ((round - (damageScalingStartRound - 1)) * damageScalingPerRound);
+        
+        // Apply cap to prevent excessive scaling
+        return Mathf.Min(multiplier, maxDamageMultiplier);
+    }
+    
+    // Get round completion reward based on current difficulty tier
+    public int GetRoundCompletionReward() {
+        return baseRoundCompletionReward + ((difficultyTier - 1) * additionalRewardPerTier);
     }
     
     // Get a description of the current round's difficulty

@@ -146,6 +146,10 @@ public class UnitManager : MonoBehaviour
     public void BeginEnemyWave() {
         isWaveInProgress = true;
         enemyCount = 0; // Reset enemy count at the start of a wave
+        
+        // Ensure turret targeting is enabled at the start of a wave
+        SetTurretsTargetingActive(true);
+        
         StartCoroutine(StartRoundLoop());
         StartCoroutine(CheckForWaveCompletion());
     }
@@ -153,27 +157,63 @@ public class UnitManager : MonoBehaviour
     // Periodically check if all enemies are defeated
     private IEnumerator CheckForWaveCompletion()
     {
-        // Wait a bit to let enemies spawn
-        yield return new WaitForSeconds(2f);
-
         while (isWaveInProgress)
         {
-            // Ensure both conditions are met: no enemies are left to spawn, and all enemies are defeated
-            if (localNumberOfEnemiesToSpawn <= 0 && enemyCount <= 0 && AllEnemiesDefeated())
+            // Wait until all enemies are defeated
+            if (AllEnemiesDefeated())
             {
-                Debug.Log("All enemies defeated! Returning to player prep turn.");
                 isWaveInProgress = false;
-
-                // Increment the round counter after completing a wave
-                RoundManager.Instance.IncrementRound(1);
-
-                GameManager.Instance.ChangeState(GameState.PlayerPrepTurn);
-                break;
+                
+                // Immediately disable turret targeting to prevent random shooting
+                SetTurretsTargetingActive(false);
+                
+                // Award completion bonus if RoundManager exists
+                if (RoundManager.Instance != null)
+                {
+                    int roundReward = RoundManager.Instance.GetRoundCompletionReward();
+                    
+                    // Add round completion bonus
+                    if (CurrencyManager.Instance != null)
+                    {
+                        Debug.Log($"<color=yellow>Round {RoundManager.Instance.round} completed! Bonus: {roundReward} currency</color>");
+                        CurrencyManager.Instance.AddCurrency(roundReward);
+                    }
+                    
+                    // Increment round
+                    RoundManager.Instance.IncrementRound(1);
+                }
+                
+                // Allow short pause between rounds
+                yield return new WaitForSeconds(2.0f);
+                
+                // Change game state back to player prep turn
+                if (GameManager.Instance != null)
+                {
+                    Debug.Log("All enemies defeated! Returning to player prep turn.");
+                    GameManager.Instance.ChangeState(GameState.PlayerPrepTurn);
+                }
+                
+                // Reset Titan spawn flag
+                hasTitanSpawned = false;
             }
-
-            // Check every half second
+            
             yield return new WaitForSeconds(0.5f);
         }
+    }
+
+    // Method to enable or disable turret targeting
+    private void SetTurretsTargetingActive(bool active)
+    {
+        // Find all turrets in the scene
+        BaseTurret[] turrets = GameObject.FindObjectsOfType<BaseTurret>();
+        
+        foreach (BaseTurret turret in turrets)
+        {
+            // Call a method on BaseTurret to enable/disable targeting
+            turret.SetTargetingActive(active);
+        }
+        
+        Debug.Log($"Set turret targeting to {(active ? "active" : "inactive")}");
     }
 
     private bool AllEnemiesDefeated()
