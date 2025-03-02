@@ -10,7 +10,12 @@ public class MainMenu : MonoBehaviour
 
     public void ExitGame()
     {
-        Application.Quit();
+        Debug.Log("Exit button clicked!"); // Check if the function is triggered
+#if UNITY_EDITOR
+    UnityEditor.EditorApplication.isPlaying = false;  // Stops Play Mode in the Editor
+#else
+        Application.Quit();  // Quits the built game
+#endif
     }
 }
 
