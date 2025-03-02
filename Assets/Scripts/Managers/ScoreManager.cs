@@ -3,35 +3,49 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
-    [Header("UI References")]
-    public TextMeshProUGUI highScoreText;  // Display the high score in the UI
+    public TextMeshProUGUI highScoreText;
 
-    private int highScore = 0;
+    private int highScore;
 
-    void Start()
+    // Ensure this is a singleton
+    public static ScoreManager Instance;
+
+    void Awake()
     {
-        // Load high score from PlayerPrefs at the start of the game
-        highScore = PlayerPrefs.GetInt("HighScore", 0);
-        UpdateHighScoreDisplay();
-    }
-
-    public void CheckAndUpdateHighScore(int currentScore)
-    {
-        // If the current score is higher than the saved high score, update it
-        if (currentScore > highScore)
+        // If an instance already exists, destroy this one
+        if (Instance != null && Instance != this)
         {
-            highScore = currentScore;
-            PlayerPrefs.SetInt("HighScore", highScore);  // Save the new high score
-            UpdateHighScoreDisplay();  // Update the UI
-            Debug.Log($"New High Score: {highScore}");  // Log the new high score
+            Destroy(gameObject);
         }
+        else
+        {
+            // Otherwise, set this instance
+            Instance = this;
+            DontDestroyOnLoad(gameObject);  // This makes the ScoreManager persist across scenes
+        }
+
+        // Initialize high score (could be loaded from PlayerPrefs if you want persistence)
+        highScore = PlayerPrefs.GetInt("HighScore", 1);  // default to 1 if not set
+        UpdateHighScoreUI();
     }
 
-    private void UpdateHighScoreDisplay()
+    public int GetHighScore()
+    {
+        return highScore;
+    }
+
+    public void SetHighScore(int newHighScore)
+    {
+        highScore = newHighScore;
+        PlayerPrefs.SetInt("HighScore", highScore);  // Save to PlayerPrefs
+        UpdateHighScoreUI();
+    }
+
+    private void UpdateHighScoreUI()
     {
         if (highScoreText != null)
         {
-            highScoreText.text = $"High Score: {highScore}";
+            highScoreText.text = $"High Score: Round {highScore}";
         }
     }
 }

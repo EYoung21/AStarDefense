@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class RoundManager : MonoBehaviour
 {
@@ -44,6 +45,9 @@ public class RoundManager : MonoBehaviour
     [Tooltip("Additional currency per difficulty tier")]
     public int additionalRewardPerTier = 25;
 
+    // Reference to the HighScoreManager
+    public ScoreManager scoreManager;
+
     void Awake() {
         Instance = this;
     }
@@ -51,12 +55,21 @@ public class RoundManager : MonoBehaviour
     void Start() {
         //initialize round display
         UpdateRoundDisplay();
+
+        // Ensure the ScoreManager is available in this scene
+        scoreManager = ScoreManager.Instance;  // Access the ScoreManager's instance
     }
 
     public void IncrementRound(int amount) {
         int previousRound = round;
         round += amount;
-        
+
+        // Check if we've surpassed the high score and update ScoreManager
+        if (round > scoreManager.GetHighScore())
+        {
+            scoreManager.SetHighScore(round);
+        }
+
         //check if we've reached a new difficulty tier
         int newDifficultyTier = CalculateDifficultyTier();
         if (newDifficultyTier > difficultyTier) {
@@ -71,6 +84,7 @@ public class RoundManager : MonoBehaviour
         
         //update UI
         UpdateRoundDisplay();
+
     }
     
     private void UpdateRoundDisplay() {

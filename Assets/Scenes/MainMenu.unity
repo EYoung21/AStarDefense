@@ -1062,6 +1062,7 @@ GameObject:
   - component: {fileID: 904208776}
   - component: {fileID: 904208778}
   - component: {fileID: 904208777}
+  - component: {fileID: 904208779}
   m_Layer: 5
   m_Name: HighScoreText
   m_TagString: Untagged
@@ -1189,6 +1190,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 904208775}
   m_CullTransparentMesh: 1
+--- !u!114 &904208779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904208775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ace235a69e55884fb196f55b1cefc72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highScoreText: {fileID: 904208777}
 --- !u!1 &1214880479
 GameObject:
   m_ObjectHideFlags: 0
@@ -1275,6 +1289,8 @@ MonoBehaviour:
   crossfadeMusic: 1
   crossfadeDuration: 1.5
   autoChangeTrack: 1
+  persistAcrossScenes: 0
+  changeMusicOnSceneChange: 1
 --- !u!4 &1227517188
 Transform:
   m_ObjectHideFlags: 0
