@@ -60,6 +60,11 @@ public class BaseEnemy : BaseUnit
         health -= damage;
         healthBar.UpdateHealthBar(health, maxHealth);
         if (health <= 0) {
+            //play enemy despawn sound
+            if (SFXManager.Instance != null) {
+                SFXManager.Instance.PlayEnemyDespawnSound();
+            }
+            
             Destroy(gameObject);
             UnitManager.Instance.enemyCount--;
             
@@ -90,6 +95,11 @@ public class BaseEnemy : BaseUnit
     }
 
     protected virtual void OnEnemyHitTurret(Collider2D other) {
+        //play enemy despawn sound
+        if (SFXManager.Instance != null) {
+            SFXManager.Instance.PlayEnemyDespawnSound();
+        }
+        
         //individual to each enemy
     }
 }

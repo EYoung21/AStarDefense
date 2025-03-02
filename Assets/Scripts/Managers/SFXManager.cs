@@ -35,6 +35,22 @@ public class SFXManager : MonoBehaviour
     [Range(0f, 2f)]
     public float turretUpgradeVolume = 1.0f;
 
+    [Header("Projectile Firing")]
+    [Tooltip("Sound effects to play when a projectile is fired (random)")]
+    public AudioClip[] projectileFiringSounds;
+    
+    [Tooltip("Volume multiplier for projectile firing sounds")]
+    [Range(0f, 2f)]
+    public float projectileFiringVolume = 1.0f;
+
+    [Header("Enemy Despawn")]
+    [Tooltip("Sound effects to play when an enemy is despawned (random)")]
+    public AudioClip[] enemyDespawnSounds;
+    
+    [Tooltip("Volume multiplier for enemy despawn sounds")]
+    [Range(0f, 2f)]
+    public float enemyDespawnVolume = 1.0f;
+
     //audio source pool for playing multiple sounds simultaneously
     private List<AudioSource> audioSourcePool = new List<AudioSource>();
     private int maxAudioSources = 5; //maximum number of simultaneous sounds
@@ -123,6 +139,32 @@ public class SFXManager : MonoBehaviour
         //select random sound
         AudioClip soundToPlay = turretUpgradeSounds[Random.Range(0, turretUpgradeSounds.Length)];
         PlaySoundEffect(soundToPlay, turretUpgradeVolume);
+    }
+
+    public void PlayProjectileFiringSound()
+    {
+        if (projectileFiringSounds == null || projectileFiringSounds.Length == 0)
+        {
+            Debug.LogWarning("No projectile firing sounds assigned to SFXManager");
+            return;
+        }
+
+        //select random sound
+        AudioClip soundToPlay = projectileFiringSounds[Random.Range(0, projectileFiringSounds.Length)];
+        PlaySoundEffect(soundToPlay, projectileFiringVolume);
+    }
+
+    public void PlayEnemyDespawnSound()
+    {
+        if (enemyDespawnSounds == null || enemyDespawnSounds.Length == 0)
+        {
+            Debug.LogWarning("No enemy despawn sounds assigned to SFXManager");
+            return;
+        }
+
+        //select random sound
+        AudioClip soundToPlay = enemyDespawnSounds[Random.Range(0, enemyDespawnSounds.Length)];
+        PlaySoundEffect(soundToPlay, enemyDespawnVolume);
     }
 
     public void PlaySoundEffect(AudioClip clip, float volumeMultiplier = 1.0f)

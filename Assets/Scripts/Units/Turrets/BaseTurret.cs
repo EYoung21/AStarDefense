@@ -496,6 +496,11 @@ public class BaseTurret : BaseUnit
         baseProjectile.SetProjectileColor(currentProjectileColor);
         baseProjectile.SetProjectileEffects(hasFrostEffect, hasPoisonEffect, hasSplashEffect);
         
+        //play projectile firing sound
+        if (SFXManager.Instance != null) {
+            SFXManager.Instance.PlayProjectileFiringSound();
+        }
+        
         Debug.Log("Manual fire!");
     }
 
@@ -505,28 +510,34 @@ public class BaseTurret : BaseUnit
         var enemies = UnitManager.Instance.GetAllCurrentEnemies();
         var closestEnemy = enemies.OrderBy(enemy => Vector3.Distance(transform.position, enemy.transform.position)).FirstOrDefault();
 
+        // Only fire if there's an enemy to target
         if (closestEnemy != null) {
             directionToEnemy = (closestEnemy.transform.position - transform.position).normalized;
+
+            float ydir = directionToEnemy.y;
+            float xdir = directionToEnemy.x;
+
+            float correctAngle = Mathf.Atan2(ydir, xdir) * Mathf.Rad2Deg; //finds angle in rads and converts to degrees
+
+            correctAngle = correctAngle - 90;
+
+            transform.rotation = Quaternion.AngleAxis(correctAngle, Vector3.forward); //the axis we want is the world's global z-axis, this equals to vector3.forward, or new vector3(0,0,1)
+
+
+            GameObject projectile = Instantiate(projectilePrefab, transform.position, UnityEngine.Quaternion.identity);
+            //set direction on the instantiated projectile, not the prefab
+            BaseProjectile baseProjectile = projectile.GetComponent<BaseProjectile>();
+            baseProjectile.SetDirection(directionToEnemy);
+            
+            //set the projectile color and effects
+            baseProjectile.SetProjectileColor(currentProjectileColor);
+            baseProjectile.SetProjectileEffects(hasFrostEffect, hasPoisonEffect, hasSplashEffect);
+            
+            //play projectile firing sound
+            if (SFXManager.Instance != null) {
+                SFXManager.Instance.PlayProjectileFiringSound();
+            }
         }
-
-        float ydir = directionToEnemy.y;
-        float xdir = directionToEnemy.x;
-
-        float correctAngle = Mathf.Atan2(ydir, xdir) * Mathf.Rad2Deg; //finds angle in rads and converts to degrees
-
-        correctAngle = correctAngle - 90;
-
-        transform.rotation = Quaternion.AngleAxis(correctAngle, Vector3.forward); //the axis we want is the world's global z-axis, this equals to vector3.forward, or new vector3(0,0,1)
-
-
-        GameObject projectile = Instantiate(projectilePrefab, transform.position, UnityEngine.Quaternion.identity);
-        //set direction on the instantiated projectile, not the prefab
-        BaseProjectile baseProjectile = projectile.GetComponent<BaseProjectile>();
-        baseProjectile.SetDirection(directionToEnemy);
-        
-        //set the projectile color and effects
-        baseProjectile.SetProjectileColor(currentProjectileColor);
-        baseProjectile.SetProjectileEffects(hasFrostEffect, hasPoisonEffect, hasSplashEffect);
     }
 
 
