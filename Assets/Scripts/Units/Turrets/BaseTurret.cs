@@ -480,7 +480,7 @@ public class BaseTurret : BaseUnit
         FollowMouse();
         
         //fire on left mouse button click with rate limit
-        if (Input.GetMouseButtonDown(0) && (lastTimeFired + 1 / rateOfFire) < Time.time) {
+        if (Input.GetMouseButton(0) && (lastTimeFired + 1 / rateOfFire) < Time.time) {
             lastTimeFired = Time.time;
             FireManually();
         }

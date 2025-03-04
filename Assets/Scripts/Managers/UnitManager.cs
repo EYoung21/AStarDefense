@@ -49,7 +49,7 @@ public class UnitManager : MonoBehaviour
     {
         enemySpawnWeights = new EnemySpawnWeight[4];
         
-        //default spawn weights for TestEnemy1 (original enemy)
+        //default spawn weights for bluestar
         enemySpawnWeights[0] = new EnemySpawnWeight
         {
             enemyName = "BlueStar",
@@ -270,8 +270,7 @@ public class UnitManager : MonoBehaviour
                 enemyWeight.enemyName == "SpeedEnemy" || 
                 enemyWeight.enemyName == "TankEnemy" || 
                 enemyWeight.enemyName == "SoldierEnemy" || 
-                enemyWeight.enemyName == "TitanEnemy" || 
-                enemyWeight.enemyName == "TestEnemy1") {
+                enemyWeight.enemyName == "TitanEnemy") {
                 
                 totalWeight += enemyWeight.spawnWeightByRound.Evaluate(currentRound);
             }
@@ -288,8 +287,7 @@ public class UnitManager : MonoBehaviour
                 enemyWeight.enemyName == "SpeedEnemy" || 
                 enemyWeight.enemyName == "TankEnemy" || 
                 enemyWeight.enemyName == "SoldierEnemy" || 
-                enemyWeight.enemyName == "TitanEnemy" || 
-                enemyWeight.enemyName == "TestEnemy1") {
+                enemyWeight.enemyName == "TitanEnemy") {
                 
                 cumulativeWeight += enemyWeight.spawnWeightByRound.Evaluate(currentRound);
                 if (randomValue <= cumulativeWeight) {
@@ -336,19 +334,6 @@ public class UnitManager : MonoBehaviour
     public List<BaseEnemy> GetAllCurrentEnemies() {
         var enemies = FindObjectsByType<BaseEnemy>(FindObjectsSortMode.None);
         return enemies.ToList();
-    }
-
-    public void SpawnEnemiesTest() {//spawns test enemies to configure pathfinding and turret projectiles with
-        int testEnemySpawnCount = 20;
-        Debug.Log("Spawn enemies test");
-        for (int i = 0; i < testEnemySpawnCount; i++) { //maybe enemy count will increase as the game progresses (wave / round numbers increase)
-            var enemyPrefab = GetUnitByName<BaseEnemy>("BlueStar", Faction.Enemy);
-            var spawnedEnemy = Instantiate(enemyPrefab);
-            //might also want to use a spawner here, but may be easier to just randomize under a range of positions since the spawn region is circular
-            var enemySpawnTile = GridManager.Instance.GetEnemySpawnTileTest(); //
-
-            enemySpawnTile.SetUnit(spawnedEnemy);
-        }
     }
 
     public T GetUnitByName<T>(string unitName, Faction faction) where T : BaseUnit {

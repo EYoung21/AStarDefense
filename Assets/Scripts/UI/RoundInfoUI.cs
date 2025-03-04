@@ -4,29 +4,31 @@ using TMPro;
 
 public class RoundInfoUI : MonoBehaviour
 {
+    public static RoundInfoUI Instance;
+
     [Header("UI References")]
     public TextMeshProUGUI roundText;
     public TextMeshProUGUI difficultyText;
     public TextMeshProUGUI enemyScalingText;
     public TextMeshProUGUI nextWaveInfoText;
     
-    [Header("Enemy Icons")]
-    public Image[] enemyTypeIcons;
-    public GameObject enemyInfoPanel;
-    
     [Header("Settings")]
     public KeyCode toggleInfoKey = KeyCode.Tab;
     public float updateInterval = 1.0f;
     
     private float lastUpdateTime;
-    private bool showingEnemyInfo = false;
+    private bool showingRoundInfo = false;
     
+    private void Awake() {
+        Instance = this;
+    }
+
     void Start()
     {
         //hide enemy info panel initially
-        if (enemyInfoPanel != null)
+        if (gameObject != null)
         {
-            enemyInfoPanel.SetActive(false);
+            gameObject.SetActive(false);
         }
         
         UpdateUI();
@@ -44,12 +46,17 @@ public class RoundInfoUI : MonoBehaviour
         //toggle enemy info panel
         if (Input.GetKeyDown(toggleInfoKey))
         {
-            showingEnemyInfo = !showingEnemyInfo;
-            if (enemyInfoPanel != null)
+            showingRoundInfo = !showingRoundInfo;
+            if (gameObject != null)
             {
-                enemyInfoPanel.SetActive(showingEnemyInfo);
+                gameObject.SetActive(showingRoundInfo);
             }
         }
+    }
+
+    public void setActiveAgain() {
+        showingRoundInfo = true;
+        gameObject.SetActive(showingRoundInfo);
     }
     
     void UpdateUI()
@@ -99,33 +106,5 @@ public class RoundInfoUI : MonoBehaviour
                 nextWaveInfoText.text += "\nTitan may appear!";
             }
         }
-    }
-    
-    //call this method to show detailed info about a specific enemy type
-    public void ShowEnemyTypeInfo(string enemyType)
-    {
-        string info = "Unknown Enemy";
-        
-        switch (enemyType)
-        {
-            case "BlueStar":
-                info = "Basic Enemy\nHealth: 5\nDamage: 2\nSpeed: Medium";
-                break;
-            case "SpeedEnemy":
-                info = "Speed Enemy\nHealth: 3\nDamage: 1\nSpeed: Very Fast";
-                break;
-            case "TankEnemy":
-                info = "Tank Enemy\nHealth: 15\nDamage: 4\nSpeed: Slow";
-                break;
-            case "SoldierEnemy":
-                info = "Soldier Enemy\nHealth: 7\nDamage: 2\nSpeed: Medium";
-                break;
-            case "TitanEnemy":
-                info = "TITAN\nHealth: 30\nDamage: 8\nSpeed: Very Slow\nResists 20% damage";
-                break;
-        }
-        
-        //display this info in a tooltip or panel
-        Debug.Log(info);
     }
 } 

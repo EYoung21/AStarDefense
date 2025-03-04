@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -6653965597704615985}
   - component: {fileID: 7964517908915118001}
   m_Layer: 0
-  m_Name: TitanPrefab
+  m_Name: TitanEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TestEnemy1 : BaseEnemy
+public class BlueStar : BaseEnemy
 {
     //start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
@@ -14,7 +14,7 @@ public class TestEnemy1 : BaseEnemy
     }
 
     protected override void OnEnemyHitTurret(Collider2D other) {
-        Debug.Log("TestEnemy1 hit");
+        // Debug.Log("TestEnemy1 hit");
         other.GetComponent<BaseTurret>().RemoveHealth(damageItDoes);
         
         //enemy dies after hitting turret

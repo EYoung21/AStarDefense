@@ -400,7 +400,7 @@ GameObject:
   - component: {fileID: -2791206867404370076}
   - component: {fileID: -223369671786946311}
   m_Layer: 0
-  m_Name: TankPrefab
+  m_Name: TankEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
