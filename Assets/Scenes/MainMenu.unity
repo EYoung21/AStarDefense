@@ -1232,7 +1232,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f5f70d5cc79d4d40b182bfbea93252a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  starPrefab: {fileID: 1579752941}
+  starPrefabs:
+  - {fileID: 6977764514640124097, guid: 8df171acdea52493dbe00dd1523b860f, type: 3}
+  - {fileID: 6334302444737371343, guid: e186267abc1e943878aaafe41262797b, type: 3}
+  - {fileID: 7713547963278761407, guid: 319fadcaf7bed4532aa72382865dc391, type: 3}
+  - {fileID: 7121999798469633041, guid: 82ed151498ffa4dccac59f017d507613, type: 3}
+  - {fileID: 9099898818899745501, guid: 514cf43c8182243678e07b657789b135, type: 3}
   spawnRate: 10
   spawnRangeY: -300
 --- !u!4 &1214880481

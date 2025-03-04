@@ -3,7 +3,8 @@ using System.Collections;
 
 public class StarSpawner : MonoBehaviour
 {
-    public GameObject starPrefab; //assign the star prefab in Inspector
+    public GameObject[] starPrefabs; // Array of different star prefabs
+    // public GameObject starPrefab; // Original single prefab (remove or comment this)
     public float spawnRate = 0.5f; //time between spawns
     public float spawnRangeY = 2f; //adjust how spread out stars spawn
 
@@ -27,9 +28,12 @@ public class StarSpawner : MonoBehaviour
         {
             //randomize Y position for variety
             float randomY = Random.Range(spawnPosition.y - spawnRangeY, spawnPosition.y);
-
+            
+            //randomly select a prefab from the array
+            GameObject selectedPrefab = starPrefabs[Random.Range(0, starPrefabs.Length)];
+            
             //instantiate a star slightly off-screen
-            Instantiate(starPrefab, new Vector2(spawnPosition.x, randomY), Quaternion.identity);
+            Instantiate(selectedPrefab, new Vector2(spawnPosition.x, randomY), Quaternion.identity);
 
             yield return new WaitForSeconds(spawnRate);
         }
