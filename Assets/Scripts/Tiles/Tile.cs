@@ -157,7 +157,7 @@ public abstract class Tile : MonoBehaviour
         }
 
         //try to place block if allowed
-        if (canPlaceBlock && CurrencyManager.Instance.currency > 0) {
+        if (canPlaceBlock && CurrencyManager.Instance.CanAfford(5)) {
             PlaceBlock();
         }
     }
@@ -209,7 +209,7 @@ public abstract class Tile : MonoBehaviour
                     SFXManager.Instance.PlayBlockPlacementSound();
                 }
                 
-                CurrencyManager.Instance.currency -= 5;
+                CurrencyManager.Instance.RemoveCurrency(5);
                 UIManager.Instance.updateCurrencyUI();
             } else {
                 Pathfinding.Instance.SetIsWalkable(gridPos, true);

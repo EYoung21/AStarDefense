@@ -6,7 +6,7 @@ public class CurrencyManager : MonoBehaviour
 
     void Awake() 
     {
-        Debug.Log("CurrencyManager Awake called");
+        // Debug.Log("CurrencyManager Awake called");
         if (Instance != null && Instance != this)
         {
             Debug.LogWarning("Multiple CurrencyManager instances detected! Destroying duplicate.");
@@ -15,12 +15,12 @@ public class CurrencyManager : MonoBehaviour
         }
         
         Instance = this;
-        Debug.Log($"CurrencyManager initialized with {currency} currency");
+        // Debug.Log($"CurrencyManager initialized with {currency} currency");
     }
     
     void Start()
     {
-        Debug.Log($"CurrencyManager Start - Current currency: {currency}");
+        // Debug.Log($"CurrencyManager Start - Current currency: {currency}");
         //ensure the UI is updated with the initial currency value
         if (UIManager.Instance != null)
         {
@@ -39,7 +39,7 @@ public class CurrencyManager : MonoBehaviour
     {
         int oldCurrency = currency;
         currency += amount;
-        Debug.Log($"Currency ADDED: {amount}, Old: {oldCurrency}, New: {currency}");
+        // Debug.Log($"Currency ADDED: {amount}, Old: {oldCurrency}, New: {currency}");
         
         //update the UI to reflect the new currency value
         if (UIManager.Instance != null)
@@ -56,7 +56,7 @@ public class CurrencyManager : MonoBehaviour
     {
         int oldCurrency = currency;
         currency -= amount;
-        Debug.Log($"Currency REMOVED: {amount}, Old: {oldCurrency}, New: {currency}");
+        // Debug.Log($"Currency REMOVED: {amount}, Old: {oldCurrency}, New: {currency}");
         
         //update the UI to reflect the new currency value
         if (UIManager.Instance != null)
@@ -72,7 +72,7 @@ public class CurrencyManager : MonoBehaviour
     public bool CanAfford(int amount)
     {
         bool result = currency >= amount;
-        Debug.Log($"CanAfford check: Amount: {amount}, Currency: {currency}, Result: {result}");
+        // Debug.Log($"CanAfford check: Amount: {amount}, Currency: {currency}, Result: {result}");
         return result;
     }
 }

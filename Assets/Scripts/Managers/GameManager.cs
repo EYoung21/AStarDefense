@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
     public void TogglePause() {
         gameIsPaused = !gameIsPaused;
         Time.timeScale = gameIsPaused ? 0 : gameSpeed;
-        Debug.Log(gameIsPaused ? "Game Paused" : "Game Resumed");
+        // Debug.Log(gameIsPaused ? "Game Paused" : "Game Resumed");
     }
     
     public void SetGameSpeed(float speed) {
@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
         if (!gameIsPaused) {
             Time.timeScale = gameSpeed;
         }
-        Debug.Log($"Game speed set to {gameSpeed}x");
+        // Debug.Log($"Game speed set to {gameSpeed}x");
     }
 
     public void ChangeState(GameState newState) {
@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
                 //log the current round
                 if (RoundManager.Instance != null)
                 {
-                    Debug.Log($"Round {RoundManager.Instance.round} started");
+                    // Debug.Log($"Round {RoundManager.Instance.round} started");
                 }
                 
                 //increment the number of enemies to spawn for the next round
