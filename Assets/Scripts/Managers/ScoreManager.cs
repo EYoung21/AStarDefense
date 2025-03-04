@@ -7,29 +7,29 @@ public class ScoreManager : MonoBehaviour
 
     private int highScore;
 
-    // Ensure this is a singleton
+    //ensure this is a singleton
     public static ScoreManager Instance;
 
     void Awake()
     {
-        // If an instance already exists, destroy this one
+        //if an instance already exists, destroy this one
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
-            // Otherwise, set this instance
+            //otherwise, set this instance
             Instance = this;
             
-            // Check if this is a root GameObject before using DontDestroyOnLoad
+            //check if this is a root GameObject before using DontDestroyOnLoad
             if (transform.parent == null)
             {
-                DontDestroyOnLoad(gameObject);  // This makes the ScoreManager persist across scenes
+                DontDestroyOnLoad(gameObject);  //this makes the ScoreManager persist across scenes
             }
             else
             {
-                // If not a root GameObject, detach from parent and then use DontDestroyOnLoad
+                //if not a root GameObject, detach from parent and then use DontDestroyOnLoad
                 transform.SetParent(null);
                 DontDestroyOnLoad(gameObject);
             }

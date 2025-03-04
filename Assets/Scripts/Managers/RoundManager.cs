@@ -45,7 +45,7 @@ public class RoundManager : MonoBehaviour
     [Tooltip("Additional currency per difficulty tier")]
     public int additionalRewardPerTier = 25;
 
-    // Reference to the HighScoreManager
+    //reference to the HighScoreManager
     public ScoreManager scoreManager;
 
     void Awake() {
@@ -56,7 +56,7 @@ public class RoundManager : MonoBehaviour
         //initialize round display
         UpdateRoundDisplay();
 
-        // Ensure the ScoreManager is available in this scene
+        //ensure the ScoreManager is available in this scene
         scoreManager = ScoreManager.Instance;  // Access the ScoreManager's instance
     }
 
@@ -64,7 +64,7 @@ public class RoundManager : MonoBehaviour
         int previousRound = round;
         round += amount;
 
-        // Check if we've surpassed the high score and update ScoreManager
+        //check if we've surpassed the high score and update ScoreManager
         if (round > scoreManager.GetHighScore())
         {
             scoreManager.SetHighScore(round);
@@ -114,36 +114,36 @@ public class RoundManager : MonoBehaviour
         return "Unknown";
     }
     
-    // Get enemy health multiplier based on round number
+    //get enemy health multiplier based on round number
     public float GetEnemyHealthMultiplier() {
-        // Start increasing health from healthScalingStartRound onwards
+        //start increasing health from healthScalingStartRound onwards
         if (round < healthScalingStartRound) return 1.0f;
         
-        // Increase by healthScalingPerRound per round after healthScalingStartRound
+        //increase by healthScalingPerRound per round after healthScalingStartRound
         float multiplier = 1.0f + ((round - (healthScalingStartRound - 1)) * healthScalingPerRound);
         
-        // Apply cap to prevent excessive scaling
+        //apply cap to prevent excessive scaling
         return Mathf.Min(multiplier, maxHealthMultiplier);
     }
     
-    // Get enemy damage multiplier based on round number
+    //get enemy damage multiplier based on round number
     public float GetEnemyDamageMultiplier() {
-        // Start increasing damage from damageScalingStartRound onwards
+        //start increasing damage from damageScalingStartRound onwards
         if (round < damageScalingStartRound) return 1.0f;
         
-        // Increase by damageScalingPerRound per round after damageScalingStartRound
+        //increase by damageScalingPerRound per round after damageScalingStartRound
         float multiplier = 1.0f + ((round - (damageScalingStartRound - 1)) * damageScalingPerRound);
         
-        // Apply cap to prevent excessive scaling
+        //apply cap to prevent excessive scaling
         return Mathf.Min(multiplier, maxDamageMultiplier);
     }
     
-    // Get round completion reward based on current difficulty tier
+    //get round completion reward based on current difficulty tier
     public int GetRoundCompletionReward() {
         return baseRoundCompletionReward + ((difficultyTier - 1) * additionalRewardPerTier);
     }
     
-    // Get a description of the current round's difficulty
+    //get a description of the current round's difficulty
     public string GetRoundDifficultyDescription() {
         string description = $"Round {round}: {GetDifficultyTierName()} Difficulty\n";
         
